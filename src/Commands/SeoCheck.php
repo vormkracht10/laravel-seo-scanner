@@ -25,8 +25,8 @@ class SeoCheck extends Command
         $model::all()->map(function ($model) {
             $seo = $model->seoScore();
 
-            $this->failed = [$seo->getFailed(), ...$this->failed];
-            $this->success = [$seo->getSuccess(), ...$this->success];
+            $this->failed = array_merge($this->failed, $seo->getFailed());
+            $this->success = array_merge($this->success, $seo->getSuccess());
 
             $score = $seo->getScore();
 
