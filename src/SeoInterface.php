@@ -1,11 +1,10 @@
-
 <?php
 
-namespace Spatie\Feed;
+namespace Vormkracht10\Seo;
 
 use Vormkracht10\Seo\SeoScore;
 
-interface Feedable
+interface SeoInterface
 {
     public function seoScore(): SeoScore;
 }

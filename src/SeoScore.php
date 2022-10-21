@@ -4,8 +4,27 @@ namespace Vormkracht10\Seo;
 
 class SeoScore
 {
-    public function seoScore(): int
+    public function __construct(
+        public array $success = [],
+        public array $failed = [],
+        public int $score = 0,
+    ){
+        $this->score = $this->calculateScore($success, $failed);
+    }
+
+    private function calculateScore(array $succes, array $failed): int
     {
-        return 0;
+        $total = count($succes) + count($failed);
+
+        if ($total === 0) {
+            return 0;
+        }
+
+        return (count($succes) / $total) * 100;
+    }
+
+    public function getScore(): int
+    {
+        return $this->score;
     }
 }

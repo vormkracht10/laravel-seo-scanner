@@ -2,9 +2,9 @@
 
 namespace Vormkracht10\Seo\Checks;
 
-class MetaTitleCheck implements CheckInterface
+class MetaTitleLengthCheck implements CheckInterface
 {
-    public string $title = "Check if the title on the homepage does not contain 'home'";
+    public string $title = "Check if the title is not longer than 60 characters";
 
     public string $priority = 'medium';
 
@@ -16,7 +16,7 @@ class MetaTitleCheck implements CheckInterface
     {
         $title = $this->getTitle($response);
 
-        if (str_contains($title, 'home') || ! $title) {
+        if (strlen($title) > 60) {
             $this->checkSuccessful = false;
 
             return $this;
