@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Vormkracht10\Seo;
 
@@ -8,7 +8,7 @@ class SeoScore
         public array $success = [],
         public array $failed = [],
         public int $score = 0,
-    ){
+    ) {
         $this->score = $this->calculateScore($success, $failed);
     }
 

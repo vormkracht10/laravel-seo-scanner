@@ -21,11 +21,10 @@ class SeoCheck extends Command
         $model = config('seo.pages.model');
 
         $model = new $model();
-        
+
         $model::all()->map(function ($model) {
-            
             $seo = $model->seoScore();
-            
+
             $this->failed += count($seo->getFailed());
             $this->success += count($seo->getSuccess());
 
@@ -33,12 +32,12 @@ class SeoCheck extends Command
 
             $model->update(['seo_score' => $score]);
 
-            $this->info($model->url . ' - ' . $score . ' SEO score');
+            $this->info($model->url.' - '.$score.' SEO score');
 
             $this->modelCount++;
         });
 
-        $this->info('Command completed with ' . $this->failed . ' failed and ' . $this->success . ' successful checks on ' . $this->modelCount . ' pages.');
+        $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$this->modelCount.' pages.');
 
         return self::SUCCESS;
     }
