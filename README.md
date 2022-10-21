@@ -82,6 +82,12 @@ You can get the SEO score of a model by calling the `seoScore()` method on the m
 php artisan seo:check
 ```
 
+Want to get the score of a specific url? Run the following command:
+
+```bash
+php artisan seo:check-url https://vormkracht10.nl
+```
+
 ## Testing
 
 ```bash

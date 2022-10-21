@@ -4,7 +4,7 @@ namespace Vormkracht10\Seo\Commands;
 
 use Illuminate\Console\Command;
 
-class SeoCommand extends Command
+class SeoCheck extends Command
 {
     public $signature = 'seo:check';
 

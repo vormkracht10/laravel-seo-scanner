@@ -4,7 +4,8 @@ namespace Vormkracht10\Seo;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Vormkracht10\Seo\Commands\SeoCommand;
+use Vormkracht10\Seo\Commands\SeoCheck;
+use Vormkracht10\Seo\Commands\SeoCheckUrl;
 
 class SeoServiceProvider extends PackageServiceProvider
 {
@@ -15,6 +16,9 @@ class SeoServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_seo_score_columns')
-            ->hasCommand(SeoCommand::class);
+            ->hasCommands([
+                SeoCheck::class,
+                SeoCheckUrl::class,
+            ]);
     }
 }
