@@ -16,16 +16,16 @@ class Seo
 
     public function check(string $url): SeoScore
     {
-        $response = $this->visitPage($url);
+        $response = $this->visitPage(url: $url);
 
-        $this->runChecks($url, $response);
+        $this->runChecks(url: $url, response: $response);
         
-        return (new SeoScore($this->success, $this->failed));
+        return (new SeoScore(success: $this->success, failed: $this->failed));
     }
 
     private function visitPage(string $url): object
     {
-        $response = $this->http::get($url);
+        $response = $this->http::get(url: $url);
 
         return $response;
     }
@@ -35,7 +35,7 @@ class Seo
         foreach(CheckEnum::cases() as $check) {
 
             $check = new $check->value();
-            $check->handle($url, $response);
+            $check->handle(url: $url, response: $response);
 
             if ($check->checkSuccessful) {
                 $this->success[] = $check;

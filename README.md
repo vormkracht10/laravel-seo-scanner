@@ -61,7 +61,7 @@ class Content extends Model implements SeoInterface
 
     public function seoScore(): SeoScore
     {
-        return Seo::check($this->url);
+        return Seo::check(url: $this->url);
     }
 
     public function getScore(): int
