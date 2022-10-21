@@ -56,6 +56,7 @@ class Content extends Model implements SeoInterface
         'title',
         'description',
         'path',
+        'seo_score',
     ];
 
     public function seoScore(): SeoScore
