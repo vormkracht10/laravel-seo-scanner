@@ -1,4 +1,4 @@
-# Laravel package to check if you used important SEO tags in your website. 
+# Laravel SEO - check your on page SEO scores
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/vormkracht10/laravel-seo/run-tests?label=tests)](https://github.com/vormkracht10/laravel-seo/actions?query=workflow%3Arun-tests+branch%3Amain)
