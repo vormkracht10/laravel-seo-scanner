@@ -19,9 +19,9 @@ class SeoCommand extends Command
         $model::all()->map(function ($model) {
             $score = $model->getScore();
 
-            $this->info($model->url . ' - ' . $score . '%');
+            $model->update(['seo_score' => $score]);
 
-            // Save score into the database.
+            $this->info($model->url . ' - ' . $score . '%');
         });
 
         $this->info('All done!');

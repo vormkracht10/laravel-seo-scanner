@@ -45,6 +45,8 @@ php artisan vendor:publish --tag="seo-views"
 
 Implement the SeoInterface in your model and make sure to add the needed methods to your model.
 
+> Note: Please make sure that the seo_score column is added to the fillable array in your model. Otherwise the score will not be saved.
+
 ```php
 class Content extends Model implements SeoInterface
 {
