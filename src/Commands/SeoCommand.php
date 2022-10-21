@@ -12,7 +12,19 @@ class SeoCommand extends Command
 
     public function handle(): int
     {
-        $this->comment('All done');
+        $model = config('seo.pages.model');
+
+        $model = new $model();
+        
+        $model::all()->map(function ($model) {
+            $score = $model->getScore();
+
+            $this->info($model->url . ' - ' . $score . '%');
+
+            // Save score into the database.
+        });
+
+        $this->info('All done!');
 
         return self::SUCCESS;
     }

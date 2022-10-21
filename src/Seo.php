@@ -9,12 +9,12 @@ use Vormkracht10\Seo\Checks\CheckEnum;
 class Seo
 {
     public function __construct(
-        public Http $http,
-        public array $success = [],
-        public array $failed = [],
+        protected Http $http,
+        protected array $success = [],
+        protected array $failed = [],
     ){}
 
-    public function check($model, string $url): SeoScore
+    public function check(string $url): SeoScore
     {
         $response = $this->visitPage($url);
 
