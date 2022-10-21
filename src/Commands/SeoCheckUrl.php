@@ -17,6 +17,10 @@ class SeoCheckUrl extends Command
 
         $this->info($this->argument('url') . ' - ' . $score->getScore() . '%');
 
+        foreach ($score->getFailed() as $failed) {
+            $this->error($failed->title . ' failed. Estimated time to fix: ' . $failed->timeToFix . ' minute(s).');
+        }
+
         $this->info('Done!');
 
         return self::SUCCESS;

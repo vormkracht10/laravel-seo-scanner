@@ -27,4 +27,14 @@ class SeoScore
     {
         return $this->score;
     }
+
+    public function getSuccess(): array
+    {
+        return $this->success;
+    }
+
+    public function getFailed(): array
+    {
+        return $this->failed;
+    }
 }
