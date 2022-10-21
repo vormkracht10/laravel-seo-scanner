@@ -38,12 +38,12 @@ class Seo
             $check->handle(url: $url, response: $response);
 
             if ($check->checkSuccessful) {
-                $this->success[] = $check;
+                $this->success[$url] = $check;
 
                 continue;
             }
 
-            $this->failed[] = $check;
+            $this->failed[$url] = $check;
         }
     }
 }

@@ -10,9 +10,9 @@ class SeoCheck extends Command
 
     public $description = 'Check the SEO score of your website';
 
-    public array $success = [];
+    public int $success = 0;
 
-    public array $failed = [];
+    public int $failed = 0;
 
     public int $modelCount = 0;
 
@@ -23,10 +23,11 @@ class SeoCheck extends Command
         $model = new $model();
         
         $model::all()->map(function ($model) {
+            
             $seo = $model->seoScore();
-
-            $this->failed = array_merge($this->failed, $seo->getFailed());
-            $this->success = array_merge($this->success, $seo->getSuccess());
+            
+            $this->failed += count($seo->getFailed());
+            $this->success += count($seo->getSuccess());
 
             $score = $seo->getScore();
 
@@ -37,7 +38,7 @@ class SeoCheck extends Command
             $this->modelCount++;
         });
 
-        $this->info('Command completed with ' . count($this->failed) . ' failed and ' . count($this->success) . ' successful checks on ' . $this->modelCount . ' pages.');
+        $this->info('Command completed with ' . $this->failed . ' failed and ' . $this->success . ' successful checks on ' . $this->modelCount . ' pages.');
 
         return self::SUCCESS;
     }
