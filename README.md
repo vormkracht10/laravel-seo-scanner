@@ -1,4 +1,4 @@
-# Laravel package to check if you used important SEO tags in your website. 
+# Laravel package to check if you used important SEO tags in your website.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/vormkracht10/laravel-seo/run-tests?label=tests)](https://github.com/vormkracht10/laravel-seo/actions?query=workflow%3Arun-tests+branch%3Amain)
@@ -51,9 +51,41 @@ php artisan vendor:publish --tag="laravel-seo-views"
 
 ## Usage
 
+Implement the SeoInterface in your model and make sure to add the needed methods to your model.
+
 ```php
-$seo = new Vormkracht10\Seo();
-echo $seo->echoPhrase('Hello, Vormkracht10!');
+class Content extends Model implements SeoInterface
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'path',
+    ];
+
+    public function seoScore(): SeoScore
+    {
+        return Seo::check($this->url);
+    }
+
+    public function getScore(): int
+    {
+        return $this->seoScore()->getScore();
+    }
+
+    // Optional, but make sure you can pass the url of the model to the Seo facade.
+    protected function getUrlAttribute()
+    {
+        return 'https://vormkracht10.nl/' . $this->path;
+    }
+}
+```
+
+You can get the SEO score of a model by calling the `seoScore()` method on the model, as seen in the example above. Do you want to get the scores of all models? Run the following command:
+
+```bash
+php artisan seo:check
 ```
 
 ## Testing
@@ -76,8 +108,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [Bas van Dinther](https://github.com/vormkracht10)
-- [All Contributors](../../contributors)
+-   [Bas van Dinther](https://github.com/vormkracht10)
+-   [All Contributors](../../contributors)
 
 ## License
 
