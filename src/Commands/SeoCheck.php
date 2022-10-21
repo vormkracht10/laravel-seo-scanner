@@ -10,6 +10,12 @@ class SeoCheck extends Command
 
     public $description = 'Check the SEO score of your website';
 
+    public array $success = [];
+
+    public array $failed = [];
+
+    public int $modelCount = 0;
+
     public function handle(): int
     {
         $model = config('seo.pages.model');
@@ -17,14 +23,20 @@ class SeoCheck extends Command
         $model = new $model();
         
         $model::all()->map(function ($model) {
-            $score = $model->getScore();
+            $seoScore = $model->seoScore();
+            $this->failed = array_merge($this->failed, $seoScore->getFailed());
+            $this->success = array_merge($this->success, $seoScore->getSuccess());
+
+            $score = $seoScore->getScore();
 
             $model->update(['seo_score' => $score]);
 
-            $this->info($model->url . ' - ' . $score . '%');
+            $this->info($model->url . ' - ' . $score . ' SEO score');
+
+            $this->modelCount++;
         });
 
-        $this->info('All done!');
+        $this->info('Command completed with ' . count($this->failed) . ' failed and ' . count($this->success) . ' successful checks on ' . $this->modelCount . ' pages.');
 
         return self::SUCCESS;
     }
