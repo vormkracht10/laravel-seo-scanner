@@ -23,14 +23,14 @@ class Seo
         return (new SeoScore($this->success, $this->failed));
     }
 
-    private function visitPage(string $url): string
+    private function visitPage(string $url): object
     {
         $response = $this->http::get($url);
 
-        return $response->body();
+        return $response;
     }
 
-    private function runChecks(string $url, string $response): void
+    private function runChecks(string $url, object $response): void
     {
         foreach(CheckEnum::cases() as $check) {
 

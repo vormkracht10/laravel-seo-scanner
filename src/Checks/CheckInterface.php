@@ -11,5 +11,5 @@ namespace Vormkracht10\Seo\Checks;
  */
 interface CheckInterface
 {
-    public function handle(string $url, string $response): self;
+    public function handle(string $url, object $response): self;
 }
