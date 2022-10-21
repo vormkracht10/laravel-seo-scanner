@@ -23,11 +23,12 @@ class SeoCheck extends Command
         $model = new $model();
         
         $model::all()->map(function ($model) {
-            $seoScore = $model->seoScore();
-            $this->failed = array_merge($this->failed, $seoScore->getFailed());
-            $this->success = array_merge($this->success, $seoScore->getSuccess());
+            $seo = $model->seoScore();
 
-            $score = $seoScore->getScore();
+            $this->failed = [$seo->getFailed(), ...$this->failed];
+            $this->success = [$seo->getSuccess(), ...$this->success];
+
+            $score = $seo->getScore();
 
             $model->update(['seo_score' => $score]);
 
