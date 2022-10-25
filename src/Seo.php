@@ -32,8 +32,7 @@ class Seo
 
     private function runChecks(string $url, object $response): void
     {
-        foreach(CheckEnum::values() as $check) {
-
+        foreach (CheckEnum::values() as $check) {
             $check = new $check;
             $check->handle(url: $url, response: $response);
 
