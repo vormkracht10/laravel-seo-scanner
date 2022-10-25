@@ -22,18 +22,18 @@ class SeoCheck extends Command
 
         $model = new $model();
         
-        $model::all()->map(function ($model) {
+        $model::all()->map(function ($test) {
             
-            $seo = $model->seoScore();
+            $seo = $test->seoScore();
             
             $this->failed += count($seo->getFailed());
             $this->success += count($seo->getSuccess());
 
             $score = $seo->getScore();
 
-            $model->update(['seo_score' => $score]);
+            $test->update(['seo_score' => $score]);
 
-            $this->info($model->url . ' - ' . $score . ' SEO score');
+            $this->info($test->url . ' - ' . $score . ' SEO score');
 
             $this->modelCount++;
         });
