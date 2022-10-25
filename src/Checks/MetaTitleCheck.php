@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Vormkracht10\Seo\Checks;
 

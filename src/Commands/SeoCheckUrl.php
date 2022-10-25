@@ -15,10 +15,10 @@ class SeoCheckUrl extends Command
     {
         $score = Seo::check($this->argument('url'));
 
-        $this->info($this->argument('url') . ' - ' . $score->getScore() . '%');
+        $this->info($this->argument('url').' - '.$score->getScore().'%');
 
         foreach ($score->getFailed() as $failed) {
-            $this->error($failed->title . ' failed. Estimated time to fix: ' . $failed->timeToFix . ' minute(s).');
+            $this->error($failed->title.' failed. Estimated time to fix: '.$failed->timeToFix.' minute(s).');
         }
 
         $this->info('Done!');

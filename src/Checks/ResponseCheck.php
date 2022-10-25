@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Vormkracht10\Seo\Checks;
 
@@ -7,8 +7,8 @@ use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 class ResponseCheck implements CheckInterface
 {
     use ValidateResponse;
-    
-    public string $title = "Check if the response is successful";
+
+    public string $title = 'Check if the response is successful';
 
     public string $priority = 'high';
 

@@ -38,7 +38,7 @@ class SeoCheck extends Command
             $this->modelCount++;
         });
 
-        $this->info('Command completed with ' . $this->failed . ' failed and ' . $this->success . ' successful checks on ' . $this->modelCount . ' pages.');
+        $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$this->modelCount.' pages.');
 
         return self::SUCCESS;
     }

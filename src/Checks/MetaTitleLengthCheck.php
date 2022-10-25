@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Vormkracht10\Seo\Checks;
 
@@ -8,7 +8,7 @@ class MetaTitleLengthCheck implements CheckInterface
 {
     use ValidateResponse;
 
-    public string $title = "Check if the title is not longer than 60 characters";
+    public string $title = 'Check if the title is not longer than 60 characters';
 
     public string $priority = 'medium';
 
