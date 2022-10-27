@@ -15,7 +15,7 @@ class SeoScore
         $successfulScoreWeight = $successful->sum('scoreWeight');
         $failedScoreWeight = $failed->sum('scoreWeight');
         $totalScoreWeight = $successfulScoreWeight + $failedScoreWeight;
-        
+
         return round(($totalScoreWeight / $successfulScoreWeight) * 100);
     }
 }
