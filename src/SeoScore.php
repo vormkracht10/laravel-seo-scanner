@@ -2,39 +2,20 @@
 
 namespace Vormkracht10\Seo;
 
+use Illuminate\Support\Collection;
+
 class SeoScore
 {
-    public function __construct(
-        public array $success = [],
-        public array $failed = [],
-        public int $score = 0,
-    ) {
-        $this->score = $this->calculateScore($success, $failed);
-    }
-
-    private function calculateScore(array $succes, array $failed): int
+    public function __invoke(Collection $successful, Collection $failed): int
     {
-        $total = count($succes) + count($failed);
-
-        if ($total === 0) {
+        if (! $successful->count()) {
             return 0;
         }
 
-        return (count($succes) / $total) * 100;
-    }
-
-    public function getScore(): int
-    {
-        return $this->score;
-    }
-
-    public function getSuccess(): array
-    {
-        return $this->success;
-    }
-
-    public function getFailed(): array
-    {
-        return $this->failed;
+        $successfulScoreWeight = $successful->sum('scoreWeight');
+        $failedScoreWeight = $failed->sum('scoreWeight');
+        $totalScoreWeight = $successfulScoreWeight + $failedScoreWeight;
+        
+        return round(($totalScoreWeight / $successfulScoreWeight) * 100);
     }
 }

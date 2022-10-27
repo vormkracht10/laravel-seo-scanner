@@ -2,6 +2,7 @@
 
 namespace Vormkracht10\Seo;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Vormkracht10\Seo\Checks\CheckEnum;
 
@@ -9,8 +10,8 @@ class Seo
 {
     public function __construct(
         protected Http $http,
-        protected array $success = [],
-        protected array $failed = [],
+        protected Collection $successful = [],
+        protected Collection $failed = [],
     ) {
     }
 
@@ -20,7 +21,7 @@ class Seo
 
         $this->runChecks(url: $url, response: $response);
 
-        return new SeoScore(success: $this->success, failed: $this->failed);
+        return new SeoScore(successful: $this->successful, failed: $this->failed);
     }
 
     private function visitPage(string $url): object
@@ -38,12 +39,12 @@ class Seo
             $check->handle(url: $url, response: $response);
 
             if ($check->checkSuccessful) {
-                $this->success[$url] = $check;
+                $this->successful->put($url, $check);
 
                 continue;
             }
 
-            $this->failed[$url] = $check;
+            $this->failed->put($url, $check);
         }
     }
 }
