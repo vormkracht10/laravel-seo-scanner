@@ -22,17 +22,20 @@ class SeoCheck extends Command
 
         $model = new $model();
 
-        $model::all()->map(function ($test) {
-            $seo = $test->seoScore();
+    
+
+        $model::all()->filter->url->map(function ($model) {
+
+            $seo = $model->seoScore();
 
             $this->failed += count($seo->getFailed());
-            $this->success += count($seo->getSuccess());
+            $this->success += count($seo->getSuccessful());
 
             $score = $seo->getScore();
 
-            $test->update(['seo_score' => $score]);
+            $model->update(['seo_score' => $score]);
 
-            $this->info($test->url.' - '.$score.' SEO score');
+            $this->info($model->url.' - '.$score.' SEO score');
 
             $this->modelCount++;
         });

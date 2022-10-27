@@ -13,6 +13,8 @@ class MetaTitleCheck implements CheckInterface
     public string $priority = 'medium';
 
     public int $timeToFix = 1;
+    
+    public int $scoreWeight = 5;
 
     public bool $checkSuccessful = false;
 

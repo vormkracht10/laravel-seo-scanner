@@ -14,6 +14,8 @@ class MetaTitleLengthCheck implements CheckInterface
 
     public int $timeToFix = 1;
 
+    public int $scoreWeight = 5;
+    
     public bool $checkSuccessful = false;
 
     public function handle(string $url, object $response): self

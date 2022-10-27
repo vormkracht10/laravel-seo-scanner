@@ -10,8 +10,8 @@ class Seo
 {
     public function __construct(
         protected Http $http,
-        protected Collection $successful = [],
-        protected Collection $failed = [],
+        protected Collection $successful,
+        protected Collection $failed,
     ) {
     }
 
@@ -21,7 +21,7 @@ class Seo
 
         $this->runChecks(url: $url, response: $response);
 
-        return new SeoScore(successful: $this->successful, failed: $this->failed);
+        return (new SeoScore)($this->successful, $this->failed);
     }
 
     private function visitPage(string $url): object
