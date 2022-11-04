@@ -3,8 +3,12 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
+use Vormkracht10\Seo\Checks\Traits\FormatRequest;
+
 class MetaTitleLengthCheck implements CheckInterface
 {
+    use FormatRequest;
+    
     public string $title = 'Check if the title is not longer than 60 characters';
 
     public string $priority = 'medium';
@@ -15,7 +19,7 @@ class MetaTitleLengthCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next): Closure
+    public function handle($request, Closure $next): array
     {
         $title = $this->getTitle($request[0]);
 
@@ -25,12 +29,7 @@ class MetaTitleLengthCheck implements CheckInterface
             $this->checkSuccessful = true;
         }
 
-        $previousChecks = $request['checks'];
-        $previousChecks[] = $this;
-
-        $request['checks'] = $previousChecks;
-
-        return $next($request);
+        return $next($this->formatRequest($request));
     }
 
     private function getTitle(object $response): string|null

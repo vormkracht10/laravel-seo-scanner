@@ -3,7 +3,6 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
-use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 
 class ResponseCheck implements CheckInterface
 {
@@ -17,7 +16,7 @@ class ResponseCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next): Closure
+    public function handle($request, Closure $next): array
     {
         if ($request->getStatusCode() === 200) {
             $this->checkSuccessful = true;

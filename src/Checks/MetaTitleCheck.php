@@ -3,9 +3,12 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
+use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
 class MetaTitleCheck implements CheckInterface
 {
+    use FormatRequest;
+
     public string $title = "Check if the title on the homepage does not contain 'home'";
 
     public string $priority = 'medium';
@@ -16,7 +19,7 @@ class MetaTitleCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next): Closure
+    public function handle($request, Closure $next): array
     {
         $title = $this->getTitle($request[0]);
 
@@ -26,12 +29,7 @@ class MetaTitleCheck implements CheckInterface
             $this->checkSuccessful = true;
         }
 
-        $previousChecks = $request['checks'];
-        $previousChecks[] = $this;
-
-        $request['checks'] = $previousChecks;
-
-        return $next($request);
+        return $next($this->formatRequest($request));
     }
 
     private function getTitle(object $response): string|null
