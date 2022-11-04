@@ -22,7 +22,7 @@ class Seo
     {
         $response = $this->visitPage(url: $url);
 
-        $this->runChecks(url: $url, response: $response);
+        $this->runChecks(response: $response);
 
         return (new SeoScore)($this->successful, $this->failed);
     }
@@ -34,7 +34,7 @@ class Seo
         return $response;
     }
 
-    private function runChecks(string $url, object $response): void
+    private function runChecks(object $response): void
     {
         $checks = app(Pipeline::class)
             ->send($response)
