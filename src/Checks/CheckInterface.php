@@ -2,6 +2,8 @@
 
 namespace Vormkracht10\Seo\Checks;
 
+use Closure;
+
 /**
  * @property string $title
  * @property string $priority
@@ -12,5 +14,5 @@ namespace Vormkracht10\Seo\Checks;
  */
 interface CheckInterface
 {
-    public function handle(string $url, object $response): self;
+    public function handle($request, Closure $next): Closure;   
 }

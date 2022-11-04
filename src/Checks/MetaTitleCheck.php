@@ -3,12 +3,9 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
-use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 
-class MetaTitleCheck
+class MetaTitleCheck implements CheckInterface
 {
-    use ValidateResponse;
-
     public string $title = "Check if the title on the homepage does not contain 'home'";
 
     public string $priority = 'medium';
@@ -19,7 +16,7 @@ class MetaTitleCheck
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Closure
     {
         $title = $this->getTitle($request[0]);
 

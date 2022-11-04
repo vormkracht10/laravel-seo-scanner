@@ -3,12 +3,8 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
-use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
-
-class MetaTitleLengthCheck
+class MetaTitleLengthCheck implements CheckInterface
 {
-    use ValidateResponse;
-
     public string $title = 'Check if the title is not longer than 60 characters';
 
     public string $priority = 'medium';
@@ -19,7 +15,7 @@ class MetaTitleLengthCheck
     
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Closure
     {
         $title = $this->getTitle($request[0]);
 

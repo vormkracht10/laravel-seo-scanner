@@ -2,13 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks;
 
-use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 use Closure;
 
-class ResponseCheck
+class ResponseCheck implements CheckInterface
 {
-    use ValidateResponse;
-
     public string $title = 'Check if the response is successful';
 
     public string $priority = 'high';
@@ -19,7 +16,7 @@ class ResponseCheck
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): Closure
     {
         if ($request->getStatusCode() === 200) {
             $this->checkSuccessful = true;
