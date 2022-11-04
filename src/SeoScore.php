@@ -14,8 +14,13 @@ class SeoScore
 
     public function __invoke(Collection $successful, Collection $failed)
     {
+        $this->successful = $successful;
+        $this->failed = $failed;
+        
         if (! $successful->count()) {
-            return 0;
+            $this->score = 0;
+
+            return $this;
         }
 
         $successfulScoreWeight = $successful->sum('scoreWeight');
@@ -23,8 +28,6 @@ class SeoScore
         $totalScoreWeight = $successfulScoreWeight + $failedScoreWeight;
 
         $this->score = round($successfulScoreWeight / $totalScoreWeight * 100);
-        $this->successful = $successful;
-        $this->failed = $failed;
 
         return $this;
     }
