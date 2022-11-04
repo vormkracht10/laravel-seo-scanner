@@ -8,7 +8,7 @@ use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 class MetaTitleLengthCheck implements CheckInterface
 {
     use FormatRequest;
-    
+
     public string $title = 'Check if the title is not longer than 60 characters';
 
     public string $priority = 'medium';
