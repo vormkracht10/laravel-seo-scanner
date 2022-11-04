@@ -20,6 +20,7 @@ class SeoScore
         $failedScoreWeight = $failed->sum('scoreWeight');
         $totalScoreWeight = $successfulScoreWeight + $failedScoreWeight;
 
+<<<<<<< HEAD
         $this->score = round($successfulScoreWeight / $totalScoreWeight * 100);
         $this->successful = $successful;
         $this->failed = $failed;
@@ -40,5 +41,8 @@ class SeoScore
     public function getSuccessful()
     {
         return $this->successful;
+=======
+        return round(($totalScoreWeight / $successfulScoreWeight) * 100);
+>>>>>>> f04906937674ee083b92d6cd56dadff9f200d4b1
     }
 }
