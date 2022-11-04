@@ -21,9 +21,8 @@ class SeoCheck extends Command
         $model = config('seo.pages.model');
 
         $model = new $model();
-        
-        $model::all()->filter->url->map(function ($model) {
 
+        $model::all()->filter->url->map(function ($model) {
             $seo = $model->seoScore();
 
             $this->failed += count($seo->getFailed());

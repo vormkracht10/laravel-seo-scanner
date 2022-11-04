@@ -12,7 +12,7 @@ class MetaTitleLengthCheck implements CheckInterface
     public int $timeToFix = 1;
 
     public int $scoreWeight = 5;
-    
+
     public bool $checkSuccessful = false;
 
     public function handle($request, Closure $next): Closure
@@ -22,7 +22,6 @@ class MetaTitleLengthCheck implements CheckInterface
         $this->checkSuccessful = false;
 
         if (strlen($title) <= 60) {
-            
             $this->checkSuccessful = true;
         }
 

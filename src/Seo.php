@@ -5,7 +5,6 @@ namespace Vormkracht10\Seo;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Vormkracht10\Seo\Checks\CheckEnum;
 use Vormkracht10\Seo\Checks\MetaTitleCheck;
 use Vormkracht10\Seo\Checks\MetaTitleLengthCheck;
 use Vormkracht10\Seo\Checks\ResponseCheck;
