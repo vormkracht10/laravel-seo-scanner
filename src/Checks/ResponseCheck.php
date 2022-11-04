@@ -18,7 +18,7 @@ class ResponseCheck implements CheckInterface
 
     public function handle($request, Closure $next): array
     {
-        $this->checkSuccessful = false; 
+        $this->checkSuccessful = false;
 
         if ($request->getStatusCode() === 200) {
             $this->checkSuccessful = true;
