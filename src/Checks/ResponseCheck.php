@@ -3,7 +3,6 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
-use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 
 class ResponseCheck implements CheckInterface
 {

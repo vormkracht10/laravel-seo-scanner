@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
+
 class MetaTitleLengthCheck implements CheckInterface
 {
     public string $title = 'Check if the title is not longer than 60 characters';

@@ -14,5 +14,5 @@ use Closure;
  */
 interface CheckInterface
 {
-    public function handle($request, Closure $next): Closure;   
+    public function handle($request, Closure $next): Closure;
 }
