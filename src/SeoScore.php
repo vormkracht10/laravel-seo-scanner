@@ -16,7 +16,7 @@ class SeoScore
     {
         $this->successful = $successful;
         $this->failed = $failed;
-        
+
         if (! $successful->count()) {
             $this->score = 0;
 
