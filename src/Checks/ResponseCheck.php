@@ -3,8 +3,9 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
+use Closure;
 
-class ResponseCheck implements CheckInterface
+class ResponseCheck
 {
     use ValidateResponse;
 
@@ -18,16 +19,12 @@ class ResponseCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle(string $url, object $response): self
+    public function handle($request, Closure $next)
     {
-        if ($this->validateResponse($response)) {
+        if ($request->getStatusCode() === 200) {
             $this->checkSuccessful = true;
 
-            return $this;
+            return $next([$request, 'checks' => [$this]]);
         }
-
-        $this->checkSuccessful = false;
-
-        return $this;
     }
 }

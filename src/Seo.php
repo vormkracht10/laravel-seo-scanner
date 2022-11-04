@@ -2,9 +2,13 @@
 
 namespace Vormkracht10\Seo;
 
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Vormkracht10\Seo\Checks\CheckEnum;
+use Vormkracht10\Seo\Checks\MetaTitleCheck;
+use Vormkracht10\Seo\Checks\MetaTitleLengthCheck;
+use Vormkracht10\Seo\Checks\ResponseCheck;
 
 class Seo
 {
@@ -33,17 +37,18 @@ class Seo
 
     private function runChecks(string $url, object $response): void
     {
-        foreach (CheckEnum::values() as $check) {
-            $check = new $check;
-            $check->handle(url: $url, response: $response);
+        $checks = app(Pipeline::class)
+            ->send($response)
+            ->through([
+                ResponseCheck::class,
+                MetaTitleCheck::class,
+                MetaTitleLengthCheck::class,
+            ])
+            ->thenReturn();
 
-            if ($check->checkSuccessful) {
-                $this->successful->put($url, $check);
+        $checks = collect($checks['checks']);
 
-                continue;
-            }
-
-            $this->failed->put($url, $check);
-        }
+        $this->successful = $checks->filter(fn ($check) => $check->checkSuccessful);
+        $this->failed = $checks->filter(fn ($check) => ! $check->checkSuccessful);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks;
 
+use Closure;
 use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 
-class MetaTitleCheck implements CheckInterface
+class MetaTitleCheck
 {
     use ValidateResponse;
 
@@ -18,19 +19,22 @@ class MetaTitleCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle(string $url, object $response): self
+    public function handle($request, Closure $next)
     {
-        $title = $this->getTitle($response);
+        $title = $this->getTitle($request[0]);
 
-        if (str_contains($title, 'home') || ! $title || ! $this->validateResponse($response)) {
-            $this->checkSuccessful = false;
+        $this->checkSuccessful = false;
 
-            return $this;
+        if (! str_contains($title, 'home') || $title) {
+            $this->checkSuccessful = true;
         }
+        
+        $previousChecks = $request['checks'];
+        $previousChecks[] = $this;
 
-        $this->checkSuccessful = true;
+        $request['checks'] = $previousChecks;
 
-        return $this;
+        return $next($request);
     }
 
     private function getTitle(object $response): string|null

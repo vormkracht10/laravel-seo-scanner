@@ -2,9 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks;
 
+use Closure;
 use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 
-class MetaTitleLengthCheck implements CheckInterface
+class MetaTitleLengthCheck
 {
     use ValidateResponse;
 
@@ -18,19 +19,23 @@ class MetaTitleLengthCheck implements CheckInterface
     
     public bool $checkSuccessful = false;
 
-    public function handle(string $url, object $response): self
+    public function handle($request, Closure $next)
     {
-        $title = $this->getTitle($response);
+        $title = $this->getTitle($request[0]);
 
-        if (strlen($title) > 60 || ! $this->validateResponse($response)) {
-            $this->checkSuccessful = false;
+        $this->checkSuccessful = false;
 
-            return $this;
+        if (strlen($title) <= 60) {
+            
+            $this->checkSuccessful = true;
         }
 
-        $this->checkSuccessful = true;
+        $previousChecks = $request['checks'];
+        $previousChecks[] = $this;
 
-        return $this;
+        $request['checks'] = $previousChecks;
+
+        return $next($request);
     }
 
     private function getTitle(object $response): string|null
