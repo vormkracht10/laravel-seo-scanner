@@ -2,8 +2,8 @@
 
 namespace Vormkracht10\Seo\Checks;
 
-use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 use Closure;
+use Vormkracht10\Seo\Checks\Traits\ValidateResponse;
 
 class ResponseCheck
 {

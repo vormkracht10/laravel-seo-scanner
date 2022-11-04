@@ -7,7 +7,9 @@ use Illuminate\Support\Collection;
 class SeoScore
 {
     public $score = 0;
+
     public $successful;
+
     public $failed;
 
     public function __invoke(Collection $successful, Collection $failed)
@@ -24,7 +26,7 @@ class SeoScore
         $this->successful = $successful;
         $this->failed = $failed;
 
-        return $this;        
+        return $this;
     }
 
     public function getScore()

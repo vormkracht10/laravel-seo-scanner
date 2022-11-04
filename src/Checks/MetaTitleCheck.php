@@ -14,7 +14,7 @@ class MetaTitleCheck
     public string $priority = 'medium';
 
     public int $timeToFix = 1;
-    
+
     public int $scoreWeight = 5;
 
     public bool $checkSuccessful = false;
@@ -28,7 +28,7 @@ class MetaTitleCheck
         if (! str_contains($title, 'home') || $title) {
             $this->checkSuccessful = true;
         }
-        
+
         $previousChecks = $request['checks'];
         $previousChecks[] = $this;
 
