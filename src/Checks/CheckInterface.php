@@ -8,7 +8,7 @@ use Closure;
  * @property string $title
  * @property string $priority
  * @property int $timeToFix
- * @propertu int $scoreWeight
+ * @property int $scoreWeight
  * @property bool $checkSuccessful
  *
  * @method handle()
