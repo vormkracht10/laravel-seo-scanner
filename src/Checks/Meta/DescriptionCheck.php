@@ -23,9 +23,9 @@ class DescriptionCheck implements MetaCheck
 
     public function handle(array $request, Closure $next): array
     {
-        $description = $this->getMetaContent($request[0]);
+        $content = $this->getContent($request[0]);
 
-        if (! $description) {
+        if (! $content || ! $this->validateContent($content)) {
             return $next($this->formatRequest($request));
         }
 
@@ -34,11 +34,16 @@ class DescriptionCheck implements MetaCheck
         return $next($this->formatRequest($request));
     }
 
-    public function getMetaContent(Response $response): string|null
+    public function getContent(Response $response): string|null
     {
         $response = $response->body();
         preg_match('/<meta name="description" content="(.*)">/', $response, $matches);
 
         return $matches[1] ?? null;
+    }
+
+    public function validateContent(string $content): bool
+    {
+        return strlen($content) > 0;
     }
 }

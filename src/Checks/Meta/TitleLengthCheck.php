@@ -23,24 +23,27 @@ class TitleLengthCheck implements MetaCheck
 
     public function handle(array $request, Closure $next): array
     {
-        $title = $this->getMetaContent($request[0]);
+        $content = $this->getContent($request[0]);
 
-        if (! $title) {
+        if (! $content || ! $this->validateContent($content)) {
             return $next($this->formatRequest($request));
         }
 
-        if (strlen($title) <= 60) {
-            $this->checkSuccessful = true;
-        }
+        $this->checkSuccessful = true;
 
         return $next($this->formatRequest($request));
     }
 
-    public function getMetaContent(Response $response): string|null
+    public function getContent(Response $response): string|null
     {
         $response = $response->body();
         preg_match('/<title>(.*)<\/title>/', $response, $matches);
 
         return $matches[1] ?? null;
+    }
+
+    public function validateContent(string $content): bool
+    {
+        return strlen($content) <= 60;
     }
 }
