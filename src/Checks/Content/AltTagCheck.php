@@ -4,7 +4,6 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Checks\Content\ContentCheck;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
 class AltTagCheck implements ContentCheck
@@ -45,7 +44,7 @@ class AltTagCheck implements ContentCheck
         $response = $response->body();
 
         preg_match_all('/<img[^>]+>/i', $response, $matches);
-     
+
         return $matches[0] ?? null;
     }
 

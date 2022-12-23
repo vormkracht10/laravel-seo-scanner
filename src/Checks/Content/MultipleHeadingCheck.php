@@ -4,7 +4,6 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Checks\Content\ContentCheck;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
 class MultipleHeadingCheck implements ContentCheck
@@ -39,8 +38,8 @@ class MultipleHeadingCheck implements ContentCheck
     {
         $response = $response->body();
 
-        preg_match_all('/<h1.*?>(.*)<\/h1>/msi',$response, $matches);
-     
+        preg_match_all('/<h1.*?>(.*)<\/h1>/msi', $response, $matches);
+
         return $matches[1] ?? null;
     }
 
