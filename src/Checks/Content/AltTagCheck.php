@@ -50,20 +50,16 @@ class AltTagCheck implements ContentCheck
 
     public function validateContent(string|array $content): bool
     {
-        if (is_array($content)) {
-            foreach ($content as $image) {
-                if (! str_contains($image, 'alt=') || str_contains($image, 'alt=""')) {
-                    return false;
-                }
-            }
+        if (! is_array($content)) {
+            $content = [$content];
         }
-
-        if (is_string($content)) {
-            if (! str_contains($content, 'alt=') || str_contains($content, 'alt=""')) {
+        
+        foreach ($content as $image) {
+            if (! str_contains($image, 'alt=') || str_contains($image, 'alt=""')) {
                 return false;
             }
         }
-
+    
         return true;
     }
 }

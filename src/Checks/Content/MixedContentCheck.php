@@ -44,18 +44,14 @@ class MixedContentCheck implements ContentCheck
 
     public function validateContent(string|array $content): bool
     {
-        if (is_array($content)) {
-            foreach ($content as $item) {
-                if (preg_match('/^http:\/\//', $item)) {
-                    return false;
-                }
-            }
-
-            return true;
+        if (! is_array($content)) {
+            $content = [$content];
         }
 
-        if (preg_match('/^http:\/\//', $content)) {
-            return false;
+        foreach ($content as $item) {
+            if (preg_match('/^http:\/\//', $item)) {
+                return false;
+            }
         }
 
         return true;
