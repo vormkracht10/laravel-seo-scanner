@@ -13,7 +13,7 @@ use Closure;
  *
  * @method handle()
  */
-interface CheckInterface
+interface Check
 {
     public function handle(array $request, Closure $next): array;
 }

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
-class MetaDescriptionCheck implements CheckInterface
+class MetaDescriptionCheck implements Check
 {
     use FormatRequest;
 

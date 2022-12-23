@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
-class MetaTitleLengthCheck implements CheckInterface
+class MetaTitleLengthCheck implements Check
 {
     use FormatRequest;
 

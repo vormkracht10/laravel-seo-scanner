@@ -4,7 +4,7 @@ namespace Vormkracht10\Seo\Checks;
 
 use Closure;
 
-class ResponseCheck implements CheckInterface
+class ResponseCheck implements Check
 {
     public string $title = 'Check if the response is successful';
 
