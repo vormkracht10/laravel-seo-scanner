@@ -37,7 +37,7 @@ class MixedContentCheck implements ContentCheck
     {
         $response = $response->body();
 
-        preg_match_all('/<a.*?href="(.*?)".*?>/i', $response, $matches);
+        preg_match_all('/<a.*?href="(.*?)".*?>/msi', $response, $matches);
 
         return $matches[1] ?? null;
     }
