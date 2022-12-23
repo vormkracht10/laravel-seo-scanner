@@ -4,7 +4,6 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Checks\Content\ContentCheck;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
 class MixedContentCheck implements ContentCheck
@@ -37,7 +36,7 @@ class MixedContentCheck implements ContentCheck
     public function getContent(Response $response): string|array|null
     {
         $response = $response->body();
-        
+
         preg_match_all('/<a.*?href="(.*?)".*?>/i', $response, $matches);
 
         return $matches[1] ?? null;
@@ -54,7 +53,7 @@ class MixedContentCheck implements ContentCheck
 
             return true;
         }
-        
+
         if (preg_match('/^http:\/\//', $content)) {
             return false;
         }
