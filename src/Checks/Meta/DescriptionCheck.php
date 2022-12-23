@@ -36,7 +36,8 @@ class DescriptionCheck implements MetaCheck
     public function getContent(Response $response): string|null
     {
         $response = $response->body();
-        preg_match('/<meta name="description" content="(.*)">/', $response, $matches);
+
+        preg_match('/meta[^>]+?name="description"[^>]+?content="(.*?)"[^>]+?/', $response, $matches);
 
         return $matches[1] ?? null;
     }
