@@ -1,8 +1,7 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks;
+namespace Vormkracht10\Seo\Checks\Meta;
 
-use Closure;
 use Vormkracht10\Seo\Checks\Check;
 use Illuminate\Http\Client\Response;
 

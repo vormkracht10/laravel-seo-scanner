@@ -2,13 +2,14 @@
 
 namespace Vormkracht10\Seo;
 
+use Vormkracht10\Seo\SeoScore;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Vormkracht10\Seo\Checks\Meta\DescriptionCheck;
+use Vormkracht10\Seo\Checks\Meta\TitleCheck;
+use Vormkracht10\Seo\Checks\Meta\TitleLengthCheck;
 use Vormkracht10\Seo\Checks\ResponseCheck;
-use Vormkracht10\Seo\Checks\MetaTitleCheck;
-use Vormkracht10\Seo\Checks\MetaDescriptionCheck;
-use Vormkracht10\Seo\Checks\MetaTitleLengthCheck;
 
 class Seo
 {
@@ -41,9 +42,9 @@ class Seo
             ->send($response)
             ->through([
                 ResponseCheck::class,
-                MetaTitleCheck::class,
-                MetaTitleLengthCheck::class,
-                MetaDescriptionCheck::class,
+                TitleCheck::class,
+                TitleLengthCheck::class,
+                DescriptionCheck::class,
             ])
             ->thenReturn();
 
