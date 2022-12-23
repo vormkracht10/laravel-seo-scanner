@@ -6,6 +6,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Vormkracht10\Seo\Checks\Content\MixedContentCheck;
+use Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck;
 use Vormkracht10\Seo\Checks\Meta\DescriptionCheck;
 use Vormkracht10\Seo\Checks\Meta\TitleCheck;
 use Vormkracht10\Seo\Checks\Meta\TitleLengthCheck;
@@ -46,6 +47,7 @@ class Seo
                 TitleLengthCheck::class,
                 DescriptionCheck::class,
                 MixedContentCheck::class,
+                MultipleHeadingCheck::class,
             ])
             ->thenReturn();
 
