@@ -27,14 +27,23 @@ class SeoCheck extends Command
 
             $this->failed += count($seo->getFailed());
             $this->success += count($seo->getSuccessful());
+            $this->modelCount++;
 
             $score = $seo->getScore();
 
             $model->update(['seo_score' => $score]);
 
-            $this->info($model->url.' - '.$score.' SEO score');
+            if ($score < 100) {
+                $this->warn($model->url.' - '.$score.' SEO score');
 
-            $this->modelCount++;
+                foreach($seo->getFailed() as $failed) {
+                    $this->error($failed->title.' failed. Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                }
+
+                return;
+            }
+            
+            $this->info($model->url.' - '.$score.' SEO score');
         });
 
         $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$this->modelCount.' pages.');
