@@ -1,16 +1,17 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks;
+namespace Vormkracht10\Seo\Checks\Meta;
 
 use Closure;
 use Illuminate\Http\Client\Response;
+use Vormkracht10\Seo\Checks\MetaCheck;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
-class MetaTitleCheck implements Check
+class DescriptionCheck implements MetaCheck
 {
     use FormatRequest;
 
-    public string $title = "Check if the title on the homepage does not contain 'home'";
+    public string $title = 'Check if the page has a meta description';
 
     public string $priority = 'medium';
 
@@ -22,23 +23,21 @@ class MetaTitleCheck implements Check
 
     public function handle(array $request, Closure $next): array
     {
-        $title = $this->getTitle($request[0]);
+        $description = $this->getMetaContent($request[0]);
 
-        if (! $title) {
+        if (! $description) {
             return $next($this->formatRequest($request));
         }
 
-        if (! str_contains($title, 'home')) {
-            $this->checkSuccessful = true;
-        }
+        $this->checkSuccessful = true;
 
         return $next($this->formatRequest($request));
     }
 
-    private function getTitle(Response $response): string|null
+    public function getMetaContent(Response $response): string|null
     {
         $response = $response->body();
-        preg_match('/<title>(.*)<\/title>/', $response, $matches);
+        preg_match('/<meta name="description" content="(.*)">/', $response, $matches);
 
         return $matches[1] ?? null;
     }

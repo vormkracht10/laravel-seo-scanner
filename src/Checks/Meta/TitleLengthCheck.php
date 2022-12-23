@@ -1,12 +1,13 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks;
+namespace Vormkracht10\Seo\Checks\Meta;
 
 use Closure;
 use Illuminate\Http\Client\Response;
+use Vormkracht10\Seo\Checks\MetaCheck;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
-class MetaTitleLengthCheck implements Check
+class TitleLengthCheck implements MetaCheck
 {
     use FormatRequest;
 
@@ -22,7 +23,7 @@ class MetaTitleLengthCheck implements Check
 
     public function handle(array $request, Closure $next): array
     {
-        $title = $this->getTitle($request[0]);
+        $title = $this->getMetaContent($request[0]);
 
         if (! $title) {
             return $next($this->formatRequest($request));
@@ -35,7 +36,7 @@ class MetaTitleLengthCheck implements Check
         return $next($this->formatRequest($request));
     }
 
-    private function getTitle(Response $response): string|null
+    public function getMetaContent(Response $response): string|null
     {
         $response = $response->body();
         preg_match('/<title>(.*)<\/title>/', $response, $matches);
