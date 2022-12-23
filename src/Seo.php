@@ -2,7 +2,6 @@
 
 namespace Vormkracht10\Seo;
 
-use Vormkracht10\Seo\SeoScore;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
