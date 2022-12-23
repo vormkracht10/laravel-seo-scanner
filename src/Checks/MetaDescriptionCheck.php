@@ -10,7 +10,7 @@ class MetaDescriptionCheck implements CheckInterface
 {
     use FormatRequest;
 
-    public string $title = "Check if the page has a meta description";
+    public string $title = 'Check if the page has a meta description';
 
     public string $priority = 'medium';
 
@@ -37,7 +37,7 @@ class MetaDescriptionCheck implements CheckInterface
     {
         $response = $response->body();
         preg_match('/<meta name="description" content="(.*)">/', $response, $matches);
-        
+
         return $matches[1] ?? null;
     }
 }
