@@ -36,13 +36,13 @@ class SeoCheck extends Command
             if ($score < 100) {
                 $this->warn($model->url.' - '.$score.' SEO score');
 
-                foreach($seo->getFailed() as $failed) {
+                foreach ($seo->getFailed() as $failed) {
                     $this->error($failed->title.' failed. Estimated time to fix: '.$failed->timeToFix.' minute(s).');
                 }
 
                 return;
             }
-            
+
             $this->info($model->url.' - '.$score.' SEO score');
         });
 
