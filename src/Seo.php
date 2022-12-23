@@ -5,6 +5,7 @@ namespace Vormkracht10\Seo;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Vormkracht10\Seo\Checks\Content\AltTagCheck;
 use Vormkracht10\Seo\Checks\Content\MixedContentCheck;
 use Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck;
 use Vormkracht10\Seo\Checks\Meta\DescriptionCheck;
@@ -48,6 +49,7 @@ class Seo
                 DescriptionCheck::class,
                 MixedContentCheck::class,
                 MultipleHeadingCheck::class,
+                AltTagCheck::class,
             ])
             ->thenReturn();
 

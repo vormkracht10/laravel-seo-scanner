@@ -1,0 +1,70 @@
+<?php
+
+namespace Vormkracht10\Seo\Checks\Content;
+
+use Closure;
+use Illuminate\Http\Client\Response;
+use Vormkracht10\Seo\Checks\Content\ContentCheck;
+use Vormkracht10\Seo\Checks\Traits\FormatRequest;
+
+class AltTagCheck implements ContentCheck
+{
+    use FormatRequest;
+
+    public string $title = 'Check if every image has an alt tag';
+
+    public string $priority = 'low';
+
+    public int $timeToFix = 5;
+
+    public int $scoreWeight = 5;
+
+    public bool $checkSuccessful = false;
+
+    public function handle(array $request, Closure $next): array
+    {
+        $content = $this->getContent($request[0]);
+
+        if (! $content) {
+            $this->checkSuccessful = true;
+
+            return $next($this->formatRequest($request));
+        }
+
+        if (! $this->validateContent($content)) {
+            return $next($this->formatRequest($request));
+        }
+
+        $this->checkSuccessful = true;
+
+        return $next($this->formatRequest($request));
+    }
+
+    public function getContent(Response $response): string|array|null
+    {
+        $response = $response->body();
+
+        preg_match_all('/<img[^>]+>/i', $response, $matches);
+     
+        return $matches[0] ?? null;
+    }
+
+    public function validateContent(string|array $content): bool
+    {
+        if (is_array($content)) {
+            foreach ($content as $image) {
+                if (! str_contains($image, 'alt=') || str_contains($image, 'alt=""')) {
+                    return false;
+                }
+            }
+        }
+
+        if (is_string($content)) {
+            if (! str_contains($content, 'alt=') || str_contains($content, 'alt=""')) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
