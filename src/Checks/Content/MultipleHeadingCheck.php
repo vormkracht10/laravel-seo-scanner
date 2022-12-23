@@ -11,7 +11,7 @@ class MultipleHeadingCheck implements ContentCheck
 {
     use FormatRequest;
 
-    public string $title = 'Check if multiple H1 headings are used';
+    public string $title = 'Check if none or multiple H1 headings are used';
 
     public string $priority = 'low';
 
@@ -25,6 +25,7 @@ class MultipleHeadingCheck implements ContentCheck
     {
         $content = $this->getContent($request[0]);
 
+        // If no H1 headings are found, the check also fails because it is an important SEO element.
         if (! $content || ! $this->validateContent($content)) {
             return $next($this->formatRequest($request));
         }
