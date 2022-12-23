@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
+use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
 class MetaTitleCheck implements CheckInterface
@@ -19,20 +20,22 @@ class MetaTitleCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next): array
+    public function handle(array $request, Closure $next): array
     {
         $title = $this->getTitle($request[0]);
 
-        $this->checkSuccessful = false;
+        if (! $title) {
+            return $next($this->formatRequest($request));
+        }
 
-        if (! str_contains($title, 'home') || $title) {
+        if (! str_contains($title, 'home')) {
             $this->checkSuccessful = true;
         }
 
         return $next($this->formatRequest($request));
     }
 
-    private function getTitle(object $response): string|null
+    private function getTitle(Response $response): string|null
     {
         $response = $response->body();
         preg_match('/<title>(.*)<\/title>/', $response, $matches);

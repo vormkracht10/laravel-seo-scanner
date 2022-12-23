@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
+use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
 class MetaTitleLengthCheck implements CheckInterface
@@ -19,11 +20,13 @@ class MetaTitleLengthCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next): array
+    public function handle(array $request, Closure $next): array
     {
         $title = $this->getTitle($request[0]);
 
-        $this->checkSuccessful = false;
+        if (! $title) {
+            return $next($this->formatRequest($request));
+        }
 
         if (strlen($title) <= 60) {
             $this->checkSuccessful = true;
@@ -32,7 +35,7 @@ class MetaTitleLengthCheck implements CheckInterface
         return $next($this->formatRequest($request));
     }
 
-    private function getTitle(object $response): string|null
+    private function getTitle(Response $response): string|null
     {
         $response = $response->body();
         preg_match('/<title>(.*)<\/title>/', $response, $matches);

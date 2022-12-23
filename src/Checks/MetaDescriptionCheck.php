@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
+use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Checks\Traits\FormatRequest;
 
 class MetaDescriptionCheck implements CheckInterface
@@ -19,20 +20,20 @@ class MetaDescriptionCheck implements CheckInterface
 
     public bool $checkSuccessful = false;
 
-    public function handle($request, Closure $next): array
+    public function handle(array $request, Closure $next): array
     {
         $description = $this->getDescription($request[0]);
 
-        $this->checkSuccessful = false;
-
-        if ($description) {
-            $this->checkSuccessful = true;
+        if (! $description) {
+            return $next($this->formatRequest($request));
         }
+
+        $this->checkSuccessful = true;
 
         return $next($this->formatRequest($request));
     }
 
-    private function getDescription(object $response): string|null
+    private function getDescription(Response $response): string|null
     {
         $response = $response->body();
         preg_match('/<meta name="description" content="(.*)">/', $response, $matches);
