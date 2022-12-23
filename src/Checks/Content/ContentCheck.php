@@ -2,8 +2,8 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
-use Vormkracht10\Seo\Checks\Check;
 use Illuminate\Http\Client\Response;
+use Vormkracht10\Seo\Checks\Check;
 
 /**
  * @method getContent()
