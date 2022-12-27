@@ -4,8 +4,8 @@ namespace Vormkracht10\Seo\Checks\Meta;
 
 use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Traits\FormatRequest;
 use Vormkracht10\Seo\Interfaces\MetaCheck;
+use Vormkracht10\Seo\Traits\FormatRequest;
 
 class TitleLengthCheck implements MetaCheck
 {

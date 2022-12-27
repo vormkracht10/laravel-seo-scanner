@@ -4,8 +4,8 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Traits\FormatRequest;
 use Vormkracht10\Seo\Interfaces\ContentCheck;
+use Vormkracht10\Seo\Traits\FormatRequest;
 
 class MultipleHeadingCheck implements ContentCheck
 {
