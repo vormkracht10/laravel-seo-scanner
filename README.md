@@ -133,8 +133,8 @@ php artisan seo:check-url https://vormkracht10.nl
 
 ### Performance
 
-- Time to first byte
-- Response (200)
+- Check if Time To First Byte (TTFB) is below 600ms.
+- Check if the response returns a 200 status code.
 
 ### Content
 
