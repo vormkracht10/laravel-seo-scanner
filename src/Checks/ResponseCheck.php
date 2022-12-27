@@ -3,7 +3,7 @@
 namespace Vormkracht10\Seo\Checks;
 
 use Closure;
-use Illuminate\Http\Request;
+use Illuminate\Http\Client\Response;
 
 class ResponseCheck
 {
@@ -22,7 +22,7 @@ class ResponseCheck
     /** @var bool $checkSuccessful */
     public bool $checkSuccessful = false;
 
-    public function handle(Request $request, Closure $next): array
+    public function handle(Response $request, Closure $next): array
     {
         $this->checkSuccessful = false;
 
