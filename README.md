@@ -32,7 +32,53 @@ This is the contents of the published config file:
 
 ```php
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Check pages and models
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify which pages you want to check. It is possible to
+    | specify a model which implements the SeoScore interface. This way you
+    | can check the SEO score of a specific page.
+    |
+    */
+    'pages' => [
+        'model' => '',
+    ],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Check classes
+    |--------------------------------------------------------------------------
+    |
+    | The following array lists the "check" classes that will be registered
+    | with Laravel Seo. These checks run an check on the application via
+    | various methods. Feel free to customize it.
+    |
+    */
+    'checks' => ['*'],
+
+    // If you wish to skip running some analyzers, list the classes in the array below.
+    'exclude_checks' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Check paths
+    |--------------------------------------------------------------------------
+    |
+    | The following array lists the "checks" paths that will be searched
+    | recursively to find check classes. This option will only be used
+    | if the checks option above is set to the asterisk wildcard. The
+    | key is the base namespace to resolve the class name.
+    |
+    */
+    'check_paths' => [
+        'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo/src/Checks'),
+    ],
 ];
+
 ```
 
 Optionally, you can publish the views using
