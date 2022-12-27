@@ -4,7 +4,6 @@ namespace Vormkracht10\Seo\Checks\Meta;
 
 use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Facades\Seo;
 use Vormkracht10\Seo\Interfaces\MetaCheck;
 use Vormkracht10\Seo\Traits\FormatRequest;
 
@@ -46,6 +45,7 @@ class TitleCheck implements MetaCheck
     public function validateContent(string $content): bool
     {
         $content = strtolower($content);
+
         return ! str_contains($content, 'home') && ! str_contains($content, 'homepage');
     }
 }
