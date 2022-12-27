@@ -152,6 +152,8 @@ php artisan seo:check-url https://vormkracht10.nl
 ✅ Check if all links redirect to a HTTPS url. <br>
 ✅ Check if every image has an alt tag. <br>
 ✅ Check if the page contains no broken links. <br>
+✅ Check if the images are not larger than 1 MB. <br>
+✅ Check if the HTML is not larger than 100 KB. <br>
 
 ### Meta
 ✅ Check if the page has a meta description. <br>
