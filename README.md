@@ -100,6 +100,13 @@ return [
 ## Usage
 
 ### Check the SEO score of a single page
+Want to get the score of a specific url? Run the following command:
+
+```bash
+php artisan seo:check-url https://vormkracht10.nl
+```
+
+> Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
 
 ### Check the SEO score of a model
 
@@ -164,14 +171,6 @@ $score = $model->getCurrentScore();
 // Get the score including the details
 $scoreDetails = $model->getCurrentScoreDetails();
 ```
-
-Want to get the score of a specific url? Run the following command:
-
-```bash
-php artisan seo:check-url https://vormkracht10.nl
-```
-
-> Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
 
 ## Available checks
 These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
