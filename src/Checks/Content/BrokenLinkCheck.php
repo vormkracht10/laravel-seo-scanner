@@ -49,7 +49,7 @@ class BrokenLinkCheck implements ContentCheck
     }
 
     public function validateContent(string|array $content): bool
-    {        
+    {
         if (! is_array($content)) {
             $content = [$content];
         }
@@ -60,11 +60,11 @@ class BrokenLinkCheck implements ContentCheck
             return $matches[1] ?? false;
         })->filter(function ($item) {
             // Filter out all links that are mailto, tel or have a file extension
-            if (preg_match('/^mailto:/msi', $item) || 
-                preg_match('/^tel:/msi', $item) || 
-                preg_match('/\.[a-z]{2,4}$/msi', $item || 
+            if (preg_match('/^mailto:/msi', $item) ||
+                preg_match('/^tel:/msi', $item) ||
+                preg_match('/\.[a-z]{2,4}$/msi', $item ||
                 filter_var($item, FILTER_VALIDATE_URL) === false)
-            ) { 
+            ) {
                 return false;
             }
 
@@ -75,7 +75,7 @@ class BrokenLinkCheck implements ContentCheck
             return ! $this->isBrokenLink($item);
         });
 
-        return count($content) === 0;   
+        return count($content) === 0;
     }
 
     public function isBrokenLink(string $url): bool
@@ -91,9 +91,9 @@ class BrokenLinkCheck implements ContentCheck
 
         curl_setopt_array($ch, $options);
         curl_exec($ch);
-        
+
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
+
         curl_close($ch);
 
         return $statusCode !== 200;
