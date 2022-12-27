@@ -75,7 +75,7 @@ return [
     */
     'checks' => ['*'],
 
-    // If you wish to skip running some analyzers, list the classes in the array below.
+    // If you wish to skip running some checks, list the classes in the array below.
     'exclude_checks' => [],
 
     /*
