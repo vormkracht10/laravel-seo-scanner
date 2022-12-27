@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 namespace Vormkracht10\Seo\Traits;
 
-use Vormkracht10\Seo\Facades\Seo;
-use Vormkracht10\Seo\Models\SeoScore;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Vormkracht10\Seo\Facades\Seo;
+use Vormkracht10\Seo\Models\SeoScore;
 
 trait HasSeoScore
 {
@@ -27,8 +27,8 @@ trait HasSeoScore
     public function getCurrentScore(): int
     {
         return $this->seoScore()->getScore();
-    }  
-    
+    }
+
     public function getCurrentScoreDetails(): array
     {
         return $this->seoScore()->getScoreDetails();
