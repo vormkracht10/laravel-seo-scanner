@@ -3,10 +3,9 @@
 namespace Vormkracht10\Seo\Checks\Performance;
 
 use Closure;
-use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Traits\FormatRequest;
 
-class TTFBCheck 
+class TTFBCheck
 {
     use FormatRequest;
 
