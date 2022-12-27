@@ -50,18 +50,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Check pages and models
+    | Database
     |--------------------------------------------------------------------------
     |
-    | Here you can specify which pages you want to check. It is possible to
-    | specify a model which implements the SeoScore interface. This way you
-    | can check the SEO score of a specific page.
+    | Here you can specify which pages you want to check. When you specify a
+    | model, the SEO score will be saved to the database. This way you can
+    | check the SEO score of a specific page. 
     |
     */
-    'pages' => [
-        'model' => '',
+    'database' => [
+        'connection' => 'mysql',
+        'table_name' => 'seo_scores',
+        'model' => null,
     ],
-
 
     /*
     |--------------------------------------------------------------------------
@@ -92,56 +93,83 @@ return [
     'check_paths' => [
         'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo/src/Checks'),
     ],
-];
+]
 
 ```
 
 ## Usage
 
-Implement the SeoInterface in your model and make sure to add the needed methods to your model.
+### Check the SEO score of a single page
+Want to get the score of a specific url? Run the following command:
 
-> Note: Please make sure that the seo_score column is added to the fillable array in your model. Otherwise the score will not be saved.
+```bash
+php artisan seo:check-url https://vormkracht10.nl
+```
+
+> Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
+
+### Check the SEO score of a model
+
+When you have an application where you have a lot of pages which are related to a model, you can save the SEO score to the model. This way you can check the SEO score of a specific page and show it in your application. 
+
+For example, you have a `Content` model which has a page for each content item:
+
+1. Add the model to the `database.model` key in the config file.
+2. Implement the `SeoInterface` in your model.
+3. Add the `HasSeoScoreTrait` to your model. 
+
+> Note: Please make sure that the model has a `url` attribute. This attribute will be used to check the SEO score of the model. Also check that the migrations are run. Otherwise the command will fail.
 
 ```php
+
+use Vormkracht10\Seo\Traits\HasSeoScore;
+use Vormkracht10\Seo\SeoInterface;
+
 class Content extends Model implements SeoInterface
 {
-    use HasFactory;
+    use HasFactory,
+        HasSeoScore;
 
     protected $fillable = [
         'title',
         'description',
-        'path',
-        'seo_score',
+        'slub',
+        // ...
     ];
 
-    public function seoScore(): SeoScore
+    public function getUrlAttribute(): string
     {
-        return Seo::check(url: $this->url);
-    }
-
-    public function getScore(): int
-    {
-        return $this->seoScore()->getScore();
-    }
-
-    // Optional, but make sure you can pass the url of the model to the Seo facade.
-    protected function getUrlAttribute()
-    {
-        return 'https://vormkracht10.nl/' . $this->path;
+        return 'https://vormkracht10.nl/' . $this->slug;
     }
 }
 ```
 
-You can get the SEO score of a model by calling the `seoScore()` method on the model, as seen in the example above. Do you want to get the scores of all models? Run the following command:
+You can get the SEO score of a model by calling the `seoScore()` or `seoScoreDetails()` methods on the model. These methods are defined in the `HasSeoScore` trait and can be overridden by adding the modified method in your model. 
+
+To fill the database with the scores of all models, run the following command:
 
 ```bash
 php artisan seo:check
 ```
 
-Want to get the score of a specific url? Run the following command:
+To get the SEO score(s) of a model, you have the following options: 
 
-```bash
-php artisan seo:check-url https://vormkracht10.nl
+1. Get the SEO scores of a single model:
+
+```php
+$scores = Model::withSeoScores()->get();
+```
+
+2. Run a SEO score check on a single model:
+
+```php
+$model = Model::first();
+
+// Get just the score
+$score = $model->getCurrentScore();
+
+// Get the score including the details
+$scoreDetails = $model->getCurrentScoreDetails();
 ```
 
 ## Available checks

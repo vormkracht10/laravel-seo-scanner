@@ -37,6 +37,15 @@ class SeoScore
         return $this->score;
     }
 
+    public function getScoreDetails()
+    {
+        return [
+            'score' => $this->score,
+            'successful' => $this->successful,
+            'failed' => $this->failed,
+        ];
+    }
+
     public function getFailed()
     {
         return $this->failed;

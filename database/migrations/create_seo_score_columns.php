@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        $model = config('seo.pages.model');
-
-        Schema::table((new $model)->getTable(), function (Blueprint $table) {
-            $table->integer('seo_score')->nullable();
+        Schema::create(config('seo.database.table_name'), function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('url');
+            $table->nullableMorphs('model', 'model');
+            $table->integer('score');
+            $table->json('checks');
+            $table->timestamps();
+            $table->index('url');
         });
     }
 
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contents');
+        Schema::dropIfExists(config('seo.database.table_name'));
     }
 };
