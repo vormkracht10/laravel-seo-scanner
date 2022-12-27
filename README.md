@@ -144,7 +144,7 @@ Want to get the score of a specific url? Run the following command:
 php artisan seo:check-url https://vormkracht10.nl
 ```
 
-## List of checks
+## Available checks
 
 ### Content
 
