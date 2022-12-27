@@ -54,13 +54,13 @@ class AltTagCheck implements ContentCheck
         if (! is_array($content)) {
             $content = [$content];
         }
-        
+
         foreach ($content as $image) {
             if (! str_contains($image, 'alt=') || str_contains($image, 'alt=""')) {
                 return false;
             }
         }
-    
+
         return true;
     }
 }

@@ -7,19 +7,19 @@ use Illuminate\Http\Client\Response;
 
 class ResponseCheck
 {
-    /** @var string $title */
+    /** @var string */
     public string $title = 'Check if the response is successful';
 
-    /** @var string $priority */
+    /** @var string */
     public string $priority = 'high';
 
-    /** @var int $timeToFix */
+    /** @var int */
     public int $timeToFix = 10;
 
-    /** @var int $scoreWeight */
+    /** @var int */
     public int $scoreWeight = 5;
 
-    /** @var bool $checkSuccessful */
+    /** @var bool */
     public bool $checkSuccessful = false;
 
     public function handle(Response $request, Closure $next): array
