@@ -38,7 +38,7 @@ class Seo
     {
         $checks = app(Pipeline::class)
             ->send($response)
-            ->through($this->getCheckClasses())
+            ->through(self::getCheckClasses())
             ->thenReturn();
 
         $checks = collect($checks['checks']);
@@ -47,14 +47,14 @@ class Seo
         $this->failed = $checks->filter(fn ($check) => ! $check->checkSuccessful);
     }
 
-    private function getCheckPaths(): array
+    private static function getCheckPaths(): array
     {
         return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
             ->filter(fn ($dir) => file_exists($dir))
             ->toArray();
     }
 
-    private function getCheckClasses(): array
+    private static function getCheckClasses(): array
     {
         if (! in_array('*', Arr::wrap(config('seo.checks', '*')))) {
             return Arr::wrap(config('seo.checks'));
@@ -62,7 +62,7 @@ class Seo
 
         $checks = [];
 
-        if (empty($paths = $this->getCheckPaths())) {
+        if (empty($paths = self::getCheckPaths())) {
             return $checks;
         }
 
