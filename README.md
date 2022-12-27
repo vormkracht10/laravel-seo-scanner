@@ -145,6 +145,7 @@ php artisan seo:check-url https://vormkracht10.nl
 ```
 
 ## Available checks
+These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
 
 ### Content
 
@@ -156,6 +157,7 @@ php artisan seo:check-url https://vormkracht10.nl
 ✅ Check if the HTML is not larger than 100 KB. <br>
 
 ### Meta
+
 ✅ Check if the page has a meta description. <br>
 ✅ Check if the page title is not longer than 60 characters. <br>
 ✅ Check if the page title does not contain 'home' or 'homepage'. <br>
