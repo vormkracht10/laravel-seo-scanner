@@ -133,13 +133,13 @@ class Content extends Model implements SeoInterface
     protected $fillable = [
         'title',
         'description',
-        'path',
+        'slub',
         // ...
     ];
 
     public function getUrlAttribute(): string
     {
-        return 'https://vormkracht10.nl/' . $this->path;
+        return 'https://vormkracht10.nl/' . $this->slug;
     }
 }
 ```
