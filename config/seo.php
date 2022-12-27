@@ -15,7 +15,7 @@ return [
     'database' => [
         'connection' => 'mysql',
         'table_name' => 'seo_scores',
-        'model' => \Slim\Models\Content\Content::class,
+        'model' => null,
     ],
 
     /*
