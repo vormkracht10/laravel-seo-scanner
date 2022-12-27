@@ -108,9 +108,10 @@ When you have an application where you have a lot of pages which are related to 
 For example, you have a `Content` model which has a page for each content item:
 
 1. Add the model to the `database.model` key in the config file.
-2. Implement the `SeoInterface` and add the `HasSeoScoreTrait` to your model. Please make sure that the model has a `url` attribute. This attribute will be used to check the SEO score of the model.
+2. Implement the `SeoInterface` in your model.
+3. Add the `HasSeoScoreTrait` to your model. 
 
-> Note: Please make sure that the migrations are run. Otherwise the command will fail.
+> Note: Please make sure that the model has a `url` attribute. This attribute will be used to check the SEO score of the model. Also check that the migrations are run. Otherwise the command will fail.
 
 ```php
 
