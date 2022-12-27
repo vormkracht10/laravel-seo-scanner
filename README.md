@@ -129,6 +129,25 @@ Want to get the score of a specific url? Run the following command:
 php artisan seo:check-url https://vormkracht10.nl
 ```
 
+## List of checks
+
+### Performance
+
+- Time to first byte
+- Response (200)
+
+### Content
+
+- Check if the page has a H1 tag and if it is used only once per page.
+- Check if all links redirect to a HTTPS url.
+- Check if every image has an alt tag.
+- Check if the page contains no broken links.
+
+### Meta
+- Check if the page has a meta description.
+- Check if the page title is not longer than 60 characters.
+- Check if the page title does not contain 'home' or 'homepage'.
+
 ## Testing
 
 ```bash
