@@ -11,7 +11,7 @@ Laravel SEO is a package that helps you to check if your SEO is setup correctly 
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [List of checks](#list-of-checks)
+- [Available checks](#available-checks)
   * [Content](#content)
   * [Meta](#meta)
   * [Performance](#performance)
