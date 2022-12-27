@@ -6,6 +6,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Vormkracht10\Seo\Checks\Content\AltTagCheck;
+use Vormkracht10\Seo\Checks\Content\BrokenLinkCheck;
 use Vormkracht10\Seo\Checks\Content\MixedContentCheck;
 use Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck;
 use Vormkracht10\Seo\Checks\Meta\DescriptionCheck;
@@ -50,6 +51,7 @@ class Seo
                 MixedContentCheck::class,
                 MultipleHeadingCheck::class,
                 AltTagCheck::class,
+                BrokenLinkCheck::class,
             ])
             ->thenReturn();
 
