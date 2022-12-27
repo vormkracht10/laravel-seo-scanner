@@ -12,9 +12,9 @@ Laravel SEO is a package that helps you to check if your SEO is setup correctly 
 - [Installation](#installation)
 - [Usage](#usage)
 - [List of checks](#list-of-checks)
-  * [Performance](#performance)
   * [Content](#content)
   * [Meta](#meta)
+  * [Performance](#performance)
 - [Testing](#testing)
 - [Changelog](#changelog)
 - [Contributing](#contributing)
@@ -146,22 +146,22 @@ php artisan seo:check-url https://vormkracht10.nl
 
 ## List of checks
 
-### Performance
-
-- Check if Time To First Byte (TTFB) is below 600ms.
-- Check if the response returns a 200 status code.
-
 ### Content
 
-- Check if the page has a H1 tag and if it is used only once per page.
-- Check if all links redirect to a HTTPS url.
-- Check if every image has an alt tag.
-- Check if the page contains no broken links.
+✅ Check if the page has a H1 tag and if it is used only once per page. <br>
+✅ Check if all links redirect to a HTTPS url. <br>
+✅ Check if every image has an alt tag. <br>
+✅ Check if the page contains no broken links. <br>
 
 ### Meta
-- Check if the page has a meta description.
-- Check if the page title is not longer than 60 characters.
-- Check if the page title does not contain 'home' or 'homepage'.
+✅ Check if the page has a meta description. <br>
+✅ Check if the page title is not longer than 60 characters. <br>
+✅ Check if the page title does not contain 'home' or 'homepage'. <br>
+
+### Performance
+
+✅ Check if Time To First Byte (TTFB) is below 600ms. <br>
+✅ Check if the response returns a 200 status code. <br>
 
 ## Testing
 
