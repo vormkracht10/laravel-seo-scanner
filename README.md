@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/vormkracht10/laravel-seo/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/vormkracht10/laravel-seo/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Laravel SEO is a package that helps you to check if your SEO is setup correctly in your Laravel application. Besides just checking the SEO score of a page, it can also save the score to a model. This way you can check the SEO score of a specific page and show it in your application.
 
 ## Installation
 
@@ -79,12 +79,6 @@ return [
     ],
 ];
 
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="seo-views"
 ```
 
 ## Usage
