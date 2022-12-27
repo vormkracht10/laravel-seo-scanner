@@ -3,7 +3,6 @@
 namespace Vormkracht10\Seo\Interfaces;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
 
 /**
  * @method getContent()

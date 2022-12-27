@@ -2,11 +2,11 @@
 
 namespace Vormkracht10\Seo;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 
 class Seo
@@ -49,7 +49,7 @@ class Seo
 
     private function getCheckPaths(): array
     {
-        return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__ . '/Checks']))
+        return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
             ->filter(fn ($dir) => file_exists($dir))
             ->toArray();
     }
