@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 it('can run the SEO check for a single URL', function () {
     // TODO: Probably we can't run this from the test suite, because we don't have 'artisan' available.
