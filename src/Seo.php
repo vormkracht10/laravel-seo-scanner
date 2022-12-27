@@ -2,17 +2,12 @@
 
 namespace Vormkracht10\Seo;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Vormkracht10\Seo\Checks\Content\AltTagCheck;
-use Vormkracht10\Seo\Checks\Content\BrokenLinkCheck;
-use Vormkracht10\Seo\Checks\Content\MixedContentCheck;
-use Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck;
-use Vormkracht10\Seo\Checks\Meta\DescriptionCheck;
-use Vormkracht10\Seo\Checks\Meta\TitleCheck;
-use Vormkracht10\Seo\Checks\Meta\TitleLengthCheck;
-use Vormkracht10\Seo\Checks\ResponseCheck;
+use Symfony\Component\Finder\Finder;
 
 class Seo
 {
@@ -43,21 +38,57 @@ class Seo
     {
         $checks = app(Pipeline::class)
             ->send($response)
-            ->through([
-                ResponseCheck::class,
-                TitleCheck::class,
-                TitleLengthCheck::class,
-                DescriptionCheck::class,
-                MixedContentCheck::class,
-                MultipleHeadingCheck::class,
-                AltTagCheck::class,
-                BrokenLinkCheck::class,
-            ])
+            ->through($this->getCheckClasses())
             ->thenReturn();
 
         $checks = collect($checks['checks']);
 
         $this->successful = $checks->filter(fn ($check) => $check->checkSuccessful);
         $this->failed = $checks->filter(fn ($check) => ! $check->checkSuccessful);
+    }
+
+    private function getCheckPaths(): array
+    {
+        return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__ . '/Checks']))
+            ->filter(fn ($dir) => file_exists($dir))
+            ->toArray();
+    }
+
+    private function getCheckClasses(): array
+    {
+        if (! in_array('*', Arr::wrap(config('seo.checks', '*')))) {
+            return Arr::wrap(config('seo.checks'));
+        }
+
+        $checks = [];
+
+        if (empty($paths = $this->getCheckPaths())) {
+            return $checks;
+        }
+
+        collect($paths)->each(function ($path, $baseNamespace) use (&$checks) {
+            $files = is_dir($path) ? (new Finder)->in($path)->files() : Arr::wrap($path);
+
+            foreach ($files as $fileInfo) {
+                $checkClass = $baseNamespace.str_replace(
+                    ['/', '.php'],
+                    ['\\', ''],
+                    Str::after(
+                        is_string($fileInfo) ? $fileInfo : $fileInfo->getRealPath(),
+                        realpath($path)
+                    )
+                );
+
+                $checks[] = $checkClass;
+            }
+        });
+
+        if (empty($exclusions = config('seo.exclude_checks', []))) {
+            return $checks;
+        }
+
+        return collect($checks)->filter(function ($checkClass) use ($exclusions) {
+            return ! in_array($checkClass, $exclusions);
+        })->toArray();
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks\Content;
+namespace Vormkracht10\Seo\Interfaces;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Checks\Check;
+use Vormkracht10\Seo\Interfaces\Check;
 
 /**
  * @method getContent()

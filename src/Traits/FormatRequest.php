@@ -1,6 +1,6 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks\Traits;
+namespace Vormkracht10\Seo\Traits;
 
 trait FormatRequest
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks;
+namespace Vormkracht10\Seo\Checks\Performance;
 
 use Closure;
 use Illuminate\Http\Client\Response;
