@@ -51,7 +51,7 @@ class SeoCheck extends Command
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-            
+
             if ($score < 100) {
                 $this->warn($model->url.' - '.$score.' SEO score');
 

@@ -9,7 +9,7 @@ return [
     |
     | Here you can specify which pages you want to check. When you specify a
     | model, the SEO score will be saved to the database. This way you can
-    | check the SEO score of a specific page. 
+    | check the SEO score of a specific page.
     |
     */
     'database' => [
