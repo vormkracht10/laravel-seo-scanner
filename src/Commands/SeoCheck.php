@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class SeoCheck extends Command
 {
@@ -18,7 +19,7 @@ class SeoCheck extends Command
 
     public function handle(): int
     {
-        $model = config('seo.pages.model');
+        $model = config('seo.database.model');
 
         $model = new $model();
 
@@ -31,8 +32,20 @@ class SeoCheck extends Command
 
             $score = $seo->getScore();
 
-            $model->update(['seo_score' => $score]);
-
+            DB::table(config('seo.database.table_name'))
+                ->insert([
+                    'url' => $model->url,
+                    'model_type' => $model->getMorphClass(),
+                    'model_id' => $model->id,
+                    'score' => $score,
+                    'checks' => json_encode([
+                        'failed' => $seo->getFailed(),
+                        'successful' => $seo->getSuccessful(),
+                    ]),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            
             if ($score < 100) {
                 $this->warn($model->url.' - '.$score.' SEO score');
 
