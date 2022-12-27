@@ -21,6 +21,12 @@ class SeoCheck extends Command
     {
         $model = config('seo.database.model');
 
+        if (! $model) {
+            $this->error('No model specified in config/seo.php');
+
+            return self::FAILURE;
+        }
+
         $model = new $model();
 
         $model::all()->filter->url->map(function ($model) {
