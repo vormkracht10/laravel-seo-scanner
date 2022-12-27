@@ -1,8 +1,10 @@
 # Check if your SEO is setup correctly in your Laravel application.
 
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo)
+[![Tests](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml)
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/vormkracht10/laravel-seo)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/vormkracht10/laravel-seo/run-tests?label=tests)](https://github.com/vormkracht10/laravel-seo/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/vormkracht10/laravel-seo/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/vormkracht10/laravel-seo/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 
 Laravel SEO is a package that helps you to check if your SEO is setup correctly in your Laravel application. Besides just checking the SEO score of a page, it can also save the score to a model. This way you can check the SEO score of a specific page and show it in your application.
