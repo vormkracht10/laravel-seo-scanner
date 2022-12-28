@@ -12,7 +12,7 @@ class SeoScore
 
     public $failed;
 
-    public function __invoke(Collection $successful, Collection $failed)
+    public function __invoke(Collection $successful, Collection $failed): self
     {
         $this->successful = $successful;
         $this->failed = $failed;
@@ -32,12 +32,12 @@ class SeoScore
         return $this;
     }
 
-    public function getScore()
+    public function getScore(): int
     {
         return $this->score;
     }
 
-    public function getScoreDetails()
+    public function getScoreDetails(): array
     {
         return [
             'score' => $this->score,
@@ -46,12 +46,12 @@ class SeoScore
         ];
     }
 
-    public function getFailed()
+    public function getFailedChecks(): Collection
     {
         return $this->failed;
     }
 
-    public function getSuccessful()
+    public function getSuccessfulChecks(): Collection
     {
         return $this->successful;
     }
