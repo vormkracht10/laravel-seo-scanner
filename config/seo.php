@@ -36,6 +36,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Routes
+    |--------------------------------------------------------------------------
+    |
+    | The following array lists the "checkable" routes that will be registered
+    | with Laravel Seo. These routes will be checked for SEO. Feel free to
+    | customize it. To check for specific routes, use the route name.
+    |
+    | An example of a checkable route:
+    | 'blog.index'
+    |
+    */
+    'check_routes' => true,
+    'routes' => ['*'],
+
+    // If you wish to skip running some checks on some routes, list the routes
+    // in the array below by using the route name.
+    'exclude_routes' => [],
+
+    /*
+    |--------------------------------------------------------------------------
     | Database
     |--------------------------------------------------------------------------
     |
