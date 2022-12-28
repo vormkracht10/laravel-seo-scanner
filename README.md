@@ -11,9 +11,10 @@ Laravel SEO is a package that helps you to check if your SEO is setup correctly 
 
 - [Installation](#installation)
 - [Usage](#usage)
-  * [Saving SEO scores into the database](#saving-seo-scores-into-the-database)
+  * [Check the SEO score of routes](#check-the-seo-score-of-routes)
   * [Check the SEO score of a single page](#check-the-seo-score-of-a-single-page)
   * [Check the SEO score of a model](#check-the-seo-score-of-a-model)
+  * [Saving SEO scores into the database](#saving-seo-scores-into-the-database)
 - [Available checks](#available-checks)
   * [Content](#content)
   * [Meta](#meta)
@@ -85,6 +86,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Routes
+    |--------------------------------------------------------------------------
+    |
+    | The following array lists the "checkable" routes that will be registered
+    | with Laravel Seo. These routes will be checked for SEO. Feel free to
+    | customize it. To check for specific routes, use the route name.
+    |
+    | An example of a checkable route:
+    | 'blog.index'
+    |
+    */
+    'check_routes' => true,
+    'routes' => ['*'],
+
+    // If you wish to skip running some checks on some routes, list the routes
+    // in the array below by using the route name.
+    'exclude_routes' => [],
+
+    /*
+    |--------------------------------------------------------------------------
     | Database
     |--------------------------------------------------------------------------
     |
@@ -118,21 +139,15 @@ return [
 
 ## Usage
 
-### Saving SEO scores into the database
-    
-When you want to save the SEO score to the database, you need to set the `save` option to `true` in the config file. 
+### Check the SEO score of routes
 
-```php
-'database' => [
-    'connection' => 'mysql',
-    'table_name' => 'seo_scores',
-    'save' => true,
-],
+By default, all `GET` routes will be checked for SEO. If you want to check the SEO score of a specific route, you can add the route name to the `routes` array in the config file. If you want to skip a route, you can add the route name to the `exclude_routes` array in the config file. If you don't want to check the SEO score of routes at all, you can set the `check_routes` option to `false` in the config file.
+
+To check the SEO score of your routes, run the following command:
+
+```bash
+php artisan seo:check-routes
 ```
-
-Optionally you can specify the table name and database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
-
-
 
 ### Check the SEO score of a single page
 Want to get the score of a specific url? Run the following command:
@@ -147,9 +162,9 @@ php artisan seo:check-url https://vormkracht10.nl
 
 When you have an application where you have a lot of pages which are related to a model, you can save the SEO score to the model. This way you can check the SEO score of a specific page and show it in your application. 
 
-For example, you have a `Content` model which has a page for each content item:
+For example, you have a `Post` model which has a page for each content item:
 
-1. Add the model to the `models` array in the config file.
+1. Add the model to the `models` array in the config file. 
 2. Implement the `SeoInterface` in your model.
 3. Add the `HasSeoScoreTrait` to your model. 
 
@@ -160,7 +175,7 @@ For example, you have a `Content` model which has a page for each content item:
 use Vormkracht10\Seo\Traits\HasSeoScore;
 use Vormkracht10\Seo\SeoInterface;
 
-class Content extends Model implements SeoInterface
+class Post extends Model implements SeoInterface
 {
     use HasFactory,
         HasSeoScore;
@@ -189,7 +204,7 @@ php artisan seo:check
 
 To get the SEO score(s) of a model, you have the following options: 
 
-1. Get the SEO scores of a single model:
+1. Get the SEO scores of a single model from the database:
 
 ```php
 $scores = Model::withSeoScores()->get();
@@ -206,6 +221,20 @@ $score = $model->getCurrentScore();
 // Get the score including the details
 $scoreDetails = $model->getCurrentScoreDetails();
 ```
+
+### Saving SEO scores into the database
+    
+When you want to save the SEO score to the database, you need to set the `save` option to `true` in the config file. 
+
+```php
+'database' => [
+    'connection' => 'mysql',
+    'table_name' => 'seo_scores',
+    'save' => true,
+],
+```
+
+Optionally you can specify the table name and database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
 
 ## Available checks
 These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
