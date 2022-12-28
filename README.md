@@ -11,6 +11,9 @@ Laravel SEO is a package that helps you to check if your SEO is setup correctly 
 
 - [Installation](#installation)
 - [Usage](#usage)
+  * [Saving SEO scores into the database](#saving-seo-scores-into-the-database)
+  * [Check the SEO score of a single page](#check-the-seo-score-of-a-single-page)
+  * [Check the SEO score of a model](#check-the-seo-score-of-a-model)
 - [Available checks](#available-checks)
   * [Content](#content)
   * [Meta](#meta)
@@ -53,18 +56,33 @@ return [
     | Database
     |--------------------------------------------------------------------------
     |
-    | Here you can specify which pages you want to check. When you specify a
-    | model, the SEO score will be saved to the database. This way you can
-    | check the SEO score of a specific page. 
+    | Here you can specify the database connection and table name that will be
+    | used to save the SEO scores. When you set the save option to true, the
+    | SEO score will be saved to the database. 
     |
     */
     'database' => [
         'connection' => 'mysql',
         'table_name' => 'seo_scores',
-        'model' => null,
+        'save' => false,
     ],
 
-/*
+    /*
+    |--------------------------------------------------------------------------
+    | Models
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify which models you want to check. When you specify a
+    | model, the SEO score will be saved to the database. This way you can
+    | check the SEO score of a specific page.
+    |
+    | An example of a model:
+    | \App\Models\BlogPost::class
+    |
+    */
+    'models' => [],
+
+    /*
     |--------------------------------------------------------------------------
     | Check classes
     |--------------------------------------------------------------------------
@@ -96,11 +114,27 @@ return [
     'check_paths' => [
         'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo/src/Checks'),
     ],
-]
+];
 
 ```
 
 ## Usage
+
+### Saving SEO scores into the database
+    
+When you want to save the SEO score to the database, you need to set the `save` option to `true` in the config file. 
+
+```php
+'database' => [
+    'connection' => 'mysql',
+    'table_name' => 'seo_scores',
+    'save' => true,
+],
+```
+
+Optionally you can specify the table name and database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
+
+
 
 ### Check the SEO score of a single page
 Want to get the score of a specific url? Run the following command:
@@ -117,7 +151,7 @@ When you have an application where you have a lot of pages which are related to 
 
 For example, you have a `Content` model which has a page for each content item:
 
-1. Add the model to the `database.model` key in the config file.
+1. Add the model to the `models` array in the config file.
 2. Implement the `SeoInterface` in your model.
 3. Add the `HasSeoScoreTrait` to your model. 
 
