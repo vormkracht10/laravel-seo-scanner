@@ -9,7 +9,7 @@ return [
     |
     | Here you can specify the database connection and table name that will be
     | used to save the SEO scores. When you set the save option to true, the
-    | SEO score will be saved to the database. 
+    | SEO score will be saved to the database.
     |
     */
     'database' => [
