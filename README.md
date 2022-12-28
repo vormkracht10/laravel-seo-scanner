@@ -133,7 +133,7 @@ class Content extends Model implements SeoInterface
     protected $fillable = [
         'title',
         'description',
-        'slub',
+        'slug',
         // ...
     ];
 
