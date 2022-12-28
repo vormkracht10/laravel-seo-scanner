@@ -80,6 +80,10 @@ class Seo
         }
 
         collect($paths)->each(function ($path, $baseNamespace) use (&$checks) {
+            if (app()->runningUnitTests()) {
+                $path = __DIR__.'/Checks';
+            }
+
             $files = is_dir($path) ? (new Finder)->in($path)->files() : Arr::wrap($path);
 
             foreach ($files as $fileInfo) {
