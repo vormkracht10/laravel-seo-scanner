@@ -2,12 +2,12 @@
 
 namespace Vormkracht10\Seo\Commands;
 
-use Illuminate\Support\Arr;
-use Vormkracht10\Seo\SeoScore;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Vormkracht10\Seo\Facades\Seo;
+use Vormkracht10\Seo\SeoScore;
 
 class SeoCheck extends Command
 {
@@ -54,7 +54,7 @@ class SeoCheck extends Command
 
         $routes->each(function ($path, $name) {
             $seo = Seo::check(url: route($name));
-        
+
             $this->failed += count($seo->getFailedChecks());
             $this->success += count($seo->getSuccessfulChecks());
             $this->routeCount++;
