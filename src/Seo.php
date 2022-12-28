@@ -42,11 +42,10 @@ class Seo
         app(Pipeline::class)
             ->send([
                 'response' => $response,
-                'checks' => $checks
+                'checks' => $checks,
             ])
             ->through($checks->keys()->toArray())
-            ->then(function($data) {
-
+            ->then(function ($data) {
                 $this->successful = $data['checks']->filter(fn ($result) => $result)
                     ->map(fn ($result, $check) => app($check));
 
