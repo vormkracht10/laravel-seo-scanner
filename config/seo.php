@@ -7,16 +7,31 @@ return [
     | Database
     |--------------------------------------------------------------------------
     |
-    | Here you can specify which pages you want to check. When you specify a
-    | model, the SEO score will be saved to the database. This way you can
-    | check the SEO score of a specific page.
+    | Here you can specify the database connection and table name that will be
+    | used to save the SEO scores. When you set the save option to true, the
+    | SEO score will be saved to the database. 
     |
     */
     'database' => [
         'connection' => 'mysql',
         'table_name' => 'seo_scores',
-        'model' => null,
+        'save' => false,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Models
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify which models you want to check. When you specify a
+    | model, the SEO score will be saved to the database. This way you can
+    | check the SEO score of a specific page.
+    |
+    | An example of a model:
+    | \App\Models\BlogPost::class
+    |
+    */
+    'models' => [],
 
     /*
     |--------------------------------------------------------------------------
