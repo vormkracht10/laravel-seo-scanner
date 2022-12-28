@@ -49,7 +49,7 @@ class SeoCheck extends Command
             if (config('seo.database.save')) {
                 $this->saveScoreToDatabase($seo, $model);
             }
-    
+
             $this->logResultToConsole($seo, $model);
         });
     }
