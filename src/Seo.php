@@ -61,7 +61,7 @@ class Seo
             return collect(config('seo.check_paths', [__DIR__.'/Checks']))
                 ->toArray();
         }
-        
+
         return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
             ->filter(fn ($dir) => file_exists($dir))
             ->toArray();
