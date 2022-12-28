@@ -6,7 +6,6 @@ it('can run the SEO check for a single URL', function () {
 });
 
 it('can run the SEO check for routes', function () {
-
     config('seo', [
         'routes' => [
             'https://vormkracht10.nl',
@@ -17,4 +16,3 @@ it('can run the SEO check for routes', function () {
     $this->artisan('seo:check')
         ->assertExitCode(0);
 });
-
