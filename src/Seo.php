@@ -2,6 +2,7 @@
 
 namespace Vormkracht10\Seo;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -34,39 +35,54 @@ class Seo
         return $response;
     }
 
-    private function runChecks(object $response): void
+    private function runChecks(Response $response): void
     {
-        $checks = app(Pipeline::class)
-            ->send($response)
-            ->through(self::getCheckClasses())
-            ->thenReturn();
+        $checks = self::getCheckClasses();
 
-        $checks = collect($checks['checks']);
+        app(Pipeline::class)
+            ->send([
+                'response' => $response,
+                'checks' => $checks,
+            ])
+            ->through($checks->keys()->toArray())
+            ->then(function ($data) {
+                $this->successful = $data['checks']->filter(fn ($result) => $result)
+                    ->map(fn ($result, $check) => app($check));
 
-        $this->successful = $checks->filter(fn ($check) => $check->checkSuccessful);
-        $this->failed = $checks->filter(fn ($check) => ! $check->checkSuccessful);
+                $this->failed = $data['checks']->filter(fn ($result) => ! $result)
+                    ->map(fn ($result, $check) => app($check));
+            });
     }
 
     private static function getCheckPaths(): array
     {
+        if (app()->runningUnitTests()) {
+            return collect(config('seo.check_paths', [__DIR__.'/Checks']))
+                ->toArray();
+        }
+
         return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
             ->filter(fn ($dir) => file_exists($dir))
             ->toArray();
     }
 
-    private static function getCheckClasses(): array
+    private static function getCheckClasses(): Collection
     {
         if (! in_array('*', Arr::wrap(config('seo.checks', '*')))) {
-            return Arr::wrap(config('seo.checks'));
+            return collect(Arr::wrap(config('seo.checks')));
         }
 
-        $checks = [];
+        $checks = collect();
 
         if (empty($paths = self::getCheckPaths())) {
             return $checks;
         }
 
         collect($paths)->each(function ($path, $baseNamespace) use (&$checks) {
+            if (app()->runningUnitTests()) {
+                $path = __DIR__.'/Checks';
+            }
+
             $files = is_dir($path) ? (new Finder)->in($path)->files() : Arr::wrap($path);
 
             foreach ($files as $fileInfo) {
@@ -79,7 +95,7 @@ class Seo
                     )
                 );
 
-                $checks[] = $checkClass;
+                $checks->put($checkClass, null);
             }
         });
 
@@ -87,8 +103,6 @@ class Seo
             return $checks;
         }
 
-        return collect($checks)->filter(function ($checkClass) use ($exclusions) {
-            return ! in_array($checkClass, $exclusions);
-        })->toArray();
+        return $checks->filter(fn ($check, $key) => ! in_array($key, $exclusions));
     }
 }

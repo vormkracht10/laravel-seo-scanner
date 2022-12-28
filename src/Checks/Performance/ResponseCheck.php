@@ -2,11 +2,14 @@
 
 namespace Vormkracht10\Seo\Checks\Performance;
 
-use Closure;
 use Illuminate\Http\Client\Response;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
-class ResponseCheck
+class ResponseCheck implements Check
 {
+    use PerformCheck;
+
     public string $title = 'Check if the response is successful';
 
     public string $priority = 'high';
@@ -15,16 +18,13 @@ class ResponseCheck
 
     public int $scoreWeight = 5;
 
-    public bool $checkSuccessful = false;
-
-    public function handle(Response $request, Closure $next): array
+    public function check(Response $response): bool
     {
-        $this->checkSuccessful = false;
-
-        if ($request->getStatusCode() === 200) {
-            $this->checkSuccessful = true;
+        /** @phpstan-ignore-next-line */
+        if ($response->getStatusCode() === 200) {
+            return true;
         }
 
-        return $next([$request, 'checks' => [$this]]);
+        return false;
     }
 }

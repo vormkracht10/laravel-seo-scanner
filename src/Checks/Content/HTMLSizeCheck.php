@@ -2,14 +2,13 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
-use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\ContentCheck;
-use Vormkracht10\Seo\Traits\FormatRequest;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
-class HTMLSizeCheck implements ContentCheck
+class HTMLSizeCheck implements Check
 {
-    use FormatRequest;
+    use PerformCheck;
 
     public string $title = 'Check if HTML is not bigger than 100 KB';
 
@@ -19,22 +18,18 @@ class HTMLSizeCheck implements ContentCheck
 
     public int $scoreWeight = 5;
 
-    public bool $checkSuccessful = false;
-
-    public function handle(array $request, Closure $next): array
+    public function check(Response $response): bool
     {
-        $content = $this->getContent($request[0]);
+        $content = $this->getContentToValidate($response);
 
         if (! $content || ! $this->validateContent($content)) {
-            return $next($this->formatRequest($request));
+            return false;
         }
 
-        $this->checkSuccessful = true;
-
-        return $next($this->formatRequest($request));
+        return true;
     }
 
-    public function getContent(Response $response): string|array|null
+    public function getContentToValidate(Response $response): string|array|null
     {
         return $response->body();
     }

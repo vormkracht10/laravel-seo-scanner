@@ -2,14 +2,13 @@
 
 namespace Vormkracht10\Seo\Checks\Meta;
 
-use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\MetaCheck;
-use Vormkracht10\Seo\Traits\FormatRequest;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
-class TitleCheck implements MetaCheck
+class TitleCheck implements Check
 {
-    use FormatRequest;
+    use PerformCheck;
 
     public string $title = "Check if the title on the homepage does not contain 'home'";
 
@@ -19,22 +18,18 @@ class TitleCheck implements MetaCheck
 
     public int $scoreWeight = 5;
 
-    public bool $checkSuccessful = false;
-
-    public function handle(array $request, Closure $next): array
+    public function check(Response $response): bool
     {
-        $content = $this->getContent($request[0]);
+        $content = $this->getContentToValidate($response);
 
         if (! $content || ! $this->validateContent($content)) {
-            return $next($this->formatRequest($request));
+            return false;
         }
 
-        $this->checkSuccessful = true;
-
-        return $next($this->formatRequest($request));
+        return true;
     }
 
-    public function getContent(Response $response): string|null
+    public function getContentToValidate(Response $response): string|null
     {
         $response = $response->body();
         preg_match('/<title>(.*)<\/title>/', $response, $matches);

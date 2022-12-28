@@ -64,7 +64,7 @@ return [
         'model' => null,
     ],
 
-    /*
+/*
     |--------------------------------------------------------------------------
     | Check classes
     |--------------------------------------------------------------------------
@@ -72,6 +72,9 @@ return [
     | The following array lists the "check" classes that will be registered
     | with Laravel Seo. These checks run an check on the application via
     | various methods. Feel free to customize it.
+    |
+    | An example of a check class:
+    | \Vormkracht10\Seo\Checks\Content\BrokenLinkCheck::class
     |
     */
     'checks' => ['*'],
