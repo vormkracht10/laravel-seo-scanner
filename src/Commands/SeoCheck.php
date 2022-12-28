@@ -3,7 +3,10 @@
 namespace Vormkracht10\Seo\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Vormkracht10\Seo\Facades\Seo;
 use Vormkracht10\Seo\SeoScore;
 
 class SeoCheck extends Command
@@ -18,24 +21,66 @@ class SeoCheck extends Command
 
     public int $modelCount = 0;
 
+    public int $routeCount = 0;
+
     public function handle(): int
     {
-        if (empty(config('seo.models'))) {
-            $this->error('No models specified in config/seo.php');
+        if (empty(config('seo.models')) && ! config('seo.check_routes')) {
+            $this->error('No models or routes specified in config/seo.php');
 
             return self::FAILURE;
         }
 
-        foreach (config('seo.models') as $model) {
-            $this->calculateScoreForModels($model);
+        if (config('seo.check_routes')) {
+            $this->calculateScoreForRoutes();
         }
 
-        $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$this->modelCount.' pages.');
+        if (config('seo.models')) {
+            foreach (config('seo.models') as $model) {
+                $this->calculateScoreForModel($model);
+            }
+        }
+
+        $totalPages = $this->modelCount + $this->routeCount;
+
+        $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$totalPages.' pages.');
 
         return self::SUCCESS;
     }
 
-    private function calculateScoreForModels(string $model)
+    private function calculateScoreForRoutes(): void
+    {
+        $routes = self::getRoutes();
+
+        $routes->each(function ($path, $name) {
+            $seo = Seo::check(url: route($name));
+
+            $this->failed += count($seo->getFailedChecks());
+            $this->success += count($seo->getSuccessfulChecks());
+            $this->routeCount++;
+
+            if (config('seo.database.save')) {
+                $this->saveScoreToDatabase(seo: $seo, url: route($name));
+            }
+
+            $this->logResultToConsole($seo, route($name));
+        });
+    }
+
+    private static function getRoutes(): Collection
+    {
+        $routes = collect(app('router')->getRoutes()->getRoutesByName())
+            ->filter(fn ($route) => $route->methods[0] === 'GET');
+
+        if (! in_array('*', Arr::wrap(config('seo.routes')))) {
+            return $routes->map(fn ($route) => $route->uri);
+        }
+
+        return $routes->filter(fn ($route, $key) => ! in_array($key, config('seo.exclude_routes')))
+            ->map(fn ($route) => $route->uri);
+    }
+
+    private function calculateScoreForModel(string $model)
     {
         $model = new $model();
 
@@ -47,22 +92,22 @@ class SeoCheck extends Command
             $this->modelCount++;
 
             if (config('seo.database.save')) {
-                $this->saveScoreToDatabase($seo, $model);
+                $this->saveScoreToDatabase(seo: $seo, url: $model->url, model: $model);
             }
 
-            $this->logResultToConsole($seo, $model);
+            $this->logResultToConsole(seo: $seo, url: $model->url);
         });
     }
 
-    private function saveScoreToDatabase(SeoScore $seo, object $model): void
+    private function saveScoreToDatabase(SeoScore $seo, string $url, object|null $model = null): void
     {
         $score = $seo->getScore();
 
         DB::table(config('seo.database.table_name'))
             ->insert([
-                'url' => $model->url,
-                'model_type' => $model->getMorphClass(),
-                'model_id' => $model->id,
+                'url' => $url,
+                'model_type' => $model ? $model->getMorphClass() : null,
+                'model_id' => $model ? $model->id : null,
                 'score' => $score,
                 'checks' => json_encode([
                     'failed' => $seo->getFailedChecks(),
@@ -73,12 +118,12 @@ class SeoCheck extends Command
             ]);
     }
 
-    private function logResultToConsole(SeoScore $seo, object $model): void
+    private function logResultToConsole(SeoScore $seo, string $url): void
     {
         $score = $seo->getScore();
 
         if ($score < 100) {
-            $this->warn($model->url.' - '.$score.' SEO score');
+            $this->warn($url.' - '.$score.' SEO score');
 
             $seo->getFailedChecks()->map(function ($failed) {
                 $this->error($failed->title.' failed. Estimated time to fix: '.$failed->timeToFix.' minute(s).');
@@ -87,6 +132,6 @@ class SeoCheck extends Command
             return;
         }
 
-        $this->info($model->url.' - '.$score.'%');
+        $this->info($url.' - '.$score.'%');
     }
 }
