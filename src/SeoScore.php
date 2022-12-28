@@ -6,11 +6,11 @@ use Illuminate\Support\Collection;
 
 class SeoScore
 {
-    public $score = 0;
+    public int $score = 0;
 
-    public $successful;
+    public Collection $successful;
 
-    public $failed;
+    public Collection $failed;
 
     public function __invoke(Collection $successful, Collection $failed): self
     {
