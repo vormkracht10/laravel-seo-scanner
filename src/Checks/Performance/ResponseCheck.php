@@ -20,6 +20,7 @@ class ResponseCheck implements Check
 
     public function check(Response $response): bool
     {
+        /** @phpstan-ignore-next-line */
         if ($response->getStatusCode() === 200) {
             return true;
         }
