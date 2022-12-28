@@ -2,14 +2,13 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
-use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\ContentCheck;
-use Vormkracht10\Seo\Traits\FormatRequest;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
-class MultipleHeadingCheck implements ContentCheck
+class MultipleHeadingCheck implements Check
 {
-    use FormatRequest;
+    use PerformCheck;
 
     public string $title = 'Check if none or multiple H1 headings are used';
 
@@ -19,23 +18,19 @@ class MultipleHeadingCheck implements ContentCheck
 
     public int $scoreWeight = 5;
 
-    public bool $checkSuccessful = false;
-
-    public function handle(array $request, Closure $next): array
+    public function check(Response $response): bool
     {
-        $content = $this->getContent($request[0]);
+        $content = $this->getContentToValidate($response);
 
         // If no H1 headings are found, the check also fails because it is an important SEO element.
         if (! $content || ! $this->validateContent($content)) {
-            return $next($this->formatRequest($request));
+            return false;
         }
 
-        $this->checkSuccessful = true;
-
-        return $next($this->formatRequest($request));
+        return true;
     }
 
-    public function getContent(Response $response): string|array|null
+    public function getContentToValidate(Response $response): string|array|null
     {
         $response = $response->body();
 

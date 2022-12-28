@@ -2,12 +2,13 @@
 
 namespace Vormkracht10\Seo\Checks\Performance;
 
-use Closure;
-use Vormkracht10\Seo\Traits\FormatRequest;
+use Illuminate\Http\Client\Response;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
-class TTFBCheck
+class TTFBCheck implements Check
 {
-    use FormatRequest;
+    use PerformCheck;
 
     public string $title = "Check if 'Time To First Byte' is below 600 ms";
 
@@ -17,16 +18,14 @@ class TTFBCheck
 
     public int $scoreWeight = 10;
 
-    public bool $checkSuccessful = false;
-
-    public function handle(array $request, Closure $next): array
+    public function check(Response $response): bool
     {
-        $ttfb = $request[0]->transferStats->getHandlerStats()['starttransfer_time'] ?? 0;
+        $ttfb = $response->transferStats->getHandlerStats()['starttransfer_time'] ?? 0;
 
-        if ($ttfb < 0.6) {
-            $this->checkSuccessful = true;
+        if ($ttfb <= 0.6) {
+            return true;
         }
 
-        return $next($this->formatRequest($request));
+        return false;
     }
 }

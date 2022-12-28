@@ -2,14 +2,13 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
-use Closure;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\ContentCheck;
-use Vormkracht10\Seo\Traits\FormatRequest;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
-class BrokenLinkCheck implements ContentCheck
+class BrokenLinkCheck implements Check
 {
-    use FormatRequest;
+    use PerformCheck;
 
     public string $title = 'Check if links are broken';
 
@@ -19,28 +18,22 @@ class BrokenLinkCheck implements ContentCheck
 
     public int $scoreWeight = 5;
 
-    public bool $checkSuccessful = false;
-
-    public function handle(array $request, Closure $next): array
+    public function check(Response $response): bool
     {
-        $content = $this->getContent($request[0]);
+        $content = $this->getContentToValidate($response);
 
         if (! $content) {
-            $this->checkSuccessful = true;
-
-            return $next($this->formatRequest($request));
+            return true;
         }
 
         if (! $this->validateContent($content)) {
-            return $next($this->formatRequest($request));
+            return false;
         }
 
-        $this->checkSuccessful = true;
-
-        return $next($this->formatRequest($request));
+        return true;
     }
 
-    public function getContent(Response $response): string|array|null
+    public function getContentToValidate(Response $response): string|array|null
     {
         $response = $response->body();
 
@@ -63,13 +56,13 @@ class BrokenLinkCheck implements ContentCheck
             // Filter out all links that are mailto, tel or have a file extension
             if (preg_match('/^mailto:/msi', $item) ||
                 preg_match('/^tel:/msi', $item) ||
-                preg_match('/\.[a-z]{2,4}$/msi', $item ||
-                filter_var($item, FILTER_VALIDATE_URL) === false)
+                preg_match('/\.[a-z]{2,4}$/msi', $item) ||
+                filter_var($item, FILTER_VALIDATE_URL) === false
             ) {
                 return false;
             }
 
-            return $item ?? false;
+            return $item;
         })->toArray();
 
         $content = array_filter($content, function ($item) {

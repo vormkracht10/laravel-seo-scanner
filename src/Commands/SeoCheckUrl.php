@@ -14,7 +14,7 @@ class SeoCheckUrl extends Command
     public function handle(): int
     {
         $score = Seo::check($this->argument('url'));
-
+        
         $this->info($this->argument('url').' - '.$score->getScore().'%');
 
         foreach ($score->getFailed() as $failed) {

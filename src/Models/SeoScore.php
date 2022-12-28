@@ -19,9 +19,7 @@ class SeoScore extends Model
             $this->setConnection(config('seo.database.connection'));
         }
 
-        if (! isset($this->table)) {
-            $this->setTable(config('seo.database.table_name'));
-        }
+        $this->setTable(config('seo.database.table_name'));
 
         parent::__construct($attributes);
     }
