@@ -9,7 +9,7 @@ use Vormkracht10\Seo\Traits\PerformCheck;
 class ResponseCheck implements Check
 {
     use PerformCheck;
-    
+
     public string $title = 'Check if the response is successful';
 
     public string $priority = 'high';

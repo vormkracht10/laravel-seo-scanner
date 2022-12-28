@@ -18,7 +18,7 @@ trait PerformCheck
     public function setResult(array $data, bool $result): array
     {
         $data['checks'][__CLASS__] = $result;
-        
+
         return $data;
     }
 }

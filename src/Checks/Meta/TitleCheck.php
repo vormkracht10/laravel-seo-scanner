@@ -16,7 +16,7 @@ class TitleCheck implements Check
 
     public int $timeToFix = 1;
 
-    public int $scoreWeight = 5;    
+    public int $scoreWeight = 5;
 
     public function check(Response $response): bool
     {
