@@ -166,7 +166,7 @@ For example, you have a `BlogPost` model which has a page for each content item:
 
 1. Add the model to the `models` array in the config file. 
 2. Implement the `SeoInterface` in your model.
-3. Add the `HasSeoScoreTrait` to your model. 
+3. Add the `HasSeoScore` trait to your model. 
 
 > Note: Please make sure that the model has a `url` attribute. This attribute will be used to check the SEO score of the model. Also check that the migrations are run. Otherwise the command will fail.
 
