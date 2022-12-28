@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 class SeoScore
 {
-    public int $score = 0;
+    public int|float $score = 0;
 
     public Collection $successful;
 
@@ -32,7 +32,7 @@ class SeoScore
         return $this;
     }
 
-    public function getScore(): int
+    public function getScore(): int|float
     {
         return $this->score;
     }
