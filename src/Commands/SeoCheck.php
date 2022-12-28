@@ -87,6 +87,6 @@ class SeoCheck extends Command
             return;
         }
 
-        $this->info($model->url.' - '.$score.' SEO score');
+        $this->info($model->url.' - '.$score.'%');
     }
 }
