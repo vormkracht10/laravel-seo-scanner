@@ -2,6 +2,7 @@
 
 namespace Vormkracht10\Seo;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -34,7 +35,7 @@ class Seo
         return $response;
     }
 
-    private function runChecks(object $response): void
+    private function runChecks(Response $response): void
     {
         $checks = app(Pipeline::class)
             ->send($response)
@@ -49,6 +50,11 @@ class Seo
 
     private static function getCheckPaths(): array
     {
+        if (app()->runningUnitTests()) {
+            return collect(config('seo.check_paths', [__DIR__.'/Checks']))
+                ->toArray();
+        }
+        
         return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
             ->filter(fn ($dir) => file_exists($dir))
             ->toArray();
@@ -67,6 +73,10 @@ class Seo
         }
 
         collect($paths)->each(function ($path, $baseNamespace) use (&$checks) {
+            if (app()->runningUnitTests()) {
+                $path = __DIR__ . '/Checks';
+            }
+
             $files = is_dir($path) ? (new Finder)->in($path)->files() : Arr::wrap($path);
 
             foreach ($files as $fileInfo) {

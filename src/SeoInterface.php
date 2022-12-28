@@ -15,7 +15,7 @@ interface SeoInterface
 
     public function getCurrentScore(): int;
 
-    public function getUrlAttribute(): string;
+    public function getUrlAttribute(): string|null;
 
     public function getCurrentScoreDetails(): array;
 }
