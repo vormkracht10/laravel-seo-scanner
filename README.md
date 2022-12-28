@@ -162,7 +162,7 @@ php artisan seo:check-url https://vormkracht10.nl
 
 When you have an application where you have a lot of pages which are related to a model, you can save the SEO score to the model. This way you can check the SEO score of a specific page and show it in your application. 
 
-For example, you have a `Post` model which has a page for each content item:
+For example, you have a `BlogPost` model which has a page for each content item:
 
 1. Add the model to the `models` array in the config file. 
 2. Implement the `SeoInterface` in your model.
@@ -175,7 +175,7 @@ For example, you have a `Post` model which has a page for each content item:
 use Vormkracht10\Seo\Traits\HasSeoScore;
 use Vormkracht10\Seo\SeoInterface;
 
-class Post extends Model implements SeoInterface
+class BlogPost extends Model implements SeoInterface
 {
     use HasFactory,
         HasSeoScore;
