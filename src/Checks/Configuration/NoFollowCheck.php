@@ -62,7 +62,6 @@ class NoFollowCheck implements Check
             }
 
             return null;
-            
         }, $metaTags);
 
         return $metaTags;
