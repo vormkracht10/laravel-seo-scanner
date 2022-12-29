@@ -14,13 +14,13 @@ trait PerformCheck
 
         $result = $result ?? false;
 
-        $data = $this->setResult($data, $result);    
+        $data = $this->setResult($data, $result);
 
-        if (! $result && ! $this->continueAfterFailure) {            
+        if (! $result && ! $this->continueAfterFailure) {
             $data['exit'] = true;
         }
 
-        return $next($data);        
+        return $next($data);
     }
 
     public function setResult(array $data, bool $result): array

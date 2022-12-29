@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-if ( ! function_exists('checkIfLinkIsBroken')) {
+if (! function_exists('checkIfLinkIsBroken')) {
     function checkIfLinkIsBroken(string $url): bool
     {
         $ch = curl_init($url);
@@ -10,7 +10,7 @@ if ( ! function_exists('checkIfLinkIsBroken')) {
             CURLOPT_HEADER => true,
             CURLOPT_NOBODY => true,
             CURLOPT_TIMEOUT => 10,
-            CURLOPT_FOLLOWLOCATION
+            CURLOPT_FOLLOWLOCATION,
         ];
 
         curl_setopt_array($ch, $options);
