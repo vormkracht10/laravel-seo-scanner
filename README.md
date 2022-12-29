@@ -239,6 +239,9 @@ Optionally you can specify the table name and database connection in the config 
 ## Available checks
 These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
 
+### Configuration
+✅ NoIndex is not set on the page. <br>
+
 ### Content
 ✅ The page has an H1 tag and if it is used only once per page. <br>
 ✅ All links redirect to an url using HTTPS. <br>
