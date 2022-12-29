@@ -65,7 +65,7 @@ class BrokenLinkCheck implements Check
             }
 
             return $link;
-        })->filter(fn ($link) => checkIfLinkIsBroken($link))->toArray();
+        })->filter(fn ($link) => isBrokenLink($link))->toArray();
 
         return count($content) === 0;
     }

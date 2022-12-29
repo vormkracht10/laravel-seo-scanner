@@ -1,6 +1,6 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks\Content;
+namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;

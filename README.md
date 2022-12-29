@@ -242,22 +242,25 @@ These checks are available in the package. You can add or remove checks in the c
 ### Content
 
 ✅ Check if the page has a H1 tag and if it is used only once per page. <br>
-✅ Check if all links redirect to a HTTPS url. <br>
+✅ Check if all links redirect to an HTTPS url. <br>
 ✅ Check if every image has an alt tag. <br>
 ✅ Check if the page contains no broken links. <br>
-✅ Check if the images are not larger than 1 MB. <br>
-✅ Check if the HTML is not larger than 100 KB. <br>
+✅ Check if the page contains no broken images. <br>
 
 ### Meta
 
 ✅ Check if the page has a meta description. <br>
 ✅ Check if the page title is not longer than 60 characters. <br>
 ✅ Check if the page title does not contain 'home' or 'homepage'. <br>
+✅ Check if the page has an Open Graph image.<br>
 
 ### Performance
 
 ✅ Check if Time To First Byte (TTFB) is below 600ms. <br>
 ✅ Check if the response returns a 200 status code. <br>
+✅ Check if the HTML is not larger than 100 KB. <br>
+✅ Check if the images are not larger than 1 MB. <br>
+✅ Check if JavaScript is not larger than 1 MB. <br>
 
 ## Testing
 

@@ -54,7 +54,7 @@ class BrokenImageCheck implements Check
             preg_match('/src="(.*?)"/msi', $link, $matches);
 
             return $matches[1] ?? false;
-        })->filter(fn ($link) => checkIfLinkIsBroken($link));
+        })->filter(fn ($link) => isBrokenLink($link));
 
         return count($content) === 0;
     }
