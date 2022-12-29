@@ -21,7 +21,8 @@
         "guzzlehttp/guzzle": "^7.5",
         "illuminate/contracts": "^9.0",
         "spatie/laravel-package-tools": "^1.13.0",
-        "symfony/finder": "^6.2"
+        "symfony/finder": "^6.2",
+        "vipnytt/robotstxtparser": "^2.1"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
