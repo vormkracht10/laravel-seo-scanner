@@ -282,7 +282,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
--   [Bas van Dinther](https://github.com/vormkracht10)
+-   [Bas van Dinther](https://github.com/Baspa)
+-   [Mark van Eijk](https://github.com/markvaneijk)
 -   [All Contributors](../../contributors)
 
 ## License
