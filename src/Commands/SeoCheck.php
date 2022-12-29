@@ -125,13 +125,12 @@ class SeoCheck extends Command
     {
         $score = $seo->getScore();
 
-        $this->line($url.' | <fg=green>'.$seo->getSuccessfulChecks()->count() .' passed</> <fg=red>' . ($seo->getFailedChecks()->count() . ' failed</>'));
+        $this->line($url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' passed</> <fg=red>'.($seo->getFailedChecks()->count().' failed</>'));
         $this->line('');
 
         if ($score < 100) {
-             
             $seo->getFailedChecks()->map(function ($failed) {
-                $this->line('<fg=red>' . $failed->title. ' failed.</> Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                $this->line('<fg=red>'.$failed->title.' failed.</> Estimated time to fix: '.$failed->timeToFix.' minute(s).');
                 $this->line('');
             });
 

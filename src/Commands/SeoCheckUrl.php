@@ -18,11 +18,11 @@ class SeoCheckUrl extends Command
 
         $score = Seo::check($this->argument('url'));
 
-        $this->line($this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count() .' passed</> <fg=red>' . ($score->getFailedChecks()->count() . ' failed</>'));
+        $this->line($this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count().' passed</> <fg=red>'.($score->getFailedChecks()->count().' failed</>'));
         $this->line('');
 
         $score->getFailedChecks()->map(function ($failed) {
-            $this->line('<fg=red>' . $failed->title. ' failed.</> Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+            $this->line('<fg=red>'.$failed->title.' failed.</> Estimated time to fix: '.$failed->timeToFix.' minute(s).');
             $this->line('');
         });
 
