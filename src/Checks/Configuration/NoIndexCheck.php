@@ -55,7 +55,14 @@ class NoIndexCheck implements Check
         $metaTags = array_map(function ($metaTag) {
             preg_match('/content="([^"]+)"/', $metaTag, $matches);
 
-            return strtolower($matches[1]) ?? null;
+            $matches = $matches[1] ?? null;
+
+            if ($matches) {
+                return strtolower($matches);
+            }
+
+            return null;
+            
         }, $metaTags);
 
         return $metaTags;
