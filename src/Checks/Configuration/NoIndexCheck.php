@@ -46,12 +46,12 @@ class NoIndexCheck implements Check
         preg_match_all('/<meta[^>]+>/i', $response, $matches);
 
         $metaTags = array_filter($matches[0], function ($metaTag) {
-            return str_contains($metaTag, 'name="robots"') || 
-                str_contains($metaTag, 'name="googlebot"') || 
-                str_contains($metaTag, "name='robots'") || 
+            return str_contains($metaTag, 'name="robots"') ||
+                str_contains($metaTag, 'name="googlebot"') ||
+                str_contains($metaTag, "name='robots'") ||
                 str_contains($metaTag, "name='googlebot'");
         });
-    
+
         $metaTags = array_map(function ($metaTag) {
             preg_match('/content="([^"]+)"/', $metaTag, $matches);
 
