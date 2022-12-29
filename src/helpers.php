@@ -3,7 +3,7 @@
 if (! function_exists('isBrokenLink')) {
     function isBrokenLink(string $url): bool
     {
-        $statusCode = getRemoteStatus($url);
+        $statusCode = (string) getRemoteStatus($url);
 
         if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5')) {
             return true;
