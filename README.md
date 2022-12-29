@@ -253,7 +253,6 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ The page has an Open Graph image.<br>
 
 ### Performance
-_Check if_ <br>
 ✅ Time To First Byte (TTFB) is below 600ms. <br>
 ✅ The page response returns a 200 status code. <br>
 ✅ HTML is not larger than 100 KB. <br>
