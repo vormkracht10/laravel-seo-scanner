@@ -31,6 +31,9 @@ class SeoCheck extends Command
             return self::FAILURE;
         }
 
+        $this->info('Please wait while we check your web page(s)...');
+        $this->line('');
+
         if (config('seo.check_routes')) {
             $this->calculateScoreForRoutes();
         }
@@ -122,16 +125,17 @@ class SeoCheck extends Command
     {
         $score = $seo->getScore();
 
-        if ($score < 100) {
-            $this->warn($url.' - '.$score.' SEO score');
+        $this->line($url.' | <fg=green>'.$seo->getSuccessfulChecks()->count() .' passed</> <fg=red>' . ($seo->getFailedChecks()->count() . ' failed</>'));
+        $this->line('');
 
+        if ($score < 100) {
+             
             $seo->getFailedChecks()->map(function ($failed) {
-                $this->error($failed->title.' failed. Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                $this->line('<fg=red>' . $failed->title. ' failed.</> Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                $this->line('');
             });
 
             return;
         }
-
-        $this->info($url.' - '.$score.'%');
     }
 }
