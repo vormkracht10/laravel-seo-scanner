@@ -250,6 +250,7 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ Every image has an alt tag. <br>
 ✅ The page contains no broken links. <br>
 ✅ The page contains no broken images. <br>
+✅ Length of the content is at least 2100 characters. <br>
 
 ### Meta
 ✅ The page has a meta description. <br>

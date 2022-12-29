@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^8.1",
+        "crscheid/php-article-extractor": "^2.3.1",
         "guzzlehttp/guzzle": "^7.5",
         "illuminate/contracts": "^9.0",
         "spatie/laravel-package-tools": "^1.13.0",
