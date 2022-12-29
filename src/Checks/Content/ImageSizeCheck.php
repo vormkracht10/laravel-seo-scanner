@@ -24,7 +24,11 @@ class ImageSizeCheck implements Check
     {
         $content = $this->getContentToValidate($response);
 
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $content) {
+            return true;
+        }
+
+        if ($this->validateContent($content)) {
             return false;
         }
 
