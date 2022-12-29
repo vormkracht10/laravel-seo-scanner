@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-if ( ! function_exists('isBrokenLink')) {
+if (! function_exists('isBrokenLink')) {
     function isBrokenLink(string $url): bool
     {
         $statusCode = getRemoteStatus($url);
@@ -13,7 +13,7 @@ if ( ! function_exists('isBrokenLink')) {
     }
 }
 
-if ( ! function_exists('getRemoteStatus')) {
+if (! function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
         $ch = curl_init($url);
@@ -23,7 +23,7 @@ if ( ! function_exists('getRemoteStatus')) {
             CURLOPT_HEADER => true,
             CURLOPT_NOBODY => true,
             CURLOPT_TIMEOUT => 10,
-            CURLOPT_FOLLOWLOCATION
+            CURLOPT_FOLLOWLOCATION,
         ];
 
         curl_setopt_array($ch, $options);
@@ -37,7 +37,7 @@ if ( ! function_exists('getRemoteStatus')) {
     }
 }
 
-if ( ! function_exists('getRemoteFileSize')) {
+if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int|false
     {
         $ch = curl_init($url);
@@ -52,13 +52,12 @@ if ( ! function_exists('getRemoteFileSize')) {
             return 0;
         }
 
-        if (preg_match('/Content-Length: (\d+)/', $data, $matches) || 
+        if (preg_match('/Content-Length: (\d+)/', $data, $matches) ||
             preg_match('/content-length: (\d+)/', $data, $matches)
         ) {
             $contentLength = (int) $matches[1];
-        }        
+        }
 
         return $contentLength ?? false;
     }
 }
-

@@ -38,7 +38,7 @@ class JavascriptSizeCheck implements Check
     public function getContentToValidate(Response $response): string|array|null
     {
         $response = $response->body();
-        
+
         preg_match_all('/<script[^>]+>/i', $response, $matches);
 
         $links = array_filter($matches[0], function ($link) {
@@ -71,7 +71,7 @@ class JavascriptSizeCheck implements Check
 
             $size = getRemoteFileSize(url: $url);
 
-            if (!$size || $size > 1000000) {
+            if (! $size || $size > 1000000) {
                 return false;
             }
         }
