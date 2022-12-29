@@ -33,7 +33,7 @@ class RobotsCheck implements Check
 
     public function getContentToValidate(Response $response): array|null
     {
-        // 
+        //
     }
 
     public function validateContent(array $content): bool
