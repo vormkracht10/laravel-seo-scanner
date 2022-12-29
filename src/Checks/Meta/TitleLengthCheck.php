@@ -10,7 +10,7 @@ class TitleLengthCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if the title is not longer than 60 characters';
+    public string $title = 'The page title is not longer than 60 characters';
 
     public string $priority = 'medium';
 

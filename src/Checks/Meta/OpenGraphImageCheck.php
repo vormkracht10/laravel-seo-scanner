@@ -10,7 +10,7 @@ class OpenGraphImageCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if the page has an open graph image';
+    public string $title = 'The page has an Open Graph image';
 
     public string $priority = 'medium';
 

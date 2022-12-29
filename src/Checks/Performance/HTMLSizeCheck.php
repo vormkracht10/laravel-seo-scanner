@@ -10,7 +10,7 @@ class HTMLSizeCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if HTML is not bigger than 100 KB';
+    public string $title = 'HTML is not larger than 100 KB';
 
     public string $priority = 'medium';
 

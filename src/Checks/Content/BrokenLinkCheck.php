@@ -10,7 +10,7 @@ class BrokenLinkCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if links are broken';
+    public string $title = 'The page contains no broken links';
 
     public string $priority = 'medium';
 

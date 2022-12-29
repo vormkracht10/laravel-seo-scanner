@@ -10,7 +10,7 @@ class TTFBCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = "Check if 'Time To First Byte' is below 600 ms";
+    public string $title = "Time To First Byte (TTFB) is below 600 ms";
 
     public string $priority = 'high';
 

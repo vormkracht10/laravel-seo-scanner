@@ -10,7 +10,7 @@ class MultipleHeadingCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if none or multiple H1 headings are used';
+    public string $title = 'The page has an H1 tag and if it is used only once per page';
 
     public string $priority = 'low';
 

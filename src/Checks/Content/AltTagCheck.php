@@ -10,7 +10,7 @@ class AltTagCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if every image has an alt tag';
+    public string $title = 'Every image has an alt tag';
 
     public string $priority = 'low';
 

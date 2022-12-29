@@ -10,7 +10,7 @@ class JavascriptSizeCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if Javascript is not bigger than 1 MB';
+    public string $title = 'Javascript is not bigger than 1 MB';
 
     public string $priority = 'medium';
 

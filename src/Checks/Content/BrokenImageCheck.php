@@ -10,7 +10,7 @@ class BrokenImageCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if links to images are broken';
+    public string $title = 'The page contains no broken images';
 
     public string $priority = 'medium';
 

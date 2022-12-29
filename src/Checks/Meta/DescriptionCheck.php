@@ -10,7 +10,7 @@ class DescriptionCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if the page has a meta description';
+    public string $title = 'The page has a meta description';
 
     public string $priority = 'medium';
 

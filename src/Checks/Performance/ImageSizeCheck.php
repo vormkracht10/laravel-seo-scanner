@@ -10,7 +10,7 @@ class ImageSizeCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if images are not bigger than 1 MB';
+    public string $title = 'Images are not larger than 1 MB';
 
     public string $priority = 'high';
 

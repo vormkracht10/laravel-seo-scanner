@@ -10,7 +10,7 @@ class MixedContentCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if links redirect to http while the page is on https';
+    public string $title = 'All links redirect to an url using HTTPS';
 
     public string $priority = 'high';
 

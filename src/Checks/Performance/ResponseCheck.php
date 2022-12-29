@@ -10,7 +10,7 @@ class ResponseCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if the response is successful';
+    public string $title = 'The page response returns a 200 status code';
 
     public string $priority = 'high';
 

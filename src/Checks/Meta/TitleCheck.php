@@ -10,7 +10,7 @@ class TitleCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = "Check if the title on the homepage does not contain 'home'";
+    public string $title = "The page title does not contain 'home' or 'homepage'.";
 
     public string $priority = 'medium';
 

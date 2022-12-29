@@ -240,27 +240,25 @@ Optionally you can specify the table name and database connection in the config 
 These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
 
 ### Content
-
-✅ Check if the page has a H1 tag and if it is used only once per page. <br>
-✅ Check if all links redirect to an HTTPS url. <br>
-✅ Check if every image has an alt tag. <br>
-✅ Check if the page contains no broken links. <br>
-✅ Check if the page contains no broken images. <br>
+✅ The page has an H1 tag and if it is used only once per page. <br>
+✅ All links redirect to an url using HTTPS. <br>
+✅ Every image has an alt tag. <br>
+✅ The page contains no broken links. <br>
+✅ The page contains no broken images. <br>
 
 ### Meta
-
-✅ Check if the page has a meta description. <br>
-✅ Check if the page title is not longer than 60 characters. <br>
-✅ Check if the page title does not contain 'home' or 'homepage'. <br>
-✅ Check if the page has an Open Graph image.<br>
+✅ The page has a meta description. <br>
+✅ The page title is not longer than 60 characters. <br>
+✅ The page title does not contain 'home' or 'homepage'. <br>
+✅ The page has an Open Graph image.<br>
 
 ### Performance
-
-✅ Check if Time To First Byte (TTFB) is below 600ms. <br>
-✅ Check if the response returns a 200 status code. <br>
-✅ Check if the HTML is not larger than 100 KB. <br>
-✅ Check if the images are not larger than 1 MB. <br>
-✅ Check if JavaScript is not larger than 1 MB. <br>
+_Check if_ <br>
+✅ Time To First Byte (TTFB) is below 600ms. <br>
+✅ The page response returns a 200 status code. <br>
+✅ HTML is not larger than 100 KB. <br>
+✅ Images are not larger than 1 MB. <br>
+✅ JavaScript files are not larger than 1 MB. <br>
 
 ## Testing
 
