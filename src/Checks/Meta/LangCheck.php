@@ -42,6 +42,6 @@ class LangCheck implements Check
 
     public function validateContent(string $content): bool
     {
-        return str_contains($content, 'lang=') && ! str_contains($content, 'lang=""');        
+        return str_contains($content, 'lang=') && ! str_contains($content, 'lang=""');
     }
 }
