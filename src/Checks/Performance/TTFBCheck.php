@@ -18,6 +18,8 @@ class TTFBCheck implements Check
 
     public int $scoreWeight = 10;
 
+    public bool $continueAfterFailure = true;
+
     public function check(Response $response): bool
     {
         $ttfb = $response->transferStats->getHandlerStats()['starttransfer_time'] ?? 0;

@@ -46,6 +46,7 @@ class Seo
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {
+                
                 $this->successful = $data['checks']->filter(fn ($result) => $result)
                     ->map(fn ($result, $check) => app($check));
 

@@ -8,16 +8,28 @@ trait PerformCheck
 {
     public function __invoke(array $data, Closure $next)
     {
-        $result = $this->check($data['response']);
+        if (! in_array('exit', $data)) {
+            $result = $this->check($data['response']);
+        }
 
-        $data = $this->setResult($data, $result);
+        $result = $result ?? false;
 
-        return $next($data);
+        $data = $this->setResult($data, $result);    
+
+        if (! $result && ! $this->continueAfterFailure) {            
+            $data['exit'] = true;
+        }
+
+        return $next($data);        
     }
 
     public function setResult(array $data, bool $result): array
     {
-        $data['checks'][__CLASS__] = $result;
+        if (in_array('exit', $data)) {
+            unset($data['checks'][__CLASS__]);
+        } else {
+            $data['checks'][__CLASS__] = $result;
+        }
 
         return $data;
     }

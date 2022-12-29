@@ -18,6 +18,8 @@ class TitleCheck implements Check
 
     public int $scoreWeight = 5;
 
+    public bool $continueAfterFailure = true;
+
     public function check(Response $response): bool
     {
         $content = $this->getContentToValidate($response);

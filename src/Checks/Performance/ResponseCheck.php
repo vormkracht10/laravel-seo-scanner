@@ -18,6 +18,8 @@ class ResponseCheck implements Check
 
     public int $scoreWeight = 5;
 
+    public bool $continueAfterFailure = false;
+
     public function check(Response $response): bool
     {
         /** @phpstan-ignore-next-line */

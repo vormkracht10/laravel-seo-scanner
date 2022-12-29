@@ -10,6 +10,7 @@ use Illuminate\Http\Client\Response;
  * @property string $priority
  * @property int $timeToFix
  * @property int $scoreWeight
+ * @property bool $continueAfterFailure
  *
  * @method check()
  * @method __invoke()
