@@ -241,6 +241,7 @@ These checks are available in the package. You can add or remove checks in the c
 
 ### Configuration
 ✅ NoIndex is not set on the page. <br>
+✅ NoFollow is not set on the page. <br>
 
 ### Content
 ✅ The page has an H1 tag and if it is used only once per page. <br>
