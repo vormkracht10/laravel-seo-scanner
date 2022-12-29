@@ -37,7 +37,7 @@ class Seo
 
     private function runChecks(Response $response): void
     {
-        $checks = self::getCheckClasses();
+        $checks = self::orderedCheckClasses();
 
         app(Pipeline::class)
             ->send([
@@ -105,5 +105,18 @@ class Seo
         }
 
         return $checks->filter(fn ($check, $key) => ! in_array($key, $exclusions));
+    }
+
+    /**
+     * Order the checks so that the checks where 'continueAfterFailure' is set to false comes first.
+     * This way we can stop the pipeline when a check fails and we don't want to continue.
+     *
+     * @return Collection
+     */
+    private static function orderedCheckClasses(): Collection
+    {
+        return self::getCheckClasses()->map(fn ($check, $key) => app($key))
+            ->sortBy(fn ($check) => $check->continueAfterFailure)
+            ->mapWithKeys(fn ($check) => [$check::class => null]);        
     }
 }
