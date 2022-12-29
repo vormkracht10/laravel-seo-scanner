@@ -2,10 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
+use Cscheide\ArticleExtractor\ArticleExtractor;
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
-use Cscheide\ArticleExtractor\ArticleExtractor;
 
 class ContentLengthCheck implements Check
 {
