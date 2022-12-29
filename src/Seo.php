@@ -116,6 +116,6 @@ class Seo
     {
         return self::getCheckClasses()->map(fn ($check, $key) => app($key))
             ->sortBy(fn ($check) => $check->continueAfterFailure)
-            ->mapWithKeys(fn ($check) => [$check::class => null]);        
+            ->mapWithKeys(fn ($check) => [$check::class => null]);
     }
 }
