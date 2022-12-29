@@ -38,7 +38,10 @@
         "psr-4": {
             "Vormkracht10\\Seo\\": "src",
             "Vormkracht10\\Seo\\Database\\Factories\\": "database/factories"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

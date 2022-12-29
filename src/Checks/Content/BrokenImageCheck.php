@@ -6,11 +6,11 @@ use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
-class BrokenLinkCheck implements Check
+class BrokenImageCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'Check if links are broken';
+    public string $title = 'Check if links to images are broken';
 
     public string $priority = 'medium';
 
@@ -39,7 +39,7 @@ class BrokenLinkCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<a.*?href="(.*?)".*?>/msi', $response, $matches);
+        preg_match_all('/<img.*?src="(.*?)".*?>/msi', $response, $matches);
 
         return $matches[0] ?? null;
     }
@@ -50,22 +50,11 @@ class BrokenLinkCheck implements Check
             $content = [$content];
         }
 
-        $content = collect($content)->map(function ($item) {
-            preg_match('/href="(.*?)"/msi', $item, $matches);
+        $content = collect($content)->map(function ($link) {
+            preg_match('/src="(.*?)"/msi', $link, $matches);
 
             return $matches[1] ?? false;
-        })->filter(function ($link) {
-            // Filter out all links that are mailto, tel or have a file extension
-            if (preg_match('/^mailto:/msi', $link) ||
-                preg_match('/^tel:/msi', $link) ||
-                preg_match('/\.[a-z]{2,4}$/msi', $link) ||
-                filter_var($link, FILTER_VALIDATE_URL) === false
-            ) {
-                return false;
-            }
-
-            return $link;
-        })->filter(fn ($link) => checkIfLinkIsBroken($link))->toArray();
+        })->filter(fn ($link) => checkIfLinkIsBroken($link));
 
         return count($content) === 0;
     }
