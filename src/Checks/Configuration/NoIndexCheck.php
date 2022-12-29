@@ -62,7 +62,6 @@ class NoIndexCheck implements Check
             }
 
             return null;
-            
         }, $metaTags);
 
         return $metaTags;
