@@ -260,6 +260,7 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ Images are not larger than 1 MB. <br>
 ✅ JavaScript files are not larger than 1 MB. <br>
 ✅ CSS files are not larger than 15 KB. <br>
+✅ HTML is GZIP compressed. <br>
 
 ## Testing
 
