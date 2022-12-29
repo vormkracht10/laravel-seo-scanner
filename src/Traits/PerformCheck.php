@@ -20,6 +20,8 @@ trait PerformCheck
             $data['exit'] = true;
         }
 
+        $data['progress']->advance();
+
         return $next($data);
     }
 

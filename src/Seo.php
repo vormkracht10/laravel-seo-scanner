@@ -19,11 +19,11 @@ class Seo
     ) {
     }
 
-    public function check(string $url): SeoScore
+    public function check(string $url, $progress): SeoScore
     {
         $response = $this->visitPage(url: $url);
 
-        $this->runChecks(response: $response);
+        $this->runChecks(response: $response, progress: $progress);
 
         return (new SeoScore)($this->successful, $this->failed);
     }
@@ -35,7 +35,7 @@ class Seo
         return $response;
     }
 
-    private function runChecks(Response $response): void
+    private function runChecks(Response $response, $progress): void
     {
         $checks = self::orderedCheckClasses();
 
@@ -43,6 +43,7 @@ class Seo
             ->send([
                 'response' => $response,
                 'checks' => $checks,
+                'progress' => $progress,
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {
