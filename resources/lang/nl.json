@@ -1,4 +1,5 @@
 {
     "failed.content.length": "The content is :actualValue characters long. It should be at least :expectedValue characters long.",
-    "failed.meta.title": "The page title contains :actualValue in the title, while it should not."
+    "failed.meta.title": "The page title contains :actualValue in the title, while it should not.",
+    "failed.meta.title.no_content": "The page title is empty, while it should not be."
 }

@@ -24,13 +24,18 @@ class TitleCheck implements Check
 
     public int|string $actualValue;
 
-    // public int|null $expectedValue;
+    public int|null $expectedValue = null;
 
     public function check(Response $response): bool
     {
         $content = $this->getContentToValidate($response);
 
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $content) {
+            $this->failureReason = __('failed.meta.title.no_content');
+            return false; 
+        }
+
+        if (! $this->validateContent($content)) {
             return false;
         }
 
