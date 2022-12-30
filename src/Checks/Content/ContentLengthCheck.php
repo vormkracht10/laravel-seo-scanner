@@ -23,7 +23,7 @@ class ContentLengthCheck implements Check
 
     public string $failureReason;
 
-    public int $actualValue; 
+    public int $actualValue;
 
     public int $expectedValue = 2100;
 
@@ -52,7 +52,7 @@ class ContentLengthCheck implements Check
         $this->actualValue = strlen($content);
 
         if (strlen($content) < $this->expectedValue) {
-            $this->failureReason = 'The content is ' . strlen($content) . ' characters long. It should be at least ' . $this->expectedValue . ' characters long.';
+            $this->failureReason = 'The content is '.strlen($content).' characters long. It should be at least '.$this->expectedValue.' characters long.';
         }
 
         return strlen($content) >= $this->expectedValue;
