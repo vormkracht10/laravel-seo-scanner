@@ -10,7 +10,7 @@ class NoIndexCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'NoIndex is not set on the page';
+    public string $title = "The page does not have 'noindex' set";
 
     public string $priority = 'low';
 
