@@ -27,9 +27,19 @@ trait PerformCheck
     {
         if (in_array('exit', $data)) {
             unset($data['checks'][__CLASS__]);
-        } else {
-            $data['checks'][__CLASS__] = $result;
+
+            return $data;
         }
+
+        $value = ['result' => $result];
+
+        if (!$result) {
+            $value['reason'] = $this->failureReason;
+            $value['expectedValue'] = $this->expectedValue;
+            $value['actualValue'] = $this->actualValue;
+        }                
+
+        $data['checks'][__CLASS__] = $value;
 
         return $data;
     }

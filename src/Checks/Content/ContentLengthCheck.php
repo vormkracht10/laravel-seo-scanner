@@ -21,6 +21,12 @@ class ContentLengthCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string $failureReason;
+
+    public int $actualValue; 
+
+    public int $expectedValue = 2100;
+
     public function check(Response $response): bool
     {
         $content = $this->getContentToValidate($response);
@@ -43,6 +49,12 @@ class ContentLengthCheck implements Check
 
     public function validateContent(string|array $content): bool
     {
-        return strlen($content) >= 2100;
+        $this->actualValue = strlen($content);
+
+        if (strlen($content) < $this->expectedValue) {
+            $this->failureReason = 'The content is ' . strlen($content) . ' characters long. It should be at least ' . $this->expectedValue . ' characters long.';
+        }
+
+        return strlen($content) >= $this->expectedValue;
     }
 }
