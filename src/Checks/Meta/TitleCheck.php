@@ -48,7 +48,7 @@ class TitleCheck implements Check
     public function validateContent(string $content): bool
     {
         $content = strtolower($content);
-        
+
         if (str_contains($content, 'home') || str_contains($content, 'homepage')) {
             $this->actualValue = $content;
 
