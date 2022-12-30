@@ -49,7 +49,7 @@ class JavascriptSizeCheck implements Check
                 // Get the src attribute
                 preg_match('/src="([^"]+)"/', $link, $matches);
 
-                if (! $matches[1]) {
+                if (isset($matches[1]) && ! $matches[1]) {
                     // Get part after src= and before the first whitespace or >
                     // This is needed for inline scripts that don't have quotes around the src
                     preg_match('/src=([^ >]+)/', $link, $matches);
