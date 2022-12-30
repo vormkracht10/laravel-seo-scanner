@@ -46,10 +46,10 @@ class Seo
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {
-                $this->successful = $data['checks']->filter(fn ($result) => $result)
+                $this->successful = $data['checks']->filter(fn ($result) => $result['result'])
                     ->map(fn ($result, $check) => app($check));
 
-                $this->failed = $data['checks']->filter(fn ($result) => ! $result)
+                $this->failed = $data['checks']->filter(fn ($result) => ! $result['result'])
                     ->map(fn ($result, $check) => app($check));
             });
     }
