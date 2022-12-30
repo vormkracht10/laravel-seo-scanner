@@ -73,7 +73,7 @@ class JavascriptSizeCheck implements Check
             if (! $url) {
                 continue;
             }
-            
+
             if (! str_contains($url, 'http')) {
                 $url = url($url);
             }

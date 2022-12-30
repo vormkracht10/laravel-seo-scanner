@@ -113,9 +113,8 @@ class SeoCheck extends Command
         }
 
         // Exclude routes that contain a parameter or where it ends with .txt or .xml
-        $routes = $routes->filter(fn ($route) => 
-            ! str_contains($route, '{') && 
-            ! str_ends_with($route, '.txt') && 
+        $routes = $routes->filter(fn ($route) => ! str_contains($route, '{') &&
+            ! str_ends_with($route, '.txt') &&
             ! str_ends_with($route, '.xml')
         );
 
