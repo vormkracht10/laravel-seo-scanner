@@ -22,6 +22,6 @@ class CompressionCheck implements Check
 
     public function check(Response $response): bool
     {
-        return $response->header('Content-Encoding') === 'gzip';
+        return in_array($response->header('Content-Encoding'), ['gzip', 'compress', 'deflate', 'br']);
     }
 }
