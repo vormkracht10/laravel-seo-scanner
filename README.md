@@ -112,7 +112,6 @@ return [
         'admin/*',
         'nova/*',
         'horizon/*',
-        'nova-api/*',
         'vapor-ui/*',
     ],
 
