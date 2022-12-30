@@ -20,7 +20,10 @@ trait PerformCheck
             $data['exit'] = true;
         }
 
-        $data['progress']->advance();
+        // Advance the progress bar.
+        if (isset($data['progress'])) {
+            $data['progress']->advance();
+        }
 
         return $next($data);
     }

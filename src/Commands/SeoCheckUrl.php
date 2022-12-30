@@ -17,7 +17,6 @@ class SeoCheckUrl extends Command
         $this->line('');
 
         $progress = $this->output->createProgressBar(18);
-
         $progress->start();
 
         $score = Seo::check($this->argument('url'), $progress);
