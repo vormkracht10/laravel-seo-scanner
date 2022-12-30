@@ -2,8 +2,8 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
-use Readability\Readability;
 use Illuminate\Http\Client\Response;
+use Readability\Readability;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
