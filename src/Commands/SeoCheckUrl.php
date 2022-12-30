@@ -29,13 +29,13 @@ class SeoCheckUrl extends Command
         $this->line($this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count().' passed</> <fg=red>'.($score->getFailedChecks()->count().' failed</>'));
         $this->line('');
 
-        $score->getFailedChecks()->map(function ($failed) use ($score) {
+        $score->getFailedChecks()->map(function ($failed) {
             $this->line('<fg=red>'.$failed->title.' failed.</>');
 
             if ($failed->failureReason) {
-                $this->line($failed->failureReason . ' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                $this->line($failed->failureReason.' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
             }
-            
+
             $this->line('');
         });
 

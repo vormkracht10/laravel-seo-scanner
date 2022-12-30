@@ -48,12 +48,12 @@ class Seo
             ->through($checks->keys()->toArray())
             ->then(function ($data) {
                 $this->successful = $data['checks']->filter(fn ($result) => $result['result'])
-                    ->map(function ($result, $check) { 
+                    ->map(function ($result, $check) {
                         return app($check)->merge($result);
                     });
 
                 $this->failed = $data['checks']->filter(fn ($result) => ! $result['result'])
-                    ->map(function ($result, $check) { 
+                    ->map(function ($result, $check) {
                         return app($check)->merge($result);
                     });
             });

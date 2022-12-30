@@ -46,7 +46,7 @@ trait PerformCheck
         return $data;
     }
 
-    /** 
+    /**
      * Replace the properties of the class with the values of the array.
      */
     public function merge(array $result): self
