@@ -11,6 +11,9 @@ use Illuminate\Http\Client\Response;
  * @property int $timeToFix
  * @property int $scoreWeight
  * @property bool $continueAfterFailure
+ * @property string $failureReason
+ * @property array|int $actualValue
+ * @property int|null $expectedValue
  *
  * @method check()
  * @method __invoke()
