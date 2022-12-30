@@ -12,7 +12,7 @@ use Illuminate\Http\Client\Response;
  * @property int $scoreWeight
  * @property bool $continueAfterFailure
  * @property string $failureReason
- * @property array|int $actualValue
+ * @property array|int|null $actualValue
  * @property int|null $expectedValue
  *
  * @method check()
