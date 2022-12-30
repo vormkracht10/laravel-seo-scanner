@@ -91,9 +91,7 @@ class SeoCheck extends Command
 
         // Filter out excluded routes by path
         if (config('seo.exclude_paths')) {
-            
             $routes = $routes->filter(function ($route) {
-      
                 foreach (config('seo.exclude_paths') as $path) {
                     // if path contains a wildcard, check if the route starts with the path
                     if (str_contains($path, '*')) {
