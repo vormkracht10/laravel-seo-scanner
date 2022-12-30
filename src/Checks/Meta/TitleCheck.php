@@ -32,7 +32,8 @@ class TitleCheck implements Check
 
         if (! $content) {
             $this->failureReason = __('failed.meta.title.no_content');
-            return false; 
+
+            return false;
         }
 
         if (! $this->validateContent($content)) {
