@@ -20,6 +20,12 @@ class TitleCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string $failureReason;
+
+    public int|string $actualValue;
+
+    // public int|null $expectedValue;
+
     public function check(Response $response): bool
     {
         $content = $this->getContentToValidate($response);
@@ -42,7 +48,17 @@ class TitleCheck implements Check
     public function validateContent(string $content): bool
     {
         $content = strtolower($content);
+        
+        if (str_contains($content, 'home') || str_contains($content, 'homepage')) {
+            $this->actualValue = $content;
 
-        return ! str_contains($content, 'home') && ! str_contains($content, 'homepage');
+            $this->failureReason = __('failed.meta.title', [
+                'actualValue' => $this->actualValue,
+            ]);
+
+            return false;
+        }
+
+        return true;
     }
 }
