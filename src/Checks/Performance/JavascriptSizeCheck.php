@@ -41,15 +41,24 @@ class JavascriptSizeCheck implements Check
 
         preg_match_all('/<script[^>]+>/i', $response, $matches);
 
-        $links = array_filter($matches[0], function ($link) {
-            return str_contains($link, 'src=');
-        });
+        $links = collect($matches[0])
+            ->filter(function ($link) {
+                return str_contains($link, 'src=');
+            })
+            ->map(function ($link) {
+                // Get the src attribute
+                preg_match('/src="([^"]+)"/', $link, $matches);
 
-        $links = array_map(function ($link) {
-            preg_match('/src="([^"]+)"/', $link, $matches);
+                if (! $matches[1]) {
+                    // Get part after src= and before the first whitespace or >
+                    // This is needed for inline scripts that don't have quotes around the src
+                    preg_match('/src=([^ >]+)/', $link, $matches);
+                }
 
-            return $matches[1] ?? null;
-        }, $links);
+                return $matches[1] ?? null;
+            })
+            ->filter()
+            ->toArray();
 
         return $links;
     }
@@ -61,6 +70,10 @@ class JavascriptSizeCheck implements Check
         }
 
         foreach ($content as $url) {
+            if (! $url) {
+                continue;
+            }
+            
             if (! str_contains($url, 'http')) {
                 $url = url($url);
             }
