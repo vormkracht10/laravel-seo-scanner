@@ -95,7 +95,7 @@ class SeoCheck extends Command
                 foreach (config('seo.exclude_paths') as $path) {
                     // if path contains a wildcard, check if the route starts with the path
                     if (str_contains($path, '*')) {
-                        $path = str_replace('*', '', $path);
+                        $path = str_replace('/*', '', $path);
 
                         if (str_starts_with($route, $path)) {
                             return false;
@@ -112,8 +112,12 @@ class SeoCheck extends Command
             });
         }
 
-        // Exclude routes that contain a parameter
-        $routes = $routes->filter(fn ($route) => ! str_contains($route, '{'));
+        // Exclude routes that contain a parameter or where it ends with .txt or .xml
+        $routes = $routes->filter(fn ($route) => 
+            ! str_contains($route, '{') && 
+            ! str_ends_with($route, '.txt') && 
+            ! str_ends_with($route, '.xml')
+        );
 
         return $routes;
     }
