@@ -15,6 +15,7 @@ class SeoServiceProvider extends PackageServiceProvider
             ->name('laravel-seo')
             ->hasConfigFile()
             ->hasViews()
+            ->hasTranslations()
             ->hasMigration('create_seo_score_columns')
             ->hasCommands([
                 SeoCheck::class,

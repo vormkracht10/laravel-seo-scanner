@@ -52,7 +52,10 @@ class ContentLengthCheck implements Check
         $this->actualValue = strlen($content);
 
         if (strlen($content) < $this->expectedValue) {
-            $this->failureReason = 'The content is ' . strlen($content) . ' characters long. It should be at least ' . $this->expectedValue . ' characters long.';
+            $this->failureReason = __('failed.content.length', [
+                'actual' => $this->actualValue,
+                'expected' => $this->expectedValue,
+            ]);
         }
 
         return strlen($content) >= $this->expectedValue;
