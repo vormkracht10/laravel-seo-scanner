@@ -34,13 +34,27 @@ trait PerformCheck
         $value = ['result' => $result];
 
         if (! $result) {
-            $value['reason'] = $this->failureReason;
-            $value['expectedValue'] = $this->expectedValue;
-            $value['actualValue'] = $this->actualValue;
+            $value['failureReason'] = $this->failureReason ?? null;
+            $value['expectedValue'] = $this->expectedValue ?? null;
+            $value['actualValue'] = $this->actualValue ?? null;
         }
 
         $data['checks'][__CLASS__] = $value;
 
         return $data;
+    }
+
+    /** 
+     * Replace the properties of the class with the values of the array.
+     */
+    public function merge(array $result): self
+    {
+        array_walk($result, function ($value, $key) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        });
+
+        return $this;
     }
 }
