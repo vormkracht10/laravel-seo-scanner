@@ -23,7 +23,7 @@ class ContentLengthCheck implements Check
 
     public string $failureReason;
 
-    public int $actualValue; 
+    public int $actualValue;
 
     public int|null $expectedValue = 2100;
 

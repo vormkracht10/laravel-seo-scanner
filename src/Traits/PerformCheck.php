@@ -33,11 +33,11 @@ trait PerformCheck
 
         $value = ['result' => $result];
 
-        if (!$result) {
+        if (! $result) {
             $value['reason'] = $this->failureReason;
             $value['expectedValue'] = $this->expectedValue;
             $value['actualValue'] = $this->actualValue;
-        }                
+        }
 
         $data['checks'][__CLASS__] = $value;
 
