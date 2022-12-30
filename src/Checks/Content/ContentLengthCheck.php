@@ -2,8 +2,8 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
-use Cscheide\ArticleExtractor\ArticleExtractor;
 use Illuminate\Http\Client\Response;
+use Readability\Readability;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -40,11 +40,13 @@ class ContentLengthCheck implements Check
 
     public function getContentToValidate(Response $response): string|null
     {
-        $extractor = new ArticleExtractor(null);
+        $url = $response->transferStats->getHandlerStats()['url'];
 
-        $content = $response->body();
+        $readability = new Readability($response->body(), $url);
 
-        return $extractor->processHTML($content)['text'] ?? null;
+        $readability->init();
+
+        return $readability->getContent()->textContent ?? null;
     }
 
     public function validateContent(string|array $content): bool
