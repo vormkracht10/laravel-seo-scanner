@@ -51,8 +51,19 @@ return [
     'routes' => ['*'],
 
     // If you wish to skip running some checks on some routes, list the routes
-    // in the array below by using the route name.
+    // in the array below by using the route name. For example:
+    // 'blog.index'
     'exclude_routes' => [],
+
+    // If you wish to skip running some checks on some paths, list the paths
+    // in the array below.
+    'exclude_paths' => [
+        'admin/*',
+        'nova/*',
+        'horizon/*',
+        'nova-api/*',
+        'vapor-ui/*',
+    ],
 
     /*
     |--------------------------------------------------------------------------

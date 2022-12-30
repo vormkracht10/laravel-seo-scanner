@@ -75,12 +75,49 @@ class SeoCheck extends Command
         $routes = collect(app('router')->getRoutes()->getRoutesByName())
             ->filter(fn ($route) => $route->methods[0] === 'GET');
 
-        if (! in_array('*', Arr::wrap(config('seo.routes')))) {
-            return $routes->map(fn ($route) => $route->uri);
+        // Check if all routes should be checked
+        if (in_array('*', Arr::wrap(config('seo.routes')))) {
+            $routes = $routes->map(fn ($route) => $route->uri);
+        } else {
+            // Only check the routes specified in the config
+            $routes = $routes->filter(fn ($route) => in_array($route->getName(), Arr::wrap(config('seo.routes'))))
+                ->map(fn ($route) => $route->uri);
         }
 
-        return $routes->filter(fn ($route, $key) => ! in_array($key, config('seo.exclude_routes')))
-            ->map(fn ($route) => $route->uri);
+        // Filter out excluded routes by name
+        if (config('seo.exclude_routes')) {
+            $routes = $routes->filter(fn ($route) => ! in_array($route, config('seo.exclude_routes')));
+        }
+
+        // Filter out excluded routes by path
+        if (config('seo.exclude_paths')) {
+            
+            $routes = $routes->filter(function ($route) {
+      
+                foreach (config('seo.exclude_paths') as $path) {
+                    // if path contains a wildcard, check if the route starts with the path
+                    if (str_contains($path, '*')) {
+                        $path = str_replace('*', '', $path);
+
+                        if (str_starts_with($route, $path)) {
+                            return false;
+                        }
+                    }
+
+                    // if path does not contain a wildcard, check if the route contains the path
+                    if (str_contains($route, $path)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        // Exclude routes that contain a parameter
+        $routes = $routes->filter(fn ($route) => ! str_contains($route, '{'));
+
+        return $routes;
     }
 
     private function calculateScoreForModel(string $model)
