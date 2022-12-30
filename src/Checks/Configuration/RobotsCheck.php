@@ -11,7 +11,7 @@ class RobotsCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'NoIndex is not set on the page';
+    public string $title = 'Robots.txt allows indexing';
 
     public string $priority = 'low';
 
@@ -27,17 +27,6 @@ class RobotsCheck implements Check
 
         $client = new UriClient($url);
 
-        // TODO: Add the actual check.
-        dd($client);
-    }
-
-    public function getContentToValidate(Response $response): array|null
-    {
-        // 
-    }
-
-    public function validateContent(array $content): bool
-    {
-        //
+        return $client->userAgent('Googlebot')->isAllowed($url);
     }
 }

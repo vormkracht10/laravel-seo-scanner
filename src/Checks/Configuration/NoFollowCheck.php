@@ -10,7 +10,7 @@ class NoFollowCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'NoFollow is not set on the page';
+    public string $title = "The page does not have 'nofollow' set";
 
     public string $priority = 'low';
 
