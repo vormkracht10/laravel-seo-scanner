@@ -29,7 +29,7 @@ class Seo
     {
         $response = $this->visitPage(url: $url);
 
-        $this->progress = $progress ?? $this->progress;
+        $this->progress = $progress;
 
         $this->runChecks(response: $response);
 
