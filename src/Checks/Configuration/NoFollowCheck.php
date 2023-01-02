@@ -3,8 +3,8 @@
 namespace Vormkracht10\Seo\Checks\Configuration;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
 use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class NoFollowCheck implements Check
