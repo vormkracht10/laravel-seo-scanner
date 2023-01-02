@@ -29,7 +29,7 @@ class ImageSizeCheck implements Check
             return true;
         }
 
-        if ($this->validateContent($content)) {
+        if (! $this->validateContent($content)) {
             return false;
         }
 
