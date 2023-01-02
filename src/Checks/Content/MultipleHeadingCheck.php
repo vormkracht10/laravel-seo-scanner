@@ -38,11 +38,11 @@ class MultipleHeadingCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $matches = $crawler->filter('h1')->each(function (Crawler $node, $i) {
+        $content = $crawler->filter('h1')->each(function (Crawler $node, $i) {
             return $node->text();
         });
 
-        return $matches;
+        return $content;
     }
 
     public function validateContent(string|array $content): bool

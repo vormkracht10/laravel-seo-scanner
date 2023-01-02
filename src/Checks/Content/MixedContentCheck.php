@@ -38,11 +38,11 @@ class MixedContentCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $matches = $crawler->filter('a')->each(function (Crawler $node, $i) {
+        $content = $crawler->filter('a')->each(function (Crawler $node, $i) {
             return $node->attr('href');
         });
 
-        return $matches;
+        return $content;
     }
 
     public function validateContent(string|array $content): bool
