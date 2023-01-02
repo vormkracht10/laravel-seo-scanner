@@ -38,7 +38,7 @@ class TitleCheck implements Check
 
         $crawler = new Crawler($response);
 
-        return $crawler->filter('title')->text();
+        return $crawler->filterXPath('//title')->text();
     }
 
     public function validateContent(string $content): bool
