@@ -30,6 +30,6 @@ it('can only run configured checks', function () {
     ]);
 
     $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
-        ->expectsOutputToContain('1 out of ' . getCheckCount() . ' checks.')
+        ->expectsOutputToContain('1 out of '.getCheckCount().' checks.')
         ->assertExitCode(0);
 });
