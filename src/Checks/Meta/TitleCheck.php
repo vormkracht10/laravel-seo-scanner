@@ -3,8 +3,8 @@
 namespace Vormkracht10\Seo\Checks\Meta;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
 use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TitleCheck implements Check
@@ -35,7 +35,7 @@ class TitleCheck implements Check
     public function getContentToValidate(Response $response): string|null
     {
         $response = $response->body();
-        
+
         $crawler = new Crawler($response);
 
         return $crawler->filter('title')->text();
