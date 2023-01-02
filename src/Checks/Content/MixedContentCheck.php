@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class MixedContentCheck implements Check
@@ -35,9 +36,13 @@ class MixedContentCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<a.*?href="(.*?)".*?>/msi', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[1] ?? null;
+        $matches = $crawler->filter('a')->each(function (Crawler $node, $i) {
+            return $node->attr('href');
+        });
+
+        return $matches ?? null;
     }
 
     public function validateContent(string|array $content): bool

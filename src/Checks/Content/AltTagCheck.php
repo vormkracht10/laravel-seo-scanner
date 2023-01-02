@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class AltTagCheck implements Check
@@ -22,40 +23,27 @@ class AltTagCheck implements Check
 
     public function check(Response $response): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content) {
-            return true;
-        }
-
-        if (! $this->validateContent($content)) {
+        if (! $this->validateContent($response)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|array|null
+    public function validateContent(Response $response): bool 
     {
         $response = $response->body();
 
-        preg_match_all('/<img[^>]+>/i', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[0] ?? null;
-    }
-
-    public function validateContent(string|array $content): bool
-    {
-        if (! is_array($content)) {
-            $content = [$content];
-        }
-
-        foreach ($content as $image) {
-            if (! str_contains($image, 'alt=') || str_contains($image, 'alt=""')) {
+        $imagesWithoutAlt = $crawler->filter('img')->each(function (Crawler $node, $i) {
+            if (! $node->attr('alt')) {
                 return false;
             }
-        }
 
-        return true;
+            return true;
+        });
+
+        return collect($imagesWithoutAlt)->first(fn ($value) => $value === false) ?? true;
     }
 }

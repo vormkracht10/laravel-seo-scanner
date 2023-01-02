@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class BrokenImageCheck implements Check
@@ -39,9 +40,13 @@ class BrokenImageCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<img.*?src="(.*?)".*?>/msi', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[0] ?? null;
+        $matches = $crawler->filter('img')->each(function (Crawler $node, $i) {
+            return $node->attr('src');
+        });
+
+        return $matches ?? null;
     }
 
     public function validateContent(string|array $content): bool
@@ -50,11 +55,7 @@ class BrokenImageCheck implements Check
             $content = [$content];
         }
 
-        $content = collect($content)->map(function ($link) {
-            preg_match('/src="(.*?)"/msi', $link, $matches);
-
-            return $matches[1] ?? false;
-        })->filter(fn ($link) => isBrokenLink($link));
+        $content = collect($content)->filter(fn ($link) => isBrokenLink($link));
 
         return count($content) === 0;
     }
