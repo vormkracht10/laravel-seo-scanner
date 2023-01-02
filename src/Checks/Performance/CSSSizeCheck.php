@@ -42,7 +42,7 @@ class CSSSizeCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $crawler = $crawler->filter('link')->each(function (Crawler $node, $i) {
+        $crawler = $crawler->filterXPath('//link')->each(function (Crawler $node, $i) {
             $rel = $node->attr('rel');
             $href = $node->attr('href');
 
