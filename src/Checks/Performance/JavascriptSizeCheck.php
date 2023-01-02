@@ -73,8 +73,8 @@ class JavascriptSizeCheck implements Check
 
             $size = getRemoteFileSize(url: $url);
 
-            /** 
-             * @todo this one fails when we have no access to the content length 
+            /**
+             * @todo this one fails when we have no access to the content length
              * header. This happens when we try to access an external resource
              * like Google Tag Manager. We should decide on how to get
              * the size of the file in this case. Or if we should
