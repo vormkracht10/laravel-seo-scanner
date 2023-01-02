@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Configuration;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class NoFollowCheck implements Check
@@ -43,28 +44,13 @@ class NoFollowCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<meta[^>]+>/i', $response, $matches);
+        $crawler = new Crawler($response);
 
-        $metaTags = array_filter($matches[0], function ($metaTag) {
-            return str_contains($metaTag, 'name="robots"') ||
-                str_contains($metaTag, 'name="googlebot"') ||
-                str_contains($metaTag, "name='robots'") ||
-                str_contains($metaTag, "name='googlebot'");
+        $metaTags = $crawler->filter('meta[name="robots"], meta[name="googlebot"]')->each(function (Crawler $node, $i) {
+            return $node->attr('content');
         });
 
-        $metaTags = array_map(function ($metaTag) {
-            preg_match('/content="([^"]+)"/', $metaTag, $matches);
-
-            $matches = $matches[1] ?? null;
-
-            if ($matches) {
-                return strtolower($matches);
-            }
-
-            return null;
-        }, $metaTags);
-
-        return $metaTags;
+        return $metaTags ?? null;
     }
 
     public function validateContent(array $content): bool
