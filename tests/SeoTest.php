@@ -7,6 +7,9 @@ it('can run the SEO check for a single URL', function () {
 
 it('can run the SEO check for routes', function () {
     config('seo', [
+        'checks' => [
+            \Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck::class,
+        ],
         'routes' => [
             'https://vormkracht10.nl',
         ],
@@ -14,5 +17,19 @@ it('can run the SEO check for routes', function () {
     ]);
 
     $this->artisan('seo:check')
+        ->assertExitCode(0);
+});
+
+it('can only run configured checks', function () {
+    config('seo', [
+        'check_routes' => false,
+        'checks' => [
+            \Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck::class,
+        ],
+        ...config('seo'),
+    ]);
+
+    $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
+        ->expectsOutputToContain('1 out of ' . getCheckCount() . ' checks.')
         ->assertExitCode(0);
 });

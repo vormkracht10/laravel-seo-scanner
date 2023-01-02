@@ -68,8 +68,8 @@ class Seo
 
     private static function getCheckClasses(): Collection
     {
-        if (! in_array('*', Arr::wrap(config('seo.checks', '*')))) {
-            return collect(Arr::wrap(config('seo.checks')));
+        if (! in_array('*', Arr::wrap(config('seo.checks', '*')))) {    
+            return collect(Arr::wrap(config('seo.checks')))->mapWithKeys(fn ($check) => [$check => null]);
         }
 
         $checks = collect();
