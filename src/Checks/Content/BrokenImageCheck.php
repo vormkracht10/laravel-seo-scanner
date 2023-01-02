@@ -3,8 +3,8 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
 use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class BrokenImageCheck implements Check
