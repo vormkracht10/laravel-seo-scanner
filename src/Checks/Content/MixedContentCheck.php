@@ -42,7 +42,7 @@ class MixedContentCheck implements Check
             return $node->attr('href');
         });
 
-        return $matches ?? null;
+        return $matches;
     }
 
     public function validateContent(string|array $content): bool

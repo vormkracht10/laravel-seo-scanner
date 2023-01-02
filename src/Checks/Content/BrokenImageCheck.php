@@ -46,7 +46,7 @@ class BrokenImageCheck implements Check
             return $node->attr('src');
         });
 
-        return $matches ?? null;
+        return $matches;
     }
 
     public function validateContent(string|array $content): bool

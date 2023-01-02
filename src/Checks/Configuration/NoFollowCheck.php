@@ -46,11 +46,11 @@ class NoFollowCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $metaTags = $crawler->filter('meta[name="robots"], meta[name="googlebot"]')->each(function (Crawler $node, $i) {
+        $content = $crawler->filter('meta[name="robots"], meta[name="googlebot"]')->each(function (Crawler $node, $i) {
             return $node->attr('content');
         });
 
-        return $metaTags ?? null;
+        return $content;
     }
 
     public function validateContent(array $content): bool
