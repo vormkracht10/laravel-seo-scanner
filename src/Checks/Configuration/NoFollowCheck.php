@@ -46,9 +46,15 @@ class NoFollowCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $content = $crawler->filter('meta[name="robots"], meta[name="googlebot"]')->each(function (Crawler $node, $i) {
+        $robotContent = $crawler->filter('meta[name="robots"]')->each(function (Crawler $node, $i) {
             return $node->attr('content');
         });
+
+        $googlebotContent = $crawler->filter('meta[name="googlebot"]')->each(function (Crawler $node, $i) {
+            return $node->attr('content');
+        });
+
+        $content = array_merge($robotContent, $googlebotContent);
 
         return $content;
     }
