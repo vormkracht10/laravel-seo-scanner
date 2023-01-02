@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Meta;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -22,26 +23,25 @@ class LangCheck implements Check
 
     public function check(Response $response): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $this->validateContent($response)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|null
+    public function validateContent(Response $response): bool
     {
         $response = $response->body();
 
-        preg_match('/<html[^>]+>/i', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[0] ?? null;
-    }
+        $lang = $crawler->filterXPath('//html')->attr('lang');
 
-    public function validateContent(string $content): bool
-    {
-        return str_contains($content, 'lang=') && ! str_contains($content, 'lang=""');
+        if (! $lang) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -38,6 +38,10 @@ class SeoCheckUrl extends Command
             $this->line('');
         });
 
+        $totalChecks = $score->getFailedChecks()->count() + $score->getSuccessfulChecks()->count();
+
+        $this->info('Completed '.$totalChecks.' out of '.getCheckCount().' checks.');
+
         return self::SUCCESS;
     }
 }

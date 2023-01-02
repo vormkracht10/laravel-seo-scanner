@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -24,7 +25,6 @@ class MultipleHeadingCheck implements Check
     {
         $content = $this->getContentToValidate($response);
 
-        // If no H1 headings are found, the check also fails because it is an important SEO element.
         if (! $content || ! $this->validateContent($content)) {
             return false;
         }
@@ -36,9 +36,13 @@ class MultipleHeadingCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<h1.*?>(.*)<\/h1>/msi', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[1] ?? null;
+        $content = $crawler->filterXPath('//h1')->each(function (Crawler $node, $i) {
+            return $node->text();
+        });
+
+        return $content;
     }
 
     public function validateContent(string|array $content): bool

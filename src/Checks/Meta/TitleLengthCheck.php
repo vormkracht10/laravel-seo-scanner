@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Meta;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -34,9 +35,10 @@ class TitleLengthCheck implements Check
     public function getContentToValidate(Response $response): string|null
     {
         $response = $response->body();
-        preg_match('/<title>(.*)<\/title>/', $response, $matches);
 
-        return $matches[1] ?? null;
+        $crawler = new Crawler($response);
+
+        return $crawler->filterXPath('//title')->text();
     }
 
     public function validateContent(string $content): bool

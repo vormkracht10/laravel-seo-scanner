@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Symfony\Component\Finder\Finder;
+
 if (! function_exists('isBrokenLink')) {
     function isBrokenLink(string $url): bool
     {
@@ -44,7 +48,7 @@ if (! function_exists('getRemoteFileSize')) {
         curl_setopt($ch, CURLOPT_NOBODY, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); //not necessary unless the file redirects (like the PHP example we're using here)
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // not necessary unless the file redirects (like the PHP example we're using here)
         $data = curl_exec($ch);
         curl_close($ch);
 
@@ -59,5 +63,36 @@ if (! function_exists('getRemoteFileSize')) {
         }
 
         return $contentLength ?? false;
+    }
+}
+
+if (! function_exists('getCheckCount')) {
+    function getCheckCount(): int
+    {
+        $checks = collect();
+
+        collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
+            ->each(function ($path, $baseNamespace) use (&$checks) {
+                if (app()->runningUnitTests()) {
+                    $path = __DIR__.'/Checks';
+                }
+
+                $files = is_dir($path) ? (new Finder)->in($path)->files() : Arr::wrap($path);
+
+                foreach ($files as $fileInfo) {
+                    $checkClass = $baseNamespace.str_replace(
+                        ['/', '.php'],
+                        ['\\', ''],
+                        Str::after(
+                            is_string($fileInfo) ? $fileInfo : $fileInfo->getRealPath(),
+                            realpath($path)
+                        )
+                    );
+
+                    $checks->put($checkClass, null);
+                }
+            });
+
+        return $checks->count();
     }
 }
