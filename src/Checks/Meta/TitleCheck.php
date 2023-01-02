@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Meta;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TitleCheck implements Check
@@ -34,9 +35,10 @@ class TitleCheck implements Check
     public function getContentToValidate(Response $response): string|null
     {
         $response = $response->body();
-        preg_match('/<title>(.*)<\/title>/', $response, $matches);
+        
+        $crawler = new Crawler($response);
 
-        return $matches[1] ?? null;
+        return $crawler->filter('title')->text();
     }
 
     public function validateContent(string $content): bool

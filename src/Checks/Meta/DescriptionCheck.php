@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Meta;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class DescriptionCheck implements Check
@@ -35,9 +36,9 @@ class DescriptionCheck implements Check
     {
         $response = $response->body();
 
-        preg_match('/meta[^>]+?name="description"[^>]+?content="(.*?)"[^>]+?/msi', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[1] ?? null;
+        return $crawler->filter('meta[name="description"]')->attr('content');
     }
 
     public function validateContent(string $content): bool
