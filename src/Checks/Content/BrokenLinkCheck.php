@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -39,9 +40,13 @@ class BrokenLinkCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<a.*?href="(.*?)".*?>/msi', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[0] ?? null;
+        $content = $crawler->filterXPath('//a')->each(function (Crawler $node, $i) {
+            return $node->attr('href');
+        });
+
+        return collect($content)->filter(fn ($value) => $value !== null)->toArray();
     }
 
     public function validateContent(string|array $content): bool
@@ -50,11 +55,7 @@ class BrokenLinkCheck implements Check
             $content = [$content];
         }
 
-        $content = collect($content)->map(function ($item) {
-            preg_match('/href="(.*?)"/msi', $item, $matches);
-
-            return $matches[1] ?? false;
-        })->filter(function ($link) {
+        $content = collect($content)->filter(function ($link) {
             // Filter out all links that are mailto, tel or have a file extension
             if (preg_match('/^mailto:/msi', $link) ||
                 preg_match('/^tel:/msi', $link) ||

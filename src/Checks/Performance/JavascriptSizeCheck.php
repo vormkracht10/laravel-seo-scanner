@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -39,28 +40,17 @@ class JavascriptSizeCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<script[^>]+>/i', $response, $matches);
+        $crawler = new Crawler($response);
 
-        $links = collect($matches[0])
-            ->filter(function ($link) {
-                return str_contains($link, 'src=');
-            })
-            ->map(function ($link) {
-                // Get the src attribute
-                preg_match('/src="([^"]+)"/', $link, $matches);
+        $crawler = $crawler->filterXPath('//script')->each(function (Crawler $node, $i) {
+            $src = $node->attr('src');
 
-                if (isset($matches[1]) && ! $matches[1]) {
-                    // Get part after src= and before the first whitespace or >
-                    // This is needed for inline scripts that don't have quotes around the src
-                    preg_match('/src=([^ >]+)/', $link, $matches);
-                }
+            if ($src) {
+                return $src;
+            }
+        });
 
-                return $matches[1] ?? null;
-            })
-            ->filter()
-            ->toArray();
-
-        return $links;
+        return collect($crawler)->filter(fn ($value) => $value !== null)->toArray();
     }
 
     public function validateContent(string|array $content): bool
@@ -84,6 +74,13 @@ class JavascriptSizeCheck implements Check
 
             $size = getRemoteFileSize(url: $url);
 
+            /**
+             * @todo this one fails when we have no access to the content length
+             * header. This happens when we try to access an external resource
+             * like Google Tag Manager. We should decide on how to get
+             * the size of the file in this case. Or if we should
+             * even check the size of external resources.
+             */
             if (! $size || $size > 1000000) {
                 return false;
             }

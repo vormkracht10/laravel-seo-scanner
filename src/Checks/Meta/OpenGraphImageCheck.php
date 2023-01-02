@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Meta;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -35,34 +36,22 @@ class OpenGraphImageCheck implements Check
     {
         $response = $response->body();
 
-        preg_match('/<meta.*?property="og:image".*?content="(.*?)".*?>/msi', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[1] ?? null;
+        $crawler = $crawler->filterXPath('//meta')->each(function (Crawler $node, $i) {
+            $property = $node->attr('property');
+            $content = $node->attr('content');
+
+            if ($property === 'og:image') {
+                return $content;
+            }
+        });
+
+        return collect($crawler)->first(fn ($value) => $value !== null) ?? null;
     }
 
     public function validateContent(string $content): bool
     {
-        return ! $this->isBrokenLink($content);
-    }
-
-    public function isBrokenLink(string $url): bool
-    {
-        $ch = curl_init($url);
-
-        $options = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => true,
-            CURLOPT_NOBODY => true,
-            CURLOPT_TIMEOUT => 10,
-        ];
-
-        curl_setopt_array($ch, $options);
-        curl_exec($ch);
-
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        curl_close($ch);
-
-        return $statusCode !== 200;
+        return ! isBrokenLink($content);
     }
 }

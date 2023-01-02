@@ -21,6 +21,7 @@
         "illuminate/contracts": "^9.0",
         "j0k3r/php-readability": "^2.0",
         "spatie/laravel-package-tools": "^1.13.0",
+        "symfony/dom-crawler": "^6.2",
         "symfony/finder": "^6.2",
         "vipnytt/robotstxtparser": "^2.1"
     },
