@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class ImageSizeCheck implements Check
@@ -39,9 +40,13 @@ class ImageSizeCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/<img[^>]+>/i', $response, $matches);
+        $crawler = new Crawler($response);
 
-        return $matches[0] ?? null;
+        $matches = $crawler->filter('img')->each(function (Crawler $node, $i) {
+            return $node->attr('src');
+        });
+
+        return collect($matches)->filter(fn ($value) => $value !== null)->toArray();
     }
 
     public function validateContent(string|array $content): bool
@@ -51,14 +56,6 @@ class ImageSizeCheck implements Check
         }
 
         foreach ($content as $image) {
-            preg_match('/src="([^"]+)"/', $image, $match);
-
-            if (! $match) {
-                continue;
-            }
-
-            $image = $match[1];
-
             if (! str_contains($image, 'http')) {
                 $image = url($image);
             }

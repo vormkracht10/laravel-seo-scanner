@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class CSSSizeCheck implements Check
@@ -39,19 +40,18 @@ class CSSSizeCheck implements Check
     {
         $response = $response->body();
 
-        preg_match_all('/rel="stylesheet"[^>]+>/i', $response, $matches);
+        $crawler = new Crawler($response);
 
-        $links = array_filter($matches[0], function ($link) {
-            return str_contains($link, 'href=');
+        $crawler = $crawler->filter('link')->each(function (Crawler $node, $i) {
+            $rel = $node->attr('rel');
+            $href = $node->attr('href');
+
+            if ($rel === 'stylesheet') {
+                return $href;
+            }
         });
 
-        $links = array_map(function ($link) {
-            preg_match('/href="([^"]+)"/', $link, $matches);
-
-            return $matches[1] ?? null;
-        }, $links);
-
-        return $links;
+        return collect($crawler)->filter(fn ($value) => $value !== null)->toArray();
     }
 
     public function validateContent(string|array $content): bool
