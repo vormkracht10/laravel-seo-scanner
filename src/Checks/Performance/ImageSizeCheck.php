@@ -73,10 +73,9 @@ class ImageSizeCheck implements Check
             $image = file_get_contents($url);
 
             if (strlen($image) > 1000000) {
-
                 $size = bytesToHumanReadable(strlen($image));
 
-                $links[] = $url . ' (size: ' . $size . ')';
+                $links[] = $url.' (size: '.$size.')';
 
                 return true;
             }
@@ -84,8 +83,7 @@ class ImageSizeCheck implements Check
             return false;
         })->toArray();
 
-        if (!empty($tooBigLinks)) {
-            
+        if (! empty($tooBigLinks)) {
             $this->actualValue = $links;
 
             $this->failureReason = __('failed.performance.image_size', [

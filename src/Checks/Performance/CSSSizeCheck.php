@@ -81,10 +81,9 @@ class CSSSizeCheck implements Check
             $size = getRemoteFileSize(url: $url);
 
             if (! $size || $size > 15000) {
-
                 $size = $size ? bytesToHumanReadable($size) : 'unknown';
 
-                $links[] = $url . ' (size: ' . $size . ')';
+                $links[] = $url.' (size: '.$size.')';
 
                 return true;
             }
@@ -93,7 +92,6 @@ class CSSSizeCheck implements Check
         })->toArray();
 
         if ($tooBigLinks) {
-
             $this->actualValue = $links;
 
             $this->failureReason = __('failed.performance.css_size', [

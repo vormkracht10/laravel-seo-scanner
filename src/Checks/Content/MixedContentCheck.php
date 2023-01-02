@@ -69,7 +69,7 @@ class MixedContentCheck implements Check
 
                 return true;
             }
-            
+
             return false;
         });
 

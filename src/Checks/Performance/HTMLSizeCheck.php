@@ -47,7 +47,6 @@ class HTMLSizeCheck implements Check
     public function validateContent(string|array $content): bool
     {
         if (strlen($content) > 100000) {
-
             $this->actualValue = strlen($content);
 
             $this->failureReason = __('failed.performance.html_size', [
@@ -57,6 +56,7 @@ class HTMLSizeCheck implements Check
 
             return false;
         }
+
         return strlen($content) < 100000;
     }
 }

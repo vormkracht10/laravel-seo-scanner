@@ -92,10 +92,9 @@ class JavascriptSizeCheck implements Check
              * even check the size of external resources.
              */
             if (! $size || $size > 1000000) {
-
                 $size = $size ? bytesToHumanReadable($size) : 'unknown';
 
-                $links[] = $url . ' (size: ' . $size . ')';
+                $links[] = $url.' (size: '.$size.')';
 
                 return true;
             }
@@ -103,8 +102,7 @@ class JavascriptSizeCheck implements Check
             return false;
         })->toArray();
 
-        if (!empty($tooBigLinks)) {
-
+        if (! empty($tooBigLinks)) {
             $this->actualValue = $links;
 
             $this->failureReason = __('failed.performance.javascript_size', [

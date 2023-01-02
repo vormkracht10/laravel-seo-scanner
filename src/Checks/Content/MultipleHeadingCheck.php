@@ -65,6 +65,7 @@ class MultipleHeadingCheck implements Check
             $this->failureReason = __('failed.content.multipe_heading', [
                 'actualValue' => implode(', ', $this->actualValue),
             ]);
+
             return false;
         }
 
