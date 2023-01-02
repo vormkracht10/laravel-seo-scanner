@@ -15,7 +15,7 @@ it('can only run configured checks for a single url', function () {
     ]);
 
     $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
-        ->expectsOutputToContain('1 out of ' . getCheckCount() . ' checks.')
+        ->expectsOutputToContain('1 out of '.getCheckCount().' checks.')
         ->assertExitCode(0);
 });
 
@@ -27,7 +27,7 @@ it('can run all checks for a single url', function () {
     ]);
 
     $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
-        ->expectsOutputToContain(getCheckCount() . ' out of ' . getCheckCount() . ' checks.')
+        ->expectsOutputToContain(getCheckCount().' out of '.getCheckCount().' checks.')
         ->assertExitCode(0);
 });
 

@@ -3,9 +3,9 @@
 namespace Vormkracht10\Seo\Checks\Meta;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
-use Symfony\Component\DomCrawler\Crawler;
 
 class LangCheck implements Check
 {
