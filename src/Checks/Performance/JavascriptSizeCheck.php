@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class JavascriptSizeCheck implements Check
