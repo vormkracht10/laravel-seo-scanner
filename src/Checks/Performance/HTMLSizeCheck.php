@@ -20,8 +20,16 @@ class HTMLSizeCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public array|int|string|null $actualValue = null;
+
+    public int|null|string $expectedValue = 100000;
+
     public function check(Response $response): bool
     {
+        $this->expectedValue = bytesToHumanReadable($this->expectedValue);
+
         $content = $this->getContentToValidate($response);
 
         if (! $content || ! $this->validateContent($content)) {
@@ -38,6 +46,17 @@ class HTMLSizeCheck implements Check
 
     public function validateContent(string|array $content): bool
     {
+        if (strlen($content) > 100000) {
+
+            $this->actualValue = strlen($content);
+
+            $this->failureReason = __('failed.performance.html_size', [
+                'actualValue' => bytesToHumanReadable($this->actualValue),
+                'expectedValue' => $this->expectedValue,
+            ]);
+
+            return false;
+        }
         return strlen($content) < 100000;
     }
 }

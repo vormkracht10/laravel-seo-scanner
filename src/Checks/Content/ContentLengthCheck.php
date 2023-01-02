@@ -21,7 +21,7 @@ class ContentLengthCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public string $failureReason;
+    public string|null $failureReason;
 
     public int|string|null $actualValue = null;
 

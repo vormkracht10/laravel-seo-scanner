@@ -21,8 +21,15 @@ class CSSSizeCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public array|int|string|null $actualValue = null;
+
+    public int|null|string $expectedValue = 15000;
+
     public function check(Response $response): bool
     {
+        $this->expectedValue = bytesToHumanReadable($this->expectedValue);
         $content = $this->getContentToValidate($response);
 
         if (! $content) {
@@ -60,20 +67,41 @@ class CSSSizeCheck implements Check
             $content = [$content];
         }
 
-        foreach ($content as $url) {
+        $links = [];
+
+        $tooBigLinks = collect($content)->filter(function ($url) use (&$links) {
             if (! str_contains($url, 'http')) {
                 $url = url($url);
             }
 
             if (isBrokenLink(url: $url)) {
-                continue;
+                return false;
             }
 
             $size = getRemoteFileSize(url: $url);
 
             if (! $size || $size > 15000) {
-                return false;
+
+                $size = $size ? bytesToHumanReadable($size) : 'unknown';
+
+                $links[] = $url . ' (size: ' . $size . ')';
+
+                return true;
             }
+
+            return false;
+        })->toArray();
+
+        if ($tooBigLinks) {
+
+            $this->actualValue = $links;
+
+            $this->failureReason = __('failed.performance.css_size', [
+                'actualValue' => implode(', ', $links),
+                'expectedValue' => $this->expectedValue,
+            ]);
+
+            return false;
         }
 
         return true;

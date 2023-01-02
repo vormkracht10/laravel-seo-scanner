@@ -21,11 +21,21 @@ class MixedContentCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public int|string|null $actualValue = null;
+
+    public int|null $expectedValue = null;
+
     public function check(Response $response): bool
     {
         $content = $this->getContentToValidate($response);
 
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $content) {
+            return true;
+        }
+
+        if (! $this->validateContent($content)) {
             return false;
         }
 
@@ -51,10 +61,24 @@ class MixedContentCheck implements Check
             $content = [$content];
         }
 
-        foreach ($content as $item) {
+        $links = [];
+
+        $nonSecureLinks = collect($content)->filter(function ($item) use (&$links) {
             if (preg_match('/^http:\/\//', $item)) {
-                return false;
+                $links[] = $item;
+
+                return true;
             }
+            
+            return false;
+        });
+
+        if ($nonSecureLinks->count() > 0) {
+            $this->failureReason = __('failed.content.mixed_content', [
+                'links' => implode(', ', $links),
+            ]);
+
+            return false;
         }
 
         return true;

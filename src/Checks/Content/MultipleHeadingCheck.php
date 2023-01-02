@@ -21,11 +21,23 @@ class MultipleHeadingCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public int|string|null $actualValue = null;
+
+    public int|null $expectedValue = null;
+
     public function check(Response $response): bool
     {
         $content = $this->getContentToValidate($response);
 
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $content) {
+            $this->failureReason = __('failed.content.no_heading');
+
+            return false;
+        }
+
+        if (! $this->validateContent($content)) {
             return false;
         }
 
@@ -48,6 +60,11 @@ class MultipleHeadingCheck implements Check
     public function validateContent(string|array $content): bool
     {
         if (is_array($content) && count($content) > 1) {
+            $this->actualValue = $content;
+
+            $this->failureReason = __('failed.content.multipe_heading', [
+                'actualValue' => implode(', ', $this->actualValue),
+            ]);
             return false;
         }
 

@@ -1,5 +1,14 @@
 {
     "failed.content.length": "The content is :actualValue characters long. It should be at least :expectedValue characters long.",
     "failed.meta.title": "The page title contains :actualValue in the title, while it should not.",
-    "failed.meta.title.no_content": "The page title is empty, while it should not be."
+    "failed.meta.title.no_content": "The page title is empty, while it should not be.",
+    "failed.content.multiple_h1": "The page contains multiple h1 tags, while it should not. These tags were found :actualValue.",
+    "failed.content.no_heading": "The page does not contain any h1 tag, while it should.",
+    "failed.content.mixed_content": "The page contains links to insecure addresses, while it should not. These links were found :actualValue.",
+    "failed.content.no_title": "The page does not contain a title tag, while it should.",
+    "failed.content.title_length": "The page title is :actualValue characters long. It should be max :expectedValue characters long.",
+    "failed.performance.javascript_size": "The page contains Javascript files that are too large (max :expectedValue). These files were found: :actualValue.",
+    "failed.performance.css_size": "The page contains CSS files that are too large (max :expectedValue). These files were found: :actualValue.",
+    "failed.performance.image_size": "The page contains images that are too large (max :expectedValue). These images were found: :actualValue.",
+    "failed.performance.html_size": "The page contains HTML that is too large (max :expectedValue), the actual size is :actualValue."
 }

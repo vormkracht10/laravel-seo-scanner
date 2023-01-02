@@ -96,3 +96,18 @@ if (! function_exists('getCheckCount')) {
         return $checks->count();
     }
 }
+
+if (! function_exists('bytesToHumanReadable')) {
+    function bytesToHumanReadable(int $bytes): string
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+        /** 
+         * According to the International System of Units (SI), kilo prefix is specified as 1000 (103). 
+         * Based on this, 1 kilobyte is equal to 1000 bytes. So we use 1000 instead of 1024.
+         */
+        $i = (int) floor(log($bytes, 1000));
+
+        return round($bytes / (1000 ** $i), 2).' '.$units[$i];
+    }
+}

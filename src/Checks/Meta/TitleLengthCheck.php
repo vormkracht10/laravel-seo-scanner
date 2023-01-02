@@ -21,11 +21,23 @@ class TitleLengthCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public int|string|null $actualValue = null;
+
+    public int|null $expectedValue = 60;
+
     public function check(Response $response): bool
     {
         $content = $this->getContentToValidate($response);
 
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $content) {
+            $this->failureReason = __('failed.content.no_title');
+
+            return false;
+        }
+
+        if (! $this->validateContent($content)) {
             return false;
         }
 
@@ -43,6 +55,15 @@ class TitleLengthCheck implements Check
 
     public function validateContent(string $content): bool
     {
-        return strlen($content) <= 60;
+        if (strlen($content) > $this->expectedValue) {
+            $this->failureReason = __('failed.content.title_length', [
+                'actualValue' => strlen($content),
+                'expectedValue' => $this->expectedValue,
+            ]);
+
+            return false;
+        }
+
+        return true;
     }
 }

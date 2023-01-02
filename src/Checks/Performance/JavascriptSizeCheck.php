@@ -21,8 +21,16 @@ class JavascriptSizeCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public array|int|string|null $actualValue = null;
+
+    public int|null|string $expectedValue = 1000000;
+
     public function check(Response $response): bool
     {
+        $this->expectedValue = bytesToHumanReadable($this->expectedValue);
+
         $content = $this->getContentToValidate($response);
 
         if (! $content) {
@@ -59,9 +67,11 @@ class JavascriptSizeCheck implements Check
             $content = [$content];
         }
 
-        foreach ($content as $url) {
+        $links = [];
+
+        $tooBigLinks = collect($content)->filter(function ($url) use (&$links) {
             if (! $url) {
-                continue;
+                return false;
             }
 
             if (! str_contains($url, 'http')) {
@@ -69,7 +79,7 @@ class JavascriptSizeCheck implements Check
             }
 
             if (isBrokenLink(url: $url)) {
-                continue;
+                return false;
             }
 
             $size = getRemoteFileSize(url: $url);
@@ -82,8 +92,27 @@ class JavascriptSizeCheck implements Check
              * even check the size of external resources.
              */
             if (! $size || $size > 1000000) {
-                return false;
+
+                $size = $size ? bytesToHumanReadable($size) : 'unknown';
+
+                $links[] = $url . ' (size: ' . $size . ')';
+
+                return true;
             }
+
+            return false;
+        })->toArray();
+
+        if (!empty($tooBigLinks)) {
+
+            $this->actualValue = $links;
+
+            $this->failureReason = __('failed.performance.javascript_size', [
+                'actualValue' => implode(', ', $links),
+                'expectedValue' => $this->expectedValue,
+            ]);
+
+            return false;
         }
 
         return true;
