@@ -46,7 +46,7 @@ class BrokenLinkCheck implements Check
             return $node->attr('href');
         });
 
-        return $matches;
+        return collect($matches)->filter(fn ($value) => $value !== null)->toArray();
     }
 
     public function validateContent(string|array $content): bool
