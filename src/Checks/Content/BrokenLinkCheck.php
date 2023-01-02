@@ -42,7 +42,7 @@ class BrokenLinkCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $content = $crawler->filter('a')->each(function (Crawler $node, $i) {
+        $content = $crawler->filterXPath('//a')->each(function (Crawler $node, $i) {
             return $node->attr('href');
         });
 

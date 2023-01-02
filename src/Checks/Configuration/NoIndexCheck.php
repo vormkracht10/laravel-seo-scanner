@@ -46,11 +46,11 @@ class NoIndexCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $robotContent = $crawler->filter('meta[name="robots"]')->each(function (Crawler $node, $i) {
+        $robotContent = $crawler->filterXPath('//meta[@name="robots"]')->each(function (Crawler $node, $i) {
             return $node->attr('content');
         });
 
-        $googlebotContent = $crawler->filter('meta[name="googlebot"]')->each(function (Crawler $node, $i) {
+        $googlebotContent = $crawler->filterXPath('//meta[@name="googlebot"]')->each(function (Crawler $node, $i) {
             return $node->attr('content');
         });
 

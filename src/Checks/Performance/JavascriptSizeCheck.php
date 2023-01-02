@@ -42,7 +42,7 @@ class JavascriptSizeCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $crawler = $crawler->filter('script')->each(function (Crawler $node, $i) {
+        $crawler = $crawler->filterXPath('//script')->each(function (Crawler $node, $i) {
             $src = $node->attr('src');
 
             if ($src) {

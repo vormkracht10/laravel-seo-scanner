@@ -42,7 +42,7 @@ class ImageSizeCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $content = $crawler->filter('img')->each(function (Crawler $node, $i) {
+        $content = $crawler->filterXPath('//img')->each(function (Crawler $node, $i) {
             return $node->attr('src');
         });
 

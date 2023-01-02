@@ -36,7 +36,7 @@ class LangCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $lang = $crawler->filter('html')->attr('lang');
+        $lang = $crawler->filterXPath('//html')->attr('lang');
 
         if (! $lang) {
             return false;

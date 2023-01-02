@@ -38,7 +38,7 @@ class MultipleHeadingCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $content = $crawler->filter('h1')->each(function (Crawler $node, $i) {
+        $content = $crawler->filterXPath('//h1')->each(function (Crawler $node, $i) {
             return $node->text();
         });
 

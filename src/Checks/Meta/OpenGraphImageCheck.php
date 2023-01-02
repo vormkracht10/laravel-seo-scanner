@@ -38,7 +38,7 @@ class OpenGraphImageCheck implements Check
 
         $crawler = new Crawler($response);
 
-        $crawler = $crawler->filter('meta')->each(function (Crawler $node, $i) {
+        $crawler = $crawler->filterXPath('//meta')->each(function (Crawler $node, $i) {
             $property = $node->attr('property');
             $content = $node->attr('content');
 

@@ -38,7 +38,7 @@ class DescriptionCheck implements Check
 
         $crawler = new Crawler($response);
 
-        return $crawler->filter('meta[name="description"]')->attr('content');
+        return $crawler->filterXPath('//meta[@name="description"]')->attr('content');
     }
 
     public function validateContent(string $content): bool
