@@ -6,48 +6,82 @@ use Vormkracht10\Seo\Checks\Configuration\NoFollowCheck;
 use Vormkracht10\Seo\Checks\Configuration\NoIndexCheck;
 use Vormkracht10\Seo\Checks\Configuration\RobotsCheck;
 
-it('can perform the nofollow check', function () {
+it('can perform the nofollow check with robots tag', function () {
     $check = new NoFollowCheck();
+    $crawler = new Crawler();
 
     Http::fake([
         'vormkracht10.nl' => Http::response('', 200, ['X-Robots-Tag' => 'nofollow']),
     ]);
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
+
+it('can perform the nofollow check with robots metatag', function () {
+    $check = new NoFollowCheck();
+    $crawler = new Crawler();
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><meta name="robots" content="nofollow"></head></html>', 200),
     ]);
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
+
+it('can perform the nofollow check with googlebot metatag', function () {
+    $check = new NoFollowCheck();
+    $crawler = new Crawler();
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><meta name="googlebot" content="nofollow"></head></html>', 200),
     ]);
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
 
-it('can perform the noindex check', function () {
+it('can perform the noindex check with robots tag', function () {
     $check = new NoIndexCheck();
+    $crawler = new Crawler();
 
     Http::fake([
         'vormkracht10.nl' => Http::response('', 200, ['X-Robots-Tag' => 'noindex']),
     ]);
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
+
+it('can perform the noindex check with robots metatag', function () {
+    $check = new NoIndexCheck();
+    $crawler = new Crawler();
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><meta name="robots" content="noindex"></head></html>', 200),
     ]);
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
+
+it('can perform the noindex check with googlebot metatag', function () {
+    $check = new NoIndexCheck();
+    $crawler = new Crawler();
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><meta name="googlebot" content="noindex"></head></html>', 200),
     ]);
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
 
 it('can perform the robots check', function () {
