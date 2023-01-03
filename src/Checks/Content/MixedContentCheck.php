@@ -37,7 +37,7 @@ class MixedContentCheck implements Check
         });
 
         if (! $content) {
-            return false;
+            return true;
         }
 
         if (! is_array($content)) {
