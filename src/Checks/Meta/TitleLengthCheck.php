@@ -37,7 +37,7 @@ class TitleLengthCheck implements Check
         if (! $node) {
             return false;
         }
-        
+
         $content = $crawler->filterXPath('//title')->text();
 
         if (! $content) {
