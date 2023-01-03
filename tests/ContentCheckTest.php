@@ -1,0 +1,45 @@
+<?php 
+
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Checks\Content\AltTagCheck;
+
+it('can perform the alt tag check with alt', function () {
+    $check = new AltTagCheck();
+    $crawler = new Crawler();
+
+    Http::fake([
+        'vormkracht10.nl' => Http::response('<html><head></head><body><img src="https://vormkracht10.nl/images/logo.png" alt="Vormkracht10 logo"></body></html>', 200),
+    ]);
+
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertTrue($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
+
+it('can perform the alt tag check without alt', function () {
+    $check = new AltTagCheck();
+    $crawler = new Crawler();
+
+    Http::fake([
+        'vormkracht10.nl' => Http::response('<html><head></head><body><img src="https://vormkracht10.nl/images/logo.png"></body></html>', 200),
+    ]);
+
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
+
+it('can perform the alt tag check with empty alt', function () {
+    $check = new AltTagCheck();
+    $crawler = new Crawler();
+
+    Http::fake([
+        'vormkracht10.nl' => Http::response('<html><head></head><body><img src="https://vormkracht10.nl/images/logo.png" alt=""></body></html>', 200),
+    ]);
+
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
+
