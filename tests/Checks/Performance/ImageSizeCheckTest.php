@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
@@ -42,4 +42,3 @@ it('can perform the image size check on large images', function () {
 
     $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
-

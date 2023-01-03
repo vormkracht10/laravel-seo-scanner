@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
@@ -8,9 +8,8 @@ use Vormkracht10\Seo\Checks\Performance\CSSSizeCheck;
  * @see In this test, we pass the stylesheet as a response to the check method.
  * This is because the check method will try to fetch the stylesheet, but we don't want to
  * do that in tests. We want to get the stylesheet from the Http::fake() method. Otherwise
- * we don't have access to the stylesheet in the test. 
+ * we don't have access to the stylesheet in the test.
  */
-
 it('can perform the CSS size check on a page with a CSS file larger than 15 KB', function () {
     $check = new CSSSizeCheck();
     $crawler = new Crawler();
