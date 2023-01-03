@@ -44,6 +44,6 @@ class DescriptionCheck implements Check
             return false;
         }
 
-        return strlen($content) > 0;
+        return true;
     }
 }
