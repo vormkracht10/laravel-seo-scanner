@@ -9,7 +9,7 @@ trait PerformCheck
     public function __invoke(array $data, Closure $next)
     {
         if (! in_array('exit', $data)) {
-            $result = $this->check($data['response']);
+            $result = $this->check($data['response'], $data['crawler']);
         }
 
         $result = $result ?? false;

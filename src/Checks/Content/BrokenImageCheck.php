@@ -21,41 +21,27 @@ class BrokenImageCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content) {
-            return true;
-        }
-
-        if (! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|array|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $content = $crawler->filterXPath('//img')->each(function (Crawler $node, $i) {
             return $node->attr('src');
         });
 
-        return collect($content)->filter(fn ($value) => $value !== null)->toArray();
-    }
-
-    public function validateContent(string|array $content): bool
-    {
-        if (! is_array($content)) {
-            $content = [$content];
+        if (! $content) {
+            return true;
         }
 
-        $content = collect($content)->filter(fn ($link) => isBrokenLink($link));
+        $content = collect($content)->filter(fn ($value) => $value !== null)
+            ->filter(fn ($link) => isBrokenLink($link));
 
         return count($content) === 0;
     }

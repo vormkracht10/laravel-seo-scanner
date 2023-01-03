@@ -21,32 +21,25 @@ class MixedContentCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|array|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $content = $crawler->filterXPath('//a')->each(function (Crawler $node, $i) {
             return $node->attr('href');
         });
 
-        return $content;
-    }
+        if (! $content) {
+            return false;
+        }
 
-    public function validateContent(string|array $content): bool
-    {
         if (! is_array($content)) {
             $content = [$content];
         }

@@ -21,7 +21,7 @@ class ImageSizeCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
         $content = $this->getContentToValidate($response);
 

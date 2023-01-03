@@ -5,6 +5,7 @@ namespace Vormkracht10\Seo\Checks\Configuration;
 use Illuminate\Http\Client\Response;
 use vipnytt\RobotsTxtParser\UriClient;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class RobotsCheck implements Check
@@ -21,7 +22,7 @@ class RobotsCheck implements Check
 
     public bool $continueAfterFailure = false;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
         $url = $response->transferStats->getHandlerStats()['url'];
 

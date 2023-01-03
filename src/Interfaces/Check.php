@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Interfaces;
 
 use Closure;
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @property string $title
@@ -18,7 +19,7 @@ use Illuminate\Http\Client\Response;
  */
 interface Check
 {
-    public function check(Response $response): bool;
+    public function check(Response $response, Crawler $crawler): bool;
 
     public function __invoke(array $data, Closure $next);
 

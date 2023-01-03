@@ -21,41 +21,26 @@ class BrokenLinkCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content) {
-            return true;
-        }
-
-        if (! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|array|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $content = $crawler->filterXPath('//a')->each(function (Crawler $node, $i) {
             return $node->attr('href');
         });
 
-        return collect($content)->filter(fn ($value) => $value !== null)->toArray();
-    }
-
-    public function validateContent(string|array $content): bool
-    {
-        if (! is_array($content)) {
-            $content = [$content];
+        if (! $content) {
+            return true;
         }
 
-        $content = collect($content)->filter(function ($link) {
+        $content = collect($content)->filter(fn ($value) => $value !== null)->filter(function ($link) {
             // Filter out all links that are mailto, tel or have a file extension
             if (preg_match('/^mailto:/msi', $link) ||
                 preg_match('/^tel:/msi', $link) ||

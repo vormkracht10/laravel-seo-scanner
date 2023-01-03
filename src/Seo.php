@@ -2,13 +2,14 @@
 
 namespace Vormkracht10\Seo;
 
-use Illuminate\Http\Client\Response;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Collection;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\DomCrawler\Crawler;
 
 class Seo
 {
@@ -39,10 +40,13 @@ class Seo
     {
         $checks = self::orderedCheckClasses();
 
+        $crawler = new Crawler($response->body());
+
         app(Pipeline::class)
             ->send([
                 'response' => $response,
                 'checks' => $checks,
+                'crawler' => $crawler,
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {
