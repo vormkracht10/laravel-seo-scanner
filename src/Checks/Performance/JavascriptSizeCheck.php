@@ -25,7 +25,7 @@ class JavascriptSizeCheck implements Check
 
     public mixed $actualValue = null;
 
-    public int|null|string $expectedValue = 1000000;
+    public mixed $expectedValue = 1000000;
 
     public function check(Response $response, Crawler $crawler): bool
     {

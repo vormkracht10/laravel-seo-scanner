@@ -25,7 +25,7 @@ class MultipleHeadingCheck implements Check
 
     public mixed $actualValue = null;
 
-    public int|null $expectedValue = null;
+    public mixed $expectedValue = null;
 
     public function check(Response $response, Crawler $crawler): bool
     {
@@ -51,7 +51,7 @@ class MultipleHeadingCheck implements Check
         if (is_array($content) && count($content) > 1) {
             $this->actualValue = $content;
 
-            $this->failureReason = __('failed.content.multipe_heading', [
+            $this->failureReason = __('failed.content.multiple_h1', [
                 'actualValue' => implode(', ', $this->actualValue),
             ]);
 

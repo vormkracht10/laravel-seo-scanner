@@ -25,7 +25,7 @@ class TitleCheck implements Check
 
     public mixed $actualValue = null;
 
-    public int|null $expectedValue = null;
+    public mixed $expectedValue = null;
 
     public function check(Response $response, Crawler $crawler): bool
     {

@@ -25,7 +25,7 @@ class TitleLengthCheck implements Check
 
     public mixed $actualValue = null;
 
-    public int|null $expectedValue = 60;
+    public mixed $expectedValue = 60;
 
     public function check(Response $response, Crawler $crawler): bool
     {

@@ -25,7 +25,7 @@ class CSSSizeCheck implements Check
 
     public mixed $actualValue = null;
 
-    public int|null|string $expectedValue = 15000;
+    public mixed $expectedValue = 15000;
 
     public function check(Response $response, Crawler $crawler): bool
     {

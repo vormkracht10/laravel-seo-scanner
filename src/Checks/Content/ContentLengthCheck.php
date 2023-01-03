@@ -26,7 +26,7 @@ class ContentLengthCheck implements Check
 
     public mixed $actualValue = null;
 
-    public int|null $expectedValue = 2100;
+    public mixed $expectedValue = 2100;
 
     public function check(Response $response, Crawler $crawler): bool
     {
