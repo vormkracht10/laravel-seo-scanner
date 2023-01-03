@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -20,7 +21,7 @@ class ResponseCheck implements Check
 
     public bool $continueAfterFailure = false;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
         /** @phpstan-ignore-next-line */
         if ($response->getStatusCode() === 200) {

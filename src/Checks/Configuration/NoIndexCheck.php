@@ -21,31 +21,21 @@ class NoIndexCheck implements Check
 
     public bool $continueAfterFailure = false;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
         if ($response->header('X-Robots-Tag') === 'noindex') {
             return false;
         }
 
-        if (! $content) {
-            return true;
-        }
-
-        if (! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): array|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $robotContent = $crawler->filterXPath('//meta[@name="robots"]')->each(function (Crawler $node, $i) {
             return $node->attr('content');
         });
@@ -56,13 +46,8 @@ class NoIndexCheck implements Check
 
         $content = array_merge($robotContent, $googlebotContent);
 
-        return $content;
-    }
-
-    public function validateContent(array $content): bool
-    {
-        foreach ($content as $metaTag) {
-            if (str_contains($metaTag, 'noindex')) {
+        foreach ($content as $tag) {
+            if (str_contains($tag, 'noindex')) {
                 return false;
             }
         }

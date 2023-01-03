@@ -21,23 +21,17 @@ class OpenGraphImageCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $crawler = $crawler->filterXPath('//meta')->each(function (Crawler $node, $i) {
             $property = $node->attr('property');
             $content = $node->attr('content');
@@ -47,11 +41,12 @@ class OpenGraphImageCheck implements Check
             }
         });
 
-        return collect($crawler)->first(fn ($value) => $value !== null) ?? null;
-    }
+        $content = (string) collect($crawler)->first(fn ($value) => $value !== null) ?? null;
 
-    public function validateContent(string $content): bool
-    {
+        if (! $content) {
+            return false;
+        }
+
         return ! isBrokenLink($content);
     }
 }

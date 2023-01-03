@@ -21,28 +21,23 @@ class DescriptionCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
+        $content = $crawler->filterXPath('//meta[@name="description"]')->attr('content');
 
-        $crawler = new Crawler($response);
+        if (! $content) {
+            return false;
+        }
 
-        return $crawler->filterXPath('//meta[@name="description"]')->attr('content');
-    }
-
-    public function validateContent(string $content): bool
-    {
         return strlen($content) > 0;
     }
 }

@@ -4,6 +4,7 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
 use Readability\Readability;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -27,7 +28,7 @@ class ContentLengthCheck implements Check
 
     public int|null $expectedValue = 2100;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
         $content = $this->getContentToValidate($response);
 

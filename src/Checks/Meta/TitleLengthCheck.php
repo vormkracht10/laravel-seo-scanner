@@ -27,34 +27,25 @@ class TitleLengthCheck implements Check
 
     public int|null $expectedValue = 60;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content) {
-            $this->failureReason = __('failed.content.no_title');
-
-            return false;
-        }
-
-        if (! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
+        $content = $crawler->filterXPath('//title')->text();
 
-        $crawler = new Crawler($response);
+        if (! $content) {
+            $this->failureReason = __('failed.content.no_title');
 
-        return $crawler->filterXPath('//title')->text();
-    }
-
-    public function validateContent(string $content): bool
-    {
+            return false;
+        }
+        
         if (strlen($content) > $this->expectedValue) {
             $this->failureReason = __('failed.content.title_length', [
                 'actualValue' => strlen($content),

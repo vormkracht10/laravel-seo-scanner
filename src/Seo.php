@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Finder\Finder;
 
 class Seo
@@ -47,11 +48,14 @@ class Seo
     {
         $checks = self::orderedCheckClasses();
 
+        $crawler = new Crawler($response->body());
+
         app(Pipeline::class)
             ->send([
                 'response' => $response,
                 'checks' => $checks,
                 'progress' => $this->progress,
+                'crawler' => $crawler,
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {

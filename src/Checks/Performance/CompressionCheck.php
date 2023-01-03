@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -20,7 +21,7 @@ class CompressionCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
         return in_array($response->header('Content-Encoding'), ['gzip', 'compress', 'deflate', 'br']);
     }

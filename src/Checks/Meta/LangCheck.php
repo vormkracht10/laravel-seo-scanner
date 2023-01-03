@@ -21,21 +21,17 @@ class LangCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        if (! $this->validateContent($response)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function validateContent(Response $response): bool
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $lang = $crawler->filterXPath('//html')->attr('lang');
 
         if (! $lang) {

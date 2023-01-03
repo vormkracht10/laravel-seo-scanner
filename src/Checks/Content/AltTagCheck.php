@@ -21,21 +21,17 @@ class AltTagCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        if (! $this->validateContent($response)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function validateContent(Response $response): bool
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $imagesWithoutAlt = $crawler->filterXPath('//img[not(@alt)]')->each(function (Crawler $node, $i) {
             return false;
         });

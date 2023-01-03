@@ -3,6 +3,7 @@
 namespace Vormkracht10\Seo\Checks\Performance;
 
 use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -26,26 +27,25 @@ class HTMLSizeCheck implements Check
 
     public int|null|string $expectedValue = 100000;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
         $this->expectedValue = bytesToHumanReadable($this->expectedValue);
 
-        $content = $this->getContentToValidate($response);
-
-        if (! $content || ! $this->validateContent($content)) {
+        if (! $this->validateContent($response)) {
             return false;
         }
 
         return true;
     }
-
-    public function getContentToValidate(Response $response): string|array|null
+     
+    public function validateContent(Response $response): bool
     {
-        return $response->body();
-    }
+        $content = $response->body();
 
-    public function validateContent(string|array $content): bool
-    {
+        if (! $content) {
+            return false;
+        }
+
         if (strlen($content) > 100000) {
             $this->actualValue = strlen($content);
 

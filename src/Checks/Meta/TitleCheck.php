@@ -27,9 +27,18 @@ class TitleCheck implements Check
 
     public int|null $expectedValue = null;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
+        if (! $this->validateContent($crawler)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateContent(Crawler $crawler): bool
+    {
+        $content = $crawler->filterXPath('//title')->text();
 
         if (! $content) {
             $this->failureReason = __('failed.meta.title.no_content');
@@ -37,24 +46,6 @@ class TitleCheck implements Check
             return false;
         }
 
-        if (! $this->validateContent($content)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function getContentToValidate(Response $response): string|null
-    {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
-        return $crawler->filterXPath('//title')->text();
-    }
-
-    public function validateContent(string $content): bool
-    {
         $content = strtolower($content);
 
         if (str_contains($content, 'home') || str_contains($content, 'homepage')) {

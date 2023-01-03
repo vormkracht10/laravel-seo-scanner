@@ -27,9 +27,20 @@ class MultipleHeadingCheck implements Check
 
     public int|null $expectedValue = null;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
+        if (! $this->validateContent($crawler)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateContent(Crawler $crawler): bool
+    {
+        $content = $crawler->filterXPath('//h1')->each(function (Crawler $node, $i) {
+            return $node->text();
+        });
 
         if (! $content) {
             $this->failureReason = __('failed.content.no_heading');
@@ -37,28 +48,6 @@ class MultipleHeadingCheck implements Check
             return false;
         }
 
-        if (! $this->validateContent($content)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function getContentToValidate(Response $response): string|array|null
-    {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
-        $content = $crawler->filterXPath('//h1')->each(function (Crawler $node, $i) {
-            return $node->text();
-        });
-
-        return $content;
-    }
-
-    public function validateContent(string|array $content): bool
-    {
         if (is_array($content) && count($content) > 1) {
             $this->actualValue = $content;
 

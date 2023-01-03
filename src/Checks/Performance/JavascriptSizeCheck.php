@@ -27,29 +27,19 @@ class JavascriptSizeCheck implements Check
 
     public int|null|string $expectedValue = 1000000;
 
-    public function check(Response $response): bool
+    public function check(Response $response, Crawler $crawler): bool
     {
         $this->expectedValue = bytesToHumanReadable($this->expectedValue);
 
-        $content = $this->getContentToValidate($response);
-
-        if (! $content) {
-            return true;
-        }
-
-        if (! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|array|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
         $crawler = $crawler->filterXPath('//script')->each(function (Crawler $node, $i) {
             $src = $node->attr('src');
 
@@ -58,13 +48,10 @@ class JavascriptSizeCheck implements Check
             }
         });
 
-        return collect($crawler)->filter(fn ($value) => $value !== null)->toArray();
-    }
+        $content = collect($crawler)->filter(fn ($value) => $value !== null)->toArray();
 
-    public function validateContent(string|array $content): bool
-    {
-        if (! is_array($content)) {
-            $content = [$content];
+        if (! $content) {
+            return true;
         }
 
         $links = [];
