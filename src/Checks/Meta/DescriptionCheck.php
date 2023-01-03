@@ -32,6 +32,12 @@ class DescriptionCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
+        $node = $crawler->filterXPath('//meta[@name="description"]')->getNode(0);
+
+        if (! $node) {
+            return false;
+        }
+
         $content = $crawler->filterXPath('//meta[@name="description"]')->attr('content');
 
         if (! $content) {

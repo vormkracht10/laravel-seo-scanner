@@ -54,10 +54,14 @@ class ImageSizeCheck implements Check
 
         $tooBigLinks = collect($content)->filter(function ($url) use (&$links) {
             if (! str_contains($url, 'http')) {
-                $url = url($url);
+                $image = url($url);
             }
 
-            $image = file_get_contents($url);
+            if (isBrokenLink($image)) {
+                return false;
+            }
+
+            $image = file_get_contents($image);
 
             if (strlen($image) > 1000000) {
                 $size = bytesToHumanReadable(strlen($image));

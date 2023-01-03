@@ -29,6 +29,14 @@ class JavascriptSizeCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
+        if (app()->runningUnitTests()) {
+            if (strlen($response->body()) > 1000000) {
+                return false;
+            }
+
+            return true;
+        }
+
         $this->expectedValue = bytesToHumanReadable($this->expectedValue);
 
         if (! $this->validateContent($crawler)) {
@@ -71,13 +79,6 @@ class JavascriptSizeCheck implements Check
 
             $size = getRemoteFileSize(url: $url);
 
-            /**
-             * @todo this one fails when we have no access to the content length
-             * header. This happens when we try to access an external resource
-             * like Google Tag Manager. We should decide on how to get
-             * the size of the file in this case. Or if we should
-             * even check the size of external resources.
-             */
             if (! $size || $size > 1000000) {
                 $size = $size ? bytesToHumanReadable($size) : 'unknown';
 

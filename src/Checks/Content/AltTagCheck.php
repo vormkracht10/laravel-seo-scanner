@@ -36,6 +36,12 @@ class AltTagCheck implements Check
             return false;
         });
 
+        $imagesWithEmptyAlt = $crawler->filterXPath('//img[@alt=""]')->each(function (Crawler $node, $i) {
+            return false;
+        });
+
+        $imagesWithoutAlt = array_merge($imagesWithoutAlt, $imagesWithEmptyAlt);
+
         return collect($imagesWithoutAlt)->first(fn ($value) => $value === false) ?? true;
     }
 }
