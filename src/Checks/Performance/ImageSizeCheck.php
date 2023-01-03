@@ -45,7 +45,7 @@ class ImageSizeCheck implements Check
         });
 
         $content = collect($crawler)->filter(fn ($value) => $value !== null)->toArray();
-        
+
         if (! $content) {
             return true;
         }

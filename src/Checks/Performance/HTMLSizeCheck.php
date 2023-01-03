@@ -37,7 +37,7 @@ class HTMLSizeCheck implements Check
 
         return true;
     }
-     
+
     public function validateContent(Response $response): bool
     {
         $content = $response->body();
