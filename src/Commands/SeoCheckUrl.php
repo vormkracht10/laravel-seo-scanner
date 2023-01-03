@@ -31,7 +31,7 @@ class SeoCheckUrl extends Command
         $score->getFailedChecks()->map(function ($failed) {
             $this->line('<fg=red>'.$failed->title.' failed.</>');
 
-            if ($failed->failureReason) {
+            if (property_exists($failed, 'failureReason')) {
                 $this->line($failed->failureReason.' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
             }
 
