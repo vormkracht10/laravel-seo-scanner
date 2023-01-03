@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
@@ -60,4 +60,3 @@ it('can perform the robots check', function () {
 
     $this->assertTrue($check->check(Http::get('vormkracht10.nl'), new Crawler()));
 });
-
