@@ -41,7 +41,7 @@ class OpenGraphImageCheck implements Check
             }
         });
 
-        $content = (string) collect($crawler)->first(fn ($value) => $value !== null) ?? null;
+        $content = (string) collect($crawler)->first(fn ($value) => $value !== null);
 
         if (! $content) {
             return false;
