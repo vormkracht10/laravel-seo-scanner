@@ -12,5 +12,6 @@
     "failed.performance.image_size": "The page contains images that are too large (max :expectedValue). These images were found: :actualValue.",
     "failed.performance.html_size": "The page contains HTML that is too large (max :expectedValue), the actual size is :actualValue.",
     "failed.performance.ttfb": "The page took too long to load (max :expectedValue ms). The actual time was :actualValue ms.",
-    "failed.performance.response": "The page returned a response code other than :expectedValue. The actual response code was :actualValue."
+    "failed.performance.response": "The page returned a response code other than :expectedValue. The actual response code was :actualValue.",
+    "failed.meta.no_lang": "The page does not contain a lang attribute, while it should."
 }
