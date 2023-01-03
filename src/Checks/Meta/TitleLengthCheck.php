@@ -32,6 +32,12 @@ class TitleLengthCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
+        $node = $crawler->filterXPath('//title')->getNode(0);
+
+        if (! $node) {
+            return false;
+        }
+        
         $content = $crawler->filterXPath('//title')->text();
 
         if (! $content) {
