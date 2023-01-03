@@ -30,7 +30,7 @@ class CSSSizeCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         $this->expectedValue = bytesToHumanReadable($this->expectedValue);
-        
+
         if (app()->runningUnitTests()) {
             if (strlen($response->body()) > 15000) {
                 return false;
