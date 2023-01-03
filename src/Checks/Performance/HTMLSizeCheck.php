@@ -23,7 +23,7 @@ class HTMLSizeCheck implements Check
 
     public string|null $failureReason;
 
-    public array|int|string|null $actualValue = null;
+    public mixed $actualValue = null;
 
     public int|null|string $expectedValue = 100000;
 

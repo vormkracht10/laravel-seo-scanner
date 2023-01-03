@@ -24,7 +24,7 @@ class ContentLengthCheck implements Check
 
     public string|null $failureReason;
 
-    public int|string|null $actualValue = null;
+    public mixed $actualValue = null;
 
     public int|null $expectedValue = 2100;
 

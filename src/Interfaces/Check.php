@@ -13,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
  * @property int $scoreWeight
  * @property bool $continueAfterFailure
  * @property string $failureReason
- * @property array|int|null $actualValue
+ * @property mixed $actualValue
  * @property int|null $expectedValue
  *
  * @method check()
