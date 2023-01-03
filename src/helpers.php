@@ -42,7 +42,7 @@ if (! function_exists('getRemoteStatus')) {
 }
 
 if (! function_exists('getRemoteFileSize')) {
-    function getRemoteFileSize(string $url): int|false
+    function getRemoteFileSize(string $url): int
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -62,7 +62,7 @@ if (! function_exists('getRemoteFileSize')) {
             $contentLength = (int) $matches[1];
         }
 
-        if (! $contentLength) {
+        if (! isset($contentLength)) {
             $contentLength = strlen(file_get_contents($url));
         }
 

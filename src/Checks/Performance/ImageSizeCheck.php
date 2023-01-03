@@ -23,41 +23,32 @@ class ImageSizeCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        $content = $this->getContentToValidate($response);
-
-        if (! $content) {
-            return true;
-        }
-
-        if (! $this->validateContent($content)) {
+        if (! $this->validateContent($crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function getContentToValidate(Response $response): string|array|null
+    public function validateContent(Crawler $crawler): bool
     {
-        $response = $response->body();
-
-        $crawler = new Crawler($response);
-
-        $content = $crawler->filterXPath('//img')->each(function (Crawler $node, $i) {
+        $crawler = $crawler->filterXPath('//img')->each(function (Crawler $node, $i) {
             return $node->attr('src');
         });
 
-        return collect($content)->filter(fn ($value) => $value !== null)->toArray();
-    }
+        $content = collect($crawler)->filter(fn ($value) => $value !== null)->toArray();
 
-    public function validateContent(string|array $content): bool
-    {
-        if (! is_array($content)) {
-            $content = [$content];
+        if (! $content) {
+            return true;
         }
 
         foreach ($content as $image) {
             if (! str_contains($image, 'http')) {
                 $image = url($image);
+            }
+
+            if (isBrokenLink($image)) {
+                return false;
             }
 
             $image = file_get_contents($image);
