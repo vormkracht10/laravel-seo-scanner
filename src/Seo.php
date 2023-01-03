@@ -2,14 +2,14 @@
 
 namespace Vormkracht10\Seo;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Collection;
 use Illuminate\Http\Client\Response;
+use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Finder\Finder;
 
 class Seo
 {
