@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
@@ -9,7 +9,7 @@ it('can perform the content length check on content with a length of 2100 charac
     $crawler = new Crawler();
 
     Http::fake([
-        'vormkracht10.nl' => Http::response( 
+        'vormkracht10.nl' => Http::response(
             '<html>
                 <head>
                     <title>Test</title>
@@ -17,7 +17,7 @@ it('can perform the content length check on content with a length of 2100 charac
                 <body>
                     <p>'.str_repeat('a', 2100).'</p>
                 </body>',
-        200),
+            200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
@@ -30,7 +30,7 @@ it('can perform the content length check on content with less characters', funct
     $crawler = new Crawler();
 
     Http::fake([
-        'vormkracht10.nl' => Http::response( 
+        'vormkracht10.nl' => Http::response(
             '<html>
                 <head>
                     <title>Test</title>
@@ -38,7 +38,7 @@ it('can perform the content length check on content with less characters', funct
                 <body>
                     <p>'.str_repeat('a', 100).'</p>
                 </body>',
-        200),
+            200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
