@@ -57,6 +57,6 @@ class HTMLSizeCheck implements Check
             return false;
         }
 
-        return strlen($content) < 100000;
+        return true;
     }
 }

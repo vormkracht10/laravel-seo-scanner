@@ -52,16 +52,16 @@ class ImageSizeCheck implements Check
 
         $links = [];
 
-        $tooBigLinks = collect($content)->filter(function ($url) use (&$links) {
+        $tooBigOrFailedLinks = collect($content)->filter(function ($url) use (&$links) {
             if (! str_contains($url, 'http')) {
-                $image = url($url);
+                $url = url($url);
             }
 
-            if (isBrokenLink($image)) {
-                return false;
+            if (isBrokenLink($url)) {
+                return true;
             }
 
-            $image = file_get_contents($image);
+            $image = file_get_contents($url);
 
             if (strlen($image) > 1000000) {
                 $size = bytesToHumanReadable(strlen($image));
@@ -74,7 +74,7 @@ class ImageSizeCheck implements Check
             return false;
         })->toArray();
 
-        if (! empty($tooBigLinks)) {
+        if (! empty($tooBigOrFailedLinks)) {
             $this->actualValue = $links;
 
             $this->failureReason = __('failed.performance.image_size', [
