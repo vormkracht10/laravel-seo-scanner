@@ -42,7 +42,7 @@ if (! function_exists('getRemoteStatus')) {
 }
 
 if (! function_exists('getRemoteFileSize')) {
-    function getRemoteFileSize(string $url): int|false
+    function getRemoteFileSize(string $url): int
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_NOBODY, true);
