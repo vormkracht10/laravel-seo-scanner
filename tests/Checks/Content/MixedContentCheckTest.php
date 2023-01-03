@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
@@ -55,6 +55,3 @@ it('can perform the mixed content check on content where https and http is used'
 
     $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
-
-
-

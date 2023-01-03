@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
@@ -17,7 +17,7 @@ it('can perform the multiple heading check test on no headings', function () {
     $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
 
-it ('can perform the multiple heading check test on one heading', function () {
+it('can perform the multiple heading check test on one heading', function () {
     $check = new MultipleHeadingCheck();
     $crawler = new Crawler();
 
@@ -30,7 +30,7 @@ it ('can perform the multiple heading check test on one heading', function () {
     $this->assertTrue($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
 
-it ('can perform the multiple heading check test on multiple headings', function () {
+it('can perform the multiple heading check test on multiple headings', function () {
     $check = new MultipleHeadingCheck();
     $crawler = new Crawler();
 
