@@ -16,7 +16,6 @@ it('can perform the ttfb check', function () {
      * returns true or false. If it returns false, we'll check if the actual value
      * is higher than the expected value. If it is, we'll check if the check returns
      * false. If it doesn't, we'll check if the check returns true.
-     * 
      */
     if ($check->check(Http::get('vormkracht10.nl'), new Crawler()) && $check->actualValue > $check->expectedValue) {
         $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
