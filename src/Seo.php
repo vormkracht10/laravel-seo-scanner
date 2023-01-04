@@ -71,7 +71,7 @@ class Seo
             });
     }
 
-    private static function getCheckPaths(): array
+    public static function getCheckPaths(): array
     {
         if (app()->runningUnitTests()) {
             return collect(config('seo.check_paths', [__DIR__.'/Checks']))
@@ -83,7 +83,7 @@ class Seo
             ->toArray();
     }
 
-    private static function getCheckClasses(): Collection
+    public static function getCheckClasses(): Collection
     {
         if (! in_array('*', Arr::wrap(config('seo.checks', '*')))) {
             return collect(Arr::wrap(config('seo.checks')))->mapWithKeys(fn ($check) => [$check => null]);
@@ -129,7 +129,7 @@ class Seo
      *
      * @return Collection
      */
-    private static function orderedCheckClasses(): Collection
+    public static function orderedCheckClasses(): Collection
     {
         return self::getCheckClasses()->map(fn ($check, $key) => app($key))
             ->sortBy(fn ($check) => $check->continueAfterFailure)
