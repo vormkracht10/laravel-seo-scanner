@@ -25,5 +25,7 @@
     "failed.performance.javascript_size": "The page contains Javascript files that are too large (max :expectedValue). These files were found: :actualValue.",
     "failed.performance.response": "The page returned a response code other than :expectedValue. The actual response code was :actualValue.",
     "failed.performance.ttfb": "The page took too long to load (max :expectedValuems). The actual time was :actualValuems.",
-    "failed.performance.ttfb.missing_url": "We could not get the TTFB for this page."
+    "failed.performance.ttfb.missing_url": "We could not get the TTFB for this page.",
+    "failed.meta.open_graph_image": "The page does not contain an open graph image, while it should.",
+    "failed.meta.open_graph_image.broken": "The page contains a broken open graph image. This image was found: :actualValue."
 }

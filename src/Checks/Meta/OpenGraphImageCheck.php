@@ -21,6 +21,12 @@ class OpenGraphImageCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
@@ -43,10 +49,22 @@ class OpenGraphImageCheck implements Check
 
         $content = (string) collect($crawler)->first(fn ($value) => $value !== null);
 
+        $this->actualValue = $content;
+
         if (! $content) {
+            $this->failureReason = __('failed.meta.open_graph_image');
+            
             return false;
         }
 
-        return ! isBrokenLink($content);
+        if (isBrokenLink($content)) {
+            $this->failureReason = __('failed.meta.open_graph_image.broken', [
+                'actualValue' => $content,
+            ]);
+
+            return false;
+        }
+        
+        return true;
     }
 }
