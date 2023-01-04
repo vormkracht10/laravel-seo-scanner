@@ -31,9 +31,15 @@ class TTFBCheck implements Check
     {
         $ttfb = $response->transferStats?->getHandlerStats()['starttransfer_time'] ?? null;
 
-        $this->actualValue = $ttfb;
+        if (! $ttfb) {
+            $this->failureReason = __('failed.performance.ttfb.missing');
 
-        if (is_float($ttfb) && $ttfb <= 0.6) {
+            return false;
+        }
+
+        $this->actualValue = round($ttfb, 2);
+
+        if ($this->actualValue <= 0.6) {
             return true;
         }
 
