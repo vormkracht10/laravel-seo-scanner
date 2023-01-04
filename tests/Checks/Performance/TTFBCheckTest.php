@@ -10,9 +10,6 @@ it('can perform the ttfb check', function () {
     Http::fake([
         'vormkracht10.nl/robots.txt' => Http::response('<html></html>', 200),
     ]);
-
-    /** @var Illuminate\Http\Client\Response $response */
-    $response = Http::get('vormkracht10.nl');
     
     /**
      * Because we can't manually set the ttfb value, we'll just check if the check
@@ -21,9 +18,9 @@ it('can perform the ttfb check', function () {
      * false. If it doesn't, we'll check if the check returns true.
      * 
      */
-    if ($check->check($response, new Crawler()) && $check->actualValue > $check->expectedValue) {
-        $this->assertFalse($check->check($response, new Crawler()));
+    if ($check->check(Http::get('vormkracht10.nl'), new Crawler()) && $check->actualValue > $check->expectedValue) {
+        $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
     } else {
-        $this->assertTrue($check->check($response, new Crawler()));
+        $this->assertTrue($check->check(Http::get('vormkracht10.nl'), new Crawler()));
     }
 });
