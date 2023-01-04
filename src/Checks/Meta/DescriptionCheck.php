@@ -31,7 +31,7 @@ class DescriptionCheck implements Check
     {
         if (! $this->validateContent($crawler)) {
             $this->failureReason = __('failed.meta.description');
-            
+
             return false;
         }
 

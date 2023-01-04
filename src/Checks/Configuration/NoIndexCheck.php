@@ -31,6 +31,7 @@ class NoIndexCheck implements Check
     {
         if ($response->header('X-Robots-Tag') === 'noindex') {
             $this->failureReason = __('failed.configuration.noindex.tag');
+
             return false;
         }
 
@@ -56,6 +57,7 @@ class NoIndexCheck implements Check
         foreach ($content as $tag) {
             if (str_contains($tag, 'noindex')) {
                 $this->failureReason = __('failed.configuration.noindex.meta');
+
                 return false;
             }
         }

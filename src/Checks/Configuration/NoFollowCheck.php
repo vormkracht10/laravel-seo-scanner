@@ -31,6 +31,7 @@ class NoFollowCheck implements Check
     {
         if ($response->header('X-Robots-Tag') === 'nofollow') {
             $this->failureReason = __('failed.configuration.nofollow.tag');
+
             return false;
         }
 
@@ -56,6 +57,7 @@ class NoFollowCheck implements Check
         foreach ($content as $tag) {
             if (str_contains($tag, 'nofollow')) {
                 $this->failureReason = __('failed.configuration.nofollow.meta');
+
                 return false;
             }
         }
