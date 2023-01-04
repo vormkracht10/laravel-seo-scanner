@@ -5,7 +5,7 @@ namespace Vormkracht10\Seo\Traits;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Vormkracht10\Seo\Facades\Seo;
-use Vormkracht10\Seo\Models\SeoScoreModel;
+use Vormkracht10\Seo\Models\SeoScore as SeoScoreModel;
 use Vormkracht10\Seo\SeoScore;
 
 trait HasSeoScore
