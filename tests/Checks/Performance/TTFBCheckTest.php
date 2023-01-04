@@ -13,13 +13,12 @@ it('can perform the ttfb check', function () {
 
     /** @var Illuminate\Http\Client\Response $response */
     $response = Http::get('vormkracht10.nl');
-    
+
     /**
      * Because we can't manually set the ttfb value, we'll just check if the check
      * returns true or false. If it returns false, we'll check if the actual value
      * is higher than the expected value. If it is, we'll check if the check returns
      * false. If it doesn't, we'll check if the check returns true.
-     * 
      */
     if ($check->check($response, new Crawler()) && $check->actualValue > $check->expectedValue) {
         $this->assertFalse($check->check($response, new Crawler()));
