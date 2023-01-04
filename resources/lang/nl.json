@@ -5,6 +5,9 @@
     "failed.configuration.noindex.tag": "The page contains a noindex tag, while it should not.",
     "failed.configuration.robots.disallowed": "The robots.txt file for this page contains a disallow rule for this page.",
     "failed.configuration.robots.missing_url": "We could not get the robots.txt file for this page.",
+    "failed.content.alt_tag": "The page contains images without or empty alt tags. These images were found: :actualValue.",
+    "failed.content.broken_images": "The page contains broken images. These images were found: :actualValue.",
+    "failed.content.broken_links": "The page contains broken links. These links were found: :actualValue.",
     "failed.content.length": "The content is :actualValue characters long. It should be at least :expectedValue characters long.",
     "failed.content.mixed_content": "The page contains links to insecure addresses, while it should not. These links were found :actualValue.",
     "failed.content.multiple_h1": "The page contains multiple h1 tags, while it should not. These tags were found :actualValue.",
@@ -15,12 +18,12 @@
     "failed.meta.no_lang": "The page does not contain a lang attribute, while it should.",
     "failed.meta.title": "The page title contains :actualValue in the title, while it should not.",
     "failed.meta.title.no_content": "The page title is empty, while it should not be.",
+    "failed.performance.compression": "The page is not compressed (using either gzip, compress, deflate or br), while it should be.",
     "failed.performance.css_size": "The page contains CSS files that are too large (max :expectedValue). These files were found: :actualValue.",
     "failed.performance.html_size": "The page contains HTML that is too large (max :expectedValue), the actual size is :actualValue.",
     "failed.performance.image_size": "The page contains images that are too large (max :expectedValue). These images were found: :actualValue.",
     "failed.performance.javascript_size": "The page contains Javascript files that are too large (max :expectedValue). These files were found: :actualValue.",
     "failed.performance.response": "The page returned a response code other than :expectedValue. The actual response code was :actualValue.",
     "failed.performance.ttfb": "The page took too long to load (max :expectedValuems). The actual time was :actualValuems.",
-    "failed.performance.ttfb.missing_url": "We could not get the TTFB for this page.",
-    "failed.performance.compression": "The page is not compressed (using either gzip, compress, deflate or br), while it should be."
+    "failed.performance.ttfb.missing_url": "We could not get the TTFB for this page."
 }
