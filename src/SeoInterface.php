@@ -2,9 +2,9 @@
 
 namespace Vormkracht10\Seo;
 
-use Vormkracht10\Seo\Models\SeoScore;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Vormkracht10\Seo\Models\SeoScore;
 
 interface SeoInterface
 {
