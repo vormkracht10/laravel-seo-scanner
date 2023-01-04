@@ -29,7 +29,7 @@ class CompressionCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        if (!in_array($response->header('Content-Encoding'), ['gzip', 'compress', 'deflate', 'br'])) {
+        if (! in_array($response->header('Content-Encoding'), ['gzip', 'compress', 'deflate', 'br'])) {
             $this->failureReason = __('failed.performance.compression');
 
             return false;
