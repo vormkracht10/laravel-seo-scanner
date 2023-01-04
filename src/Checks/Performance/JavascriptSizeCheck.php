@@ -21,6 +21,12 @@ class JavascriptSizeCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = 1000000;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (app()->runningUnitTests()) {
@@ -30,6 +36,8 @@ class JavascriptSizeCheck implements Check
 
             return true;
         }
+
+        $this->expectedValue = bytesToHumanReadable($this->expectedValue);
 
         if (! $this->validateContent($crawler)) {
             return false;
@@ -54,9 +62,11 @@ class JavascriptSizeCheck implements Check
             return true;
         }
 
-        foreach ($content as $url) {
+        $links = [];
+
+        $tooBigLinks = collect($content)->filter(function ($url) use (&$links) {
             if (! $url) {
-                continue;
+                return false;
             }
 
             if (! str_contains($url, 'http')) {
@@ -64,21 +74,31 @@ class JavascriptSizeCheck implements Check
             }
 
             if (isBrokenLink(url: $url)) {
-                continue;
+                return false;
             }
 
             $size = getRemoteFileSize(url: $url);
 
-            /**
-             * @todo this one fails when we have no access to the content length
-             * header. This happens when we try to access an external resource
-             * like Google Tag Manager. We should decide on how to get
-             * the size of the file in this case. Or if we should
-             * even check the size of external resources.
-             */
             if (! $size || $size > 1000000) {
-                return false;
+                $size = $size ? bytesToHumanReadable($size) : 'unknown';
+
+                $links[] = $url.' (size: '.$size.')';
+
+                return true;
             }
+
+            return false;
+        })->toArray();
+
+        if (! empty($tooBigLinks)) {
+            $this->actualValue = $links;
+
+            $this->failureReason = __('failed.performance.javascript_size', [
+                'actualValue' => implode(', ', $links),
+                'expectedValue' => $this->expectedValue,
+            ]);
+
+            return false;
         }
 
         return true;

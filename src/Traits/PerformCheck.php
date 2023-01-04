@@ -20,6 +20,11 @@ trait PerformCheck
             $data['exit'] = true;
         }
 
+        // Advance the progress bar.
+        if (isset($data['progress'])) {
+            $data['progress']->advance();
+        }
+
         return $next($data);
     }
 
@@ -27,10 +32,34 @@ trait PerformCheck
     {
         if (in_array('exit', $data)) {
             unset($data['checks'][__CLASS__]);
-        } else {
-            $data['checks'][__CLASS__] = $result;
+
+            return $data;
         }
 
+        $value = ['result' => $result];
+
+        if (! $result) {
+            $value['failureReason'] = $this->failureReason ?? null;
+            $value['expectedValue'] = $this->expectedValue ?? null;
+            $value['actualValue'] = $this->actualValue ?? null;
+        }
+
+        $data['checks'][__CLASS__] = $value;
+
         return $data;
+    }
+
+    /**
+     * Replace the properties of the class with the values of the array.
+     */
+    public function merge(array $result): self
+    {
+        array_walk($result, function ($value, $key) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        });
+
+        return $this;
     }
 }

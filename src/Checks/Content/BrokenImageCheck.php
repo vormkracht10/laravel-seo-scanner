@@ -21,6 +21,12 @@ class BrokenImageCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
@@ -41,8 +47,18 @@ class BrokenImageCheck implements Check
         }
 
         $content = collect($content)->filter(fn ($value) => $value !== null)
-            ->filter(fn ($link) => isBrokenLink($link));
+            ->filter(fn ($link) => isBrokenLink($link))->toArray();
 
-        return count($content) === 0;
+        $this->actualValue = $content;
+
+        if (count($content) > 0) {
+            $this->failureReason = __('failed.content.broken_images', [
+                'actualValue' => implode(', ', $content),
+            ]);
+
+            return false;
+        }
+
+        return true;
     }
 }

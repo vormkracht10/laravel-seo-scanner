@@ -21,9 +21,17 @@ class HTMLSizeCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = 100000;
+
     public function check(Response $response, Crawler $crawler): bool
     {
-        if ($this->validateContent($response)) {
+        $this->expectedValue = bytesToHumanReadable($this->expectedValue);
+
+        if (! $this->validateContent($response)) {
             return false;
         }
 
@@ -38,6 +46,17 @@ class HTMLSizeCheck implements Check
             return false;
         }
 
-        return strlen($content) < 100000;
+        if (strlen($content) > 100000) {
+            $this->actualValue = strlen($content);
+
+            $this->failureReason = __('failed.performance.html_size', [
+                'actualValue' => bytesToHumanReadable($this->actualValue),
+                'expectedValue' => $this->expectedValue,
+            ]);
+
+            return false;
+        }
+
+        return true;
     }
 }

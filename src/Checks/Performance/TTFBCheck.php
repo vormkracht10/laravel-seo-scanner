@@ -21,13 +21,32 @@ class TTFBCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = 0.6;
+
     public function check(Response $response, Crawler $crawler): bool
     {
-        $ttfb = $response?->transferStats?->getHandlerStats()['starttransfer_time'] ?? null;
+        $ttfb = $response->transferStats?->getHandlerStats()['starttransfer_time'] ?? null;
 
-        if (is_float($ttfb) && $ttfb <= 0.6) {
+        if (! $ttfb) {
+            $this->failureReason = __('failed.performance.ttfb.missing');
+
+            return false;
+        }
+
+        $this->actualValue = round($ttfb, 2);
+
+        if ($this->actualValue <= 0.6) {
             return true;
         }
+
+        $this->failureReason = __('failed.performance.ttfb', [
+            'actualValue' => $this->actualValue,
+            'expectedValue' => $this->expectedValue,
+        ]);
 
         return false;
     }

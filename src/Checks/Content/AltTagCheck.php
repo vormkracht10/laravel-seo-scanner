@@ -21,6 +21,12 @@ class AltTagCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
@@ -42,6 +48,16 @@ class AltTagCheck implements Check
 
         $imagesWithoutAlt = array_merge($imagesWithoutAlt, $imagesWithEmptyAlt);
 
-        return collect($imagesWithoutAlt)->first(fn ($value) => $value === false) ?? true;
+        $this->actualValue = $imagesWithoutAlt;
+
+        if (count($imagesWithoutAlt) > 0) {
+            $this->failureReason = __('failed.content.alt_tag', [
+                'actualValue' => implode(', ', $imagesWithoutAlt),
+            ]);
+
+            return false;
+        }
+
+        return true;
     }
 }

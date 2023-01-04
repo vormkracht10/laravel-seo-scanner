@@ -21,8 +21,16 @@ class ImageSizeCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = 1000000;
+
     public function check(Response $response, Crawler $crawler): bool
     {
+        $this->expectedValue = bytesToHumanReadable($this->expectedValue);
+
         if (! $this->validateContent($crawler)) {
             return false;
         }
@@ -42,20 +50,39 @@ class ImageSizeCheck implements Check
             return true;
         }
 
-        foreach ($content as $image) {
-            if (! str_contains($image, 'http')) {
-                $image = url($image);
+        $links = [];
+
+        $tooBigOrFailedLinks = collect($content)->filter(function ($url) use (&$links) {
+            if (! str_contains($url, 'http')) {
+                $url = url($url);
             }
 
-            if (isBrokenLink($image)) {
-                return false;
+            if (isBrokenLink($url)) {
+                return true;
             }
 
-            $image = file_get_contents($image);
+            $image = file_get_contents($url);
 
             if (strlen($image) > 1000000) {
-                return false;
+                $size = bytesToHumanReadable(strlen($image));
+
+                $links[] = $url.' (size: '.$size.')';
+
+                return true;
             }
+
+            return false;
+        })->toArray();
+
+        if (! empty($tooBigOrFailedLinks)) {
+            $this->actualValue = $links;
+
+            $this->failureReason = __('failed.performance.image_size', [
+                'actualValue' => implode(', ', $links),
+                'expectedValue' => $this->expectedValue,
+            ]);
+
+            return false;
         }
 
         return true;

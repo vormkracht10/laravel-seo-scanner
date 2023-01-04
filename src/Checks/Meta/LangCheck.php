@@ -21,6 +21,12 @@ class LangCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
@@ -35,6 +41,8 @@ class LangCheck implements Check
         $lang = $crawler->filterXPath('//html')->attr('lang');
 
         if (! $lang) {
+            $this->failureReason = __('failed.meta.no_lang');
+
             return false;
         }
 

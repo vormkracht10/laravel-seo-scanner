@@ -16,13 +16,25 @@ class SeoCheckUrl extends Command
         $this->info('Please wait while we check your web page...');
         $this->line('');
 
-        $score = Seo::check($this->argument('url'));
+        $progress = $this->output->createProgressBar(18);
+        $progress->start();
 
+        $score = Seo::check($this->argument('url'), $progress);
+
+        $progress->finish();
+
+        $this->line('');
+        $this->line('');
         $this->line($this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count().' passed</> <fg=red>'.($score->getFailedChecks()->count().' failed</>'));
         $this->line('');
 
         $score->getFailedChecks()->map(function ($failed) {
-            $this->line('<fg=red>'.$failed->title.' failed.</> Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+            $this->line('<fg=red>'.$failed->title.' failed.</>');
+
+            if (property_exists($failed, 'failureReason')) {
+                $this->line($failed->failureReason.' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+            }
+
             $this->line('');
         });
 

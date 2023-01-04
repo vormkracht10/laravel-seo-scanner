@@ -21,9 +21,17 @@ class DescriptionCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
+            $this->failureReason = __('failed.meta.description');
+
             return false;
         }
 

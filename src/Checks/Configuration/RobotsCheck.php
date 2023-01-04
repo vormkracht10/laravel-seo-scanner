@@ -22,12 +22,30 @@ class RobotsCheck implements Check
 
     public bool $continueAfterFailure = false;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
-        $url = $response->transferStats->getHandlerStats()['url'];
+        $url = $response->transferStats?->getHandlerStats()['url'] ?? null;
+
+        if (! $url) {
+            $this->failureReason = __('failed.configuration.robots.missing_url');
+
+            return false;
+        }
 
         $client = new UriClient($url);
 
-        return $client->userAgent('Googlebot')->isAllowed($url);
+        if (! $client->userAgent('Googlebot')->isAllowed($url)) {
+            $this->failureReason = __('failed.configuration.robots.disallowed');
+
+            return false;
+        }
+
+        return true;
     }
 }

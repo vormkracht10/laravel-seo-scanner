@@ -22,6 +22,12 @@ class ContentLengthCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = 2100;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (app()->runningUnitTests()) {
@@ -54,6 +60,15 @@ class ContentLengthCheck implements Check
 
     public function validateContent(string|array $content): bool
     {
-        return strlen($content) >= 2100;
+        $this->actualValue = strlen($content);
+
+        if (strlen($content) < $this->expectedValue) {
+            $this->failureReason = __('failed.content.length', [
+                'actualValue' => $this->actualValue,
+                'expectedValue' => $this->expectedValue,
+            ]);
+        }
+
+        return strlen($content) >= $this->expectedValue;
     }
 }

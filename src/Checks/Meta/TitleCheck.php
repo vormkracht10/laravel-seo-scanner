@@ -21,6 +21,12 @@ class TitleCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
@@ -41,11 +47,23 @@ class TitleCheck implements Check
         $content = $crawler->filterXPath('//title')->text();
 
         if (! $content) {
+            $this->failureReason = __('failed.meta.title.no_content');
+
             return false;
         }
 
         $content = strtolower($content);
 
-        return ! str_contains($content, 'home') && ! str_contains($content, 'homepage');
+        if (str_contains($content, 'home') || str_contains($content, 'homepage')) {
+            $this->actualValue = $content;
+
+            $this->failureReason = __('failed.meta.title', [
+                'actualValue' => $this->actualValue,
+            ]);
+
+            return false;
+        }
+
+        return true;
     }
 }

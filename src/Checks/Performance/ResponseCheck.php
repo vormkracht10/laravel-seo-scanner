@@ -21,12 +21,26 @@ class ResponseCheck implements Check
 
     public bool $continueAfterFailure = false;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = 200;
+
     public function check(Response $response, Crawler $crawler): bool
     {
+        /** @phpstan-ignore-next-line */
+        $this->actualValue = $response->getStatusCode();
+
         /** @phpstan-ignore-next-line */
         if ($response->getStatusCode() === 200) {
             return true;
         }
+
+        $this->failureReason = __('failed.performance.response', [
+            'actualValue' => $this->actualValue,
+            'expectedValue' => $this->expectedValue,
+        ]);
 
         return false;
     }

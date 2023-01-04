@@ -8,11 +8,17 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Finder\Finder;
 
 class Seo
 {
+    /**
+     * @var ProgressBar|null The progress bar to use for the checks.
+     */
+    public ProgressBar|null $progress;
+
     public function __construct(
         protected Http $http,
         protected Collection $successful,
@@ -20,9 +26,11 @@ class Seo
     ) {
     }
 
-    public function check(string $url): SeoScore
+    public function check(string $url, ProgressBar|null $progress = null): SeoScore
     {
         $response = $this->visitPage(url: $url);
+
+        $this->progress = $progress;
 
         $this->runChecks(response: $response);
 
@@ -46,15 +54,20 @@ class Seo
             ->send([
                 'response' => $response,
                 'checks' => $checks,
+                'progress' => $this->progress,
                 'crawler' => $crawler,
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {
-                $this->successful = $data['checks']->filter(fn ($result) => $result)
-                    ->map(fn ($result, $check) => app($check));
+                $this->successful = $data['checks']->filter(fn ($result) => $result['result'])
+                    ->map(function ($result, $check) {
+                        return app($check)->merge($result);
+                    });
 
-                $this->failed = $data['checks']->filter(fn ($result) => ! $result)
-                    ->map(fn ($result, $check) => app($check));
+                $this->failed = $data['checks']->filter(fn ($result) => ! $result['result'])
+                    ->map(function ($result, $check) {
+                        return app($check)->merge($result);
+                    });
             });
     }
 

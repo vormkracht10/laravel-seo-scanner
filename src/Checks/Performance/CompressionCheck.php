@@ -21,8 +21,20 @@ class CompressionCheck implements Check
 
     public bool $continueAfterFailure = true;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
-        return in_array($response->header('Content-Encoding'), ['gzip', 'compress', 'deflate', 'br']);
+        if (! in_array($response->header('Content-Encoding'), ['gzip', 'compress', 'deflate', 'br'])) {
+            $this->failureReason = __('failed.performance.compression');
+
+            return false;
+        }
+
+        return true;
     }
 }

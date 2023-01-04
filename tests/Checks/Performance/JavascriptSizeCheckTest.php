@@ -19,7 +19,7 @@ it('can perform the Javascript size check on a page with a Javascript file large
     ]);
 
     Http::fake([
-        'vormkracht10.nl/script.js' => Http::response(str_repeat('sljfalsfdjka', 10000001), 200),
+        'vormkracht10.nl/script.js' => Http::response(str_repeat('abcdefghij', 10000001), 200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
@@ -36,7 +36,7 @@ it('can perform the Javascript size check on a page with a Javascript file small
     ]);
 
     Http::fake([
-        'vormkracht10.nl/script.js' => Http::response('sljfalsfdjka', 200),
+        'vormkracht10.nl/script.js' => Http::response('abcdefghij', 200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());

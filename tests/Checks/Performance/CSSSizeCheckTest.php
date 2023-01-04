@@ -19,7 +19,7 @@ it('can perform the CSS size check on a page with a CSS file larger than 15 KB',
     ]);
 
     Http::fake([
-        'vormkracht10.nl/style.css' => Http::response(str_repeat('sljfalsfdjka', 10000), 200),
+        'vormkracht10.nl/style.css' => Http::response(str_repeat('abcdefghij', 10000), 200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
@@ -36,7 +36,7 @@ it('can perform the CSS size check on a page with a CSS file smaller than 15 KB'
     ]);
 
     Http::fake([
-        'vormkracht10.nl/style.css' => Http::response('sljfalsfdjka', 200),
+        'vormkracht10.nl/style.css' => Http::response('abcdefghij', 200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());

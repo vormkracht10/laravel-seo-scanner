@@ -12,6 +12,9 @@ use Symfony\Component\DomCrawler\Crawler;
  * @property int $timeToFix
  * @property int $scoreWeight
  * @property bool $continueAfterFailure
+ * @property string $failureReason
+ * @property mixed $actualValue
+ * @property int|null $expectedValue
  *
  * @method check()
  * @method __invoke()
