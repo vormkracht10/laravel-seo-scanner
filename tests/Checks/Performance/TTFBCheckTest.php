@@ -10,7 +10,7 @@ it('can perform the ttfb check', function () {
     Http::fake([
         'vormkracht10.nl/robots.txt' => Http::response('<html></html>', 200),
     ]);
-    
+
     /**
      * Because we can't manually set the ttfb value, we'll just check if the check
      * returns true or false. If it returns false, we'll check if the actual value
