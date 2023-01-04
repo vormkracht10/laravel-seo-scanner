@@ -31,11 +31,11 @@ class TTFBCheck implements Check
     {
         $ttfb = $response->transferStats?->getHandlerStats()['starttransfer_time'] ?? null;
 
-        // if (! $ttfb) {
-        //     $this->failureReason = __('failed.performance.ttfb.missing');
+        if (! $ttfb) {
+            $this->failureReason = __('failed.performance.ttfb.missing');
 
-        //     return false;
-        // }
+            return false;
+        }
 
         $this->actualValue = round($ttfb, 2);
 
