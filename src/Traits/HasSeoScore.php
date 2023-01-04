@@ -22,7 +22,7 @@ trait HasSeoScore
 
     public function scopeWithSeoScores(Builder $query): Builder
     {
-        return $query->whereHas('seoScores');
+        return $query->whereHas('seoScores')->with('seoScores');
     }
 
     public function getCurrentScore(): int
