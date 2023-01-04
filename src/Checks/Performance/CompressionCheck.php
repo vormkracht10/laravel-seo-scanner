@@ -34,5 +34,7 @@ class CompressionCheck implements Check
 
             return false;
         }
+
+        return true;
     }
 }
