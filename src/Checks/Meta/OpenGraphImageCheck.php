@@ -53,7 +53,7 @@ class OpenGraphImageCheck implements Check
 
         if (! $content) {
             $this->failureReason = __('failed.meta.open_graph_image');
-            
+
             return false;
         }
 
@@ -64,7 +64,7 @@ class OpenGraphImageCheck implements Check
 
             return false;
         }
-        
+
         return true;
     }
 }
