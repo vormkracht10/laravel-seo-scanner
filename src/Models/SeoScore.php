@@ -2,11 +2,16 @@
 
 namespace Vormkracht10\Seo\Models;
 
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class SeoScore extends Model
 {
+    use Prunable,
+        MassPrunable;
+
     protected $guarded = [];
 
     protected $casts = [
