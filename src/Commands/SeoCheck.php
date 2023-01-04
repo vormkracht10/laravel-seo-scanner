@@ -168,7 +168,12 @@ class SeoCheck extends Command
 
         if ($score < 100) {
             $seo->getFailedChecks()->map(function ($failed) {
-                $this->line('<fg=red>'.$failed->title.' failed.</> Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                $this->line('<fg=red>'.$failed->title.' failed.</>');
+
+                if (property_exists($failed, 'failureReason')) {
+                    $this->line($failed->failureReason.' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                }
+                
                 $this->line('');
             });
 
