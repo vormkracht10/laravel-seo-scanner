@@ -46,10 +46,6 @@ class MixedContentCheck implements Check
             return true;
         }
 
-        if (! is_array($content)) {
-            $content = [$content];
-        }
-
         $links = [];
 
         $nonSecureLinks = collect($content)->filter(function ($item) use (&$links) {
