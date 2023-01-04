@@ -173,7 +173,7 @@ class SeoCheck extends Command
                 if (property_exists($failed, 'failureReason')) {
                     $this->line($failed->failureReason.' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
                 }
-                
+
                 $this->line('');
             });
 
