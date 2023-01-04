@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class SeoScore extends Model
 {
-    use Prunable,
-        MassPrunable;
+    use Prunable;
 
     protected $guarded = [];
 
