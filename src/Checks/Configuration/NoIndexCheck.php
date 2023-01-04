@@ -21,9 +21,16 @@ class NoIndexCheck implements Check
 
     public bool $continueAfterFailure = false;
 
+    public string|null $failureReason;
+
+    public mixed $actualValue = null;
+
+    public mixed $expectedValue = null;
+
     public function check(Response $response, Crawler $crawler): bool
     {
         if ($response->header('X-Robots-Tag') === 'noindex') {
+            $this->failureReason = __('failed.configuration.noindex.tag');
             return false;
         }
 
@@ -48,6 +55,7 @@ class NoIndexCheck implements Check
 
         foreach ($content as $tag) {
             if (str_contains($tag, 'noindex')) {
+                $this->failureReason = __('failed.configuration.noindex.meta');
                 return false;
             }
         }
