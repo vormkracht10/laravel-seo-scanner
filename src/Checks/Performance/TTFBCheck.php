@@ -23,9 +23,9 @@ class TTFBCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        $ttfb = $response->transferStats->getHandlerStats()['starttransfer_time'] ?? 0;
+        $ttfb = $response?->transferStats?->getHandlerStats()['starttransfer_time'] ?? null;
 
-        if ($ttfb <= 0.6) {
+        if (is_float($ttfb) && $ttfb <= 0.6) {
             return true;
         }
 
