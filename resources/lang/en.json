@@ -16,6 +16,8 @@
     "failed.content.title_length": "The page title is :actualValue characters long. It should be max :expectedValue characters long.",
     "failed.meta.description": "The page does not contain a description meta tag, while it should.",
     "failed.meta.no_lang": "The page does not contain a lang attribute, while it should.",
+    "failed.meta.open_graph_image": "The page does not contain an open graph image, while it should.",
+    "failed.meta.open_graph_image.broken": "The page contains a broken open graph image. This image was found: :actualValue.",
     "failed.meta.title": "The page title contains :actualValue in the title, while it should not.",
     "failed.meta.title.no_content": "The page title is empty, while it should not be.",
     "failed.performance.compression": "The page is not compressed (using either gzip, compress, deflate or br), while it should be.",
@@ -25,7 +27,5 @@
     "failed.performance.javascript_size": "The page contains Javascript files that are too large (max :expectedValue). These files were found: :actualValue.",
     "failed.performance.response": "The page returned a response code other than :expectedValue. The actual response code was :actualValue.",
     "failed.performance.ttfb": "The page took too long to load (max :expectedValuems). The actual time was :actualValuems.",
-    "failed.performance.ttfb.missing_url": "We could not get the TTFB for this page.",
-    "failed.meta.open_graph_image": "The page does not contain an open graph image, while it should.",
-    "failed.meta.open_graph_image.broken": "The page contains a broken open graph image. This image was found: :actualValue."
+    "failed.performance.ttfb.missing_url": "We could not get the TTFB for this page."
 }
