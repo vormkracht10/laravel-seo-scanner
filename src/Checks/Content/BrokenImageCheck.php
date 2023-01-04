@@ -20,7 +20,7 @@ class BrokenImageCheck implements Check
     public int $scoreWeight = 5;
 
     public bool $continueAfterFailure = true;
-    
+
     public string|null $failureReason;
 
     public mixed $actualValue = null;
@@ -55,7 +55,7 @@ class BrokenImageCheck implements Check
             $this->failureReason = __('failed.content.broken_images', [
                 'actualValue' => implode(', ', $content),
             ]);
-            
+
             return false;
         }
 
