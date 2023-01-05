@@ -11,7 +11,7 @@
 
 ## Introduction
 
-Laravel SEO is a package that helps you to check if your SEO is setup correctly in your Laravel application. Besides just checking the SEO score of a page, it can also save the score to a model. This way you can check the SEO score of a specific page and show it in your application.
+This package is your guidance to get a better SEO score on search engines. Laravel SEO scans your code and crawls the routes from your app. The package has 21 scans that will check on performance, configurations, use of meta tags and content quality. Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines. 
 
 - [Installation](#installation)
 - [Usage](#usage)
