@@ -192,26 +192,22 @@ class SeoCheck extends Command
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
-        if ($score < 100) {
-            $seo->getAllChecks()->each(function ($checks, $type) {
-                $checks->each(function ($check) use ($type) {
-                    if ($type == 'failed') {
-                        $this->line('<fg=red>✘ '.$check->title.' failed.</>');
+        $seo->getAllChecks()->each(function ($checks, $type) {
+            $checks->each(function ($check) use ($type) {
+                if ($type == 'failed') {
+                    $this->line('<fg=red>✘ '.$check->title.' failed.</>');
 
-                        if (property_exists($check, 'failureReason')) {
-                            $this->line($check->failureReason.' Estimated time to fix: '.$check->timeToFix.' minute(s).');
+                    if (property_exists($check, 'failureReason')) {
+                        $this->line($check->failureReason.' Estimated time to fix: '.$check->timeToFix.' minute(s).');
 
-                            $this->line('');
-                        }
-                    } else {
-                        $this->line('<fg=green>✔ '.$check->title.'</>');
+                        $this->line('');
                     }
-                });
-
-                $this->line('');
+                } else {
+                    $this->line('<fg=green>✔ '.$check->title.'</>');
+                }
             });
 
-            return;
-        }
+            $this->line('');
+        });
     }
 }
