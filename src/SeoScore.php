@@ -55,4 +55,9 @@ class SeoScore
     {
         return $this->successful;
     }
+
+    public function getAllChecks(): Collection
+    {
+        return collect(['successful' => $this->successful])->merge(['failed' => $this->failed]);
+    }
 }
