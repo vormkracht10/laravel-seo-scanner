@@ -16,7 +16,7 @@ class SeoCheckUrl extends Command
         $this->info('Please wait while we check your web page...');
         $this->line('');
 
-        $progress = $this->output->createProgressBar(18);
+        $progress = $this->output->createProgressBar(getCheckCount());
         $progress->start();
 
         $score = Seo::check($this->argument('url'), $progress);
@@ -62,6 +62,8 @@ class SeoCheckUrl extends Command
         $totalChecks = $score->getFailedChecks()->count() + $score->getSuccessfulChecks()->count();
 
         $this->info('Completed '.$totalChecks.' out of '.getCheckCount().' checks.');
+        
+        cache()->tags('seo')->flush();
 
         return self::SUCCESS;
     }

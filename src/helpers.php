@@ -104,6 +104,8 @@ if (! function_exists('getCheckCount')) {
                 }
             });
 
+        $checks = $checks->except(config('seo.exclude_checks', []));
+
         return $checks->count();
     }
 }
