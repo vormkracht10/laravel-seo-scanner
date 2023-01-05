@@ -25,21 +25,42 @@ class SeoCheckUrl extends Command
 
         $this->line('');
         $this->line('');
-        $this->line($this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count().' passed</> <fg=red>'.($score->getFailedChecks()->count().' failed</>'));
+        $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
+        $this->line('> '.$this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count().' passed</> <fg=red>'.($score->getFailedChecks()->count().' failed</>'));
+        $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
-        $score->getFailedChecks()->map(function ($failed) {
-            $this->line('<fg=red>'.$failed->title.' failed.</>');
+        if ($score < 100) {
+            // If successful and failed checks are empty, we can assume that the
+            // visit page threw an exception. In that case, we don't want to
+            // show the checks. But show the exception message instead.
+            if ($score->getSuccessfulChecks()->isEmpty() && $score->getFailedChecks()->isEmpty()) {
+                $this->line('<fg=red>✘ Unfortunately, the url you entered is not correct. Please try again with a different url.</>');
 
-            if (property_exists($failed, 'failureReason')) {
-                $this->line($failed->failureReason.' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
+                return self::FAILURE;
             }
 
-            $this->line('');
-        });
+            $score->getAllChecks()->each(function ($checks, $type) {
+                $checks->each(function ($check) use ($type) {
+                    if ($type == 'failed') {
+                        $this->line('<fg=red>✘ '.$check->title.' failed.</>');
 
-        $totalChecks = $score->getFailedChecks()->count() + $score->getSuccessfulChecks()->count();
+                        if (property_exists($check, 'failureReason')) {
+                            $this->line($check->failureReason.' Estimated time to fix: '.$check->timeToFix.' minute(s).');
 
+                            $this->line('');
+                        }
+                    } else {
+                        $this->line('<fg=green>✔ '.$check->title.'</>');
+                    }
+                });
+
+                $this->line('');
+            });
+
+            $totalChecks = $score->getFailedChecks()->count() + $score->getSuccessfulChecks()->count();
+        }
+        
         $this->info('Completed '.$totalChecks.' out of '.getCheckCount().' checks.');
 
         return self::SUCCESS;
