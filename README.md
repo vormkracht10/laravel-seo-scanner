@@ -7,6 +7,10 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 [![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 
+![Screenshot 2023-01-05 at 14 14 59](https://user-images.githubusercontent.com/10845460/210788603-c86e78d0-95e8-44ec-9eee-4f05b5e6f55c.png)
+
+## Introduction
+
 Laravel SEO is a package that helps you to check if your SEO is setup correctly in your Laravel application. Besides just checking the SEO score of a page, it can also save the score to a model. This way you can check the SEO score of a specific page and show it in your application.
 
 - [Installation](#installation)
