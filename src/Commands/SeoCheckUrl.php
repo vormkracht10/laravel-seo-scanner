@@ -30,7 +30,7 @@ class SeoCheckUrl extends Command
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
-        if ($score < 100) {
+        if ($score->score < 100) {
             // If successful and failed checks are empty, we can assume that the
             // visit page threw an exception. In that case, we don't want to
             // show the checks. But show the exception message instead.
