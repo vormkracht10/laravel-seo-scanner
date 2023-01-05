@@ -163,16 +163,27 @@ class SeoCheck extends Command
     {
         $score = $seo->getScore();
 
-        $this->line($url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' passed</> <fg=red>'.($seo->getFailedChecks()->count().' failed</>'));
+        $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
+        $this->line('> '. $url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' passed</> <fg=red>'.($seo->getFailedChecks()->count().' failed</>'));
+        $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
         if ($score < 100) {
-            $seo->getFailedChecks()->map(function ($failed) {
-                $this->line('<fg=red>'.$failed->title.' failed.</>');
+            $seo->getAllChecks()->each(function ($checks, $type) {
+                $checks->each(function($check) use ($type) {
+                    if($type == 'failed') {
+                        $this->line('<fg=red>✘ '.$check->title.' failed.</>');
 
-                if (property_exists($failed, 'failureReason')) {
-                    $this->line($failed->failureReason.' Estimated time to fix: '.$failed->timeToFix.' minute(s).');
-                }
+                        if (property_exists($check, 'failureReason')) {
+                            $this->line($check->failureReason.' Estimated time to fix: '.$check->timeToFix.' minute(s).');
+
+                            $this->line('');
+                        }
+                    }
+                    else {
+                        $this->line('<fg=green>✔ '.$check->title.'</>');
+                    }
+                });
 
                 $this->line('');
             });
