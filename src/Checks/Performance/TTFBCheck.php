@@ -39,7 +39,7 @@ class TTFBCheck implements Check
 
         $this->actualValue = round($ttfb, 2);
 
-        if ($this->actualValue <= 0.6) {
+        if ($this->actualValue <= $this->expectedValue) {
             return true;
         }
 
