@@ -20,53 +20,60 @@ if (! function_exists('isBrokenLink')) {
 if (! function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
-        $ch = curl_init($url);
+        return cache()->tags('seo')->rememberForever($url, function() use ($url) {
+            $ch = curl_init($url);
 
-        $options = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => true,
-            CURLOPT_NOBODY => true,
-            CURLOPT_TIMEOUT => 10,
-            CURLOPT_FOLLOWLOCATION,
-        ];
+            $options = [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER => true,
+                CURLOPT_NOBODY => true,
+                CURLOPT_TIMEOUT => 10,
+                CURLOPT_FOLLOWLOCATION,
+            ];
 
-        curl_setopt_array($ch, $options);
-        curl_exec($ch);
+            curl_setopt_array($ch, $options);
+            curl_exec($ch);
 
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        curl_close($ch);
+            curl_close($ch);
 
-        return $statusCode;
+            return $statusCode;
+        });
     }
 }
 
 if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // not necessary unless the file redirects (like the PHP example we're using here)
-        $data = curl_exec($ch);
-        curl_close($ch);
+        return cache()->tags('seo')->rememberForever($url.'.size', function() use ($url) {
+            $ch = curl_init($url);
 
-        if ($data === false) {
-            return 0;
-        }
+            curl_setopt($ch, CURLOPT_NOBODY, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // not necessary unless the file redirects (like the PHP example we're using here)
 
-        if (preg_match('/Content-Length: (\d+)/', $data, $matches) ||
-            preg_match('/content-length: (\d+)/', $data, $matches)
-        ) {
-            $contentLength = (int) $matches[1];
-        }
+            $data = curl_exec($ch);
 
-        if (! isset($contentLength)) {
-            $contentLength = strlen(file_get_contents($url));
-        }
+            curl_close($ch);
 
-        return $contentLength;
+            if ($data === false) {
+                return 0;
+            }
+
+            if (preg_match('/Content-Length: (\d+)/', $data, $matches) ||
+                preg_match('/content-length: (\d+)/', $data, $matches)
+            ) {
+                $contentLength = (int) $matches[1];
+            }
+
+            if (! isset($contentLength)) {
+                $contentLength = strlen(file_get_contents($url));
+            }
+
+            return $contentLength;
+        });
     }
 }
 
