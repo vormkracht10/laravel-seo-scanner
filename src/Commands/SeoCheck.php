@@ -164,14 +164,14 @@ class SeoCheck extends Command
         $score = $seo->getScore();
 
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
-        $this->line('> '. $url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' passed</> <fg=red>'.($seo->getFailedChecks()->count().' failed</>'));
+        $this->line('> '.$url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' passed</> <fg=red>'.($seo->getFailedChecks()->count().' failed</>'));
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
         if ($score < 100) {
             $seo->getAllChecks()->each(function ($checks, $type) {
-                $checks->each(function($check) use ($type) {
-                    if($type == 'failed') {
+                $checks->each(function ($check) use ($type) {
+                    if ($type == 'failed') {
                         $this->line('<fg=red>✘ '.$check->title.' failed.</>');
 
                         if (property_exists($check, 'failureReason')) {
@@ -179,8 +179,7 @@ class SeoCheck extends Command
 
                             $this->line('');
                         }
-                    }
-                    else {
+                    } else {
                         $this->line('<fg=green>✔ '.$check->title.'</>');
                     }
                 });

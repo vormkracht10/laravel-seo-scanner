@@ -20,7 +20,7 @@ if (! function_exists('isBrokenLink')) {
 if (! function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
-        return cache()->tags('seo')->rememberForever($url, function() use ($url) {
+        return cache()->tags('seo')->rememberForever($url, function () use ($url) {
             $ch = curl_init($url);
 
             $options = [
@@ -46,7 +46,7 @@ if (! function_exists('getRemoteStatus')) {
 if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
-        return cache()->tags('seo')->rememberForever($url.'.size', function() use ($url) {
+        return cache()->tags('seo')->rememberForever($url.'.size', function () use ($url) {
             $ch = curl_init($url);
 
             curl_setopt($ch, CURLOPT_NOBODY, true);
