@@ -2,12 +2,13 @@
 
 namespace Vormkracht10\Seo\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Vormkracht10\Seo\SeoScore;
+use Illuminate\Console\Command;
+use Vormkracht10\Seo\Facades\Seo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Vormkracht10\Seo\Facades\Seo;
-use Vormkracht10\Seo\SeoScore;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class SeoCheck extends Command
 {
@@ -23,6 +24,8 @@ class SeoCheck extends Command
 
     public int $routeCount = 0;
 
+    public ProgressBar $progress;
+
     public function handle(): int
     {
         if (empty(config('seo.models')) && ! config('seo.check_routes')) {
@@ -32,6 +35,9 @@ class SeoCheck extends Command
         }
 
         $this->info('Please wait while we check your web page(s)...');
+        $this->line('');
+
+        $this->progress = $this->output->createProgressBar(getCheckCount());
         $this->line('');
 
         if (config('seo.check_routes')) {
@@ -48,6 +54,8 @@ class SeoCheck extends Command
 
         $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$totalPages.' pages.');
 
+        cache()->tags('seo')->flush();
+
         return self::SUCCESS;
     }
 
@@ -56,7 +64,9 @@ class SeoCheck extends Command
         $routes = self::getRoutes();
 
         $routes->each(function ($path, $name) {
-            $seo = Seo::check(url: route($name));
+            $this->progress->start();
+
+            $seo = Seo::check(url: route($name), progress: $this->progress);
 
             $this->failed += count($seo->getFailedChecks());
             $this->success += count($seo->getSuccessfulChecks());
@@ -65,6 +75,8 @@ class SeoCheck extends Command
             if (config('seo.database.save')) {
                 $this->saveScoreToDatabase(seo: $seo, url: route($name));
             }
+
+            $this->progress->finish();
 
             $this->logResultToConsole($seo, route($name));
         });
@@ -126,6 +138,8 @@ class SeoCheck extends Command
         $model = new $model();
 
         $model::all()->filter->url->map(function ($model) {
+            $this->progress->start();
+
             $seo = $model->seoScore();
 
             $this->failed += count($seo->getFailedChecks());
@@ -135,6 +149,8 @@ class SeoCheck extends Command
             if (config('seo.database.save')) {
                 $this->saveScoreToDatabase(seo: $seo, url: $model->url, model: $model);
             }
+
+            $this->progress->finish();
 
             if ($this->failed === 0 && $this->success === 0) {
                 $this->line('<fg=red>✘ Unfortunately, the url that is used is not correct. Please try again with a different url.</>');
@@ -169,6 +185,8 @@ class SeoCheck extends Command
     {
         $score = $seo->getScore();
 
+        $this->line('');
+        $this->line('');
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('> '.$url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' passed</> <fg=red>'.($seo->getFailedChecks()->count().' failed</>'));
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
