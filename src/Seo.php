@@ -28,9 +28,13 @@ class Seo
 
     public function check(string $url, ProgressBar|null $progress = null): SeoScore
     {
-        $response = $this->visitPage(url: $url);
-
         $this->progress = $progress;
+
+        try {
+            $response = $this->visitPage(url: $url);
+        } catch (\Exception $e) {
+            return (new SeoScore)($this->successful, $this->failed);
+        }
 
         $this->runChecks(response: $response);
 
