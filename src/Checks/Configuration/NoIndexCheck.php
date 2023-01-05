@@ -44,7 +44,7 @@ class NoIndexCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
-        if (! $crawler->filterXPath('//meta[@name="robots"]')->getNode(0) && 
+        if (! $crawler->filterXPath('//meta[@name="robots"]')->getNode(0) &&
             ! $crawler->filterXPath('//meta[@name="googlebot"]')->getNode(0)
         ) {
             return true;
