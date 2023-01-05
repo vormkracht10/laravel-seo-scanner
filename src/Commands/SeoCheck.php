@@ -136,6 +136,12 @@ class SeoCheck extends Command
                 $this->saveScoreToDatabase(seo: $seo, url: $model->url, model: $model);
             }
 
+            if ($this->failed === 0 && $this->success === 0) {
+                $this->line('<fg=red>✘ Unfortunately, the url that is used is not correct. Please try again with a different url.</>');
+
+                return self::FAILURE;
+            }
+
             $this->logResultToConsole(seo: $seo, url: $model->url);
         });
     }
