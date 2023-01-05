@@ -7,7 +7,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 [![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 
-![Screenshot 2023-01-05 at 15 01 31](https://user-images.githubusercontent.com/10845460/210797753-9fabac88-9082-40f9-89f5-ac2115464cf3.png)
+![Screenshot 2023-01-05 at 15 02 31](https://user-images.githubusercontent.com/10845460/210797960-d65e260e-d543-4aec-aca8-1d9cca3aee96.png)
 
 ## Introduction
 
