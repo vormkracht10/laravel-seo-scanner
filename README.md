@@ -1,5 +1,4 @@
-# Check if your SEO is setup correctly in your Laravel application.
-
+# Laravel SEO
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo)
 [![Tests](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml)
@@ -7,6 +6,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 [![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 
+## The Laravel tool to boost the SEO score of your web pages 
 ![Screenshot 2023-01-05 at 15 02 31](https://user-images.githubusercontent.com/10845460/210797960-d65e260e-d543-4aec-aca8-1d9cca3aee96.png)
 
 ## Introduction
