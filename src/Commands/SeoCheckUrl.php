@@ -61,7 +61,7 @@ class SeoCheckUrl extends Command
 
         $this->info('Completed '.$totalChecks.' out of '.getCheckCount().' checks.');
         $this->line('');
-        
+
         cache()->tags('seo')->flush();
 
         return self::SUCCESS;
