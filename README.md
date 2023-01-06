@@ -43,22 +43,16 @@ You can install the package via composer:
 composer require vormkracht10/laravel-seo-scanner
 ```
 
-You can publish and run the migrations with:
-
-> Optionally you can configure the database connection and table name in the config file. Please do this before running the migrations.
+The install command will publish the migrations and config file. You can publish and run the migrations with:
 
 ```bash
 php artisan vendor:publish --tag="seo-migrations"
 php artisan migrate
-```
 
-The install command asks if you want to publish the config file but you can also manually publish the config file with:
-
-```bash
 php artisan vendor:publish --tag="seo-config"
 ```
 
-This is the contents of the published config file:
+This will be the contents of the published config file:
 
 ```php
 return [
@@ -130,14 +124,13 @@ return [
     | Database
     |--------------------------------------------------------------------------
     |
-    | Here you can specify the database connection and table name that will be
+    | Here you can specify the database connection that will be
     | used to save the SEO scores. When you set the save option to true, the
     | SEO score will be saved to the database.
     |
     */
     'database' => [
         'connection' => 'mysql',
-        'table_name' => 'seo_scores',
         'save' => false,
     ],
 
@@ -251,12 +244,11 @@ When you want to save the SEO score to the database, you need to set the `save` 
 ```php
 'database' => [
     'connection' => 'mysql',
-    'table_name' => 'seo_scores',
     'save' => true,
 ],
 ```
 
-Optionally you can specify the table name and database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
+Optionally you can specify the database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
 
 ### Listening to events
 

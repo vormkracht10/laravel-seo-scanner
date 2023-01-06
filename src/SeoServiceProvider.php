@@ -17,7 +17,7 @@ class SeoServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasTranslations()
-            ->hasMigration('create_seo_score_columns')
+            ->hasMigrations(['create_seo_scans_columns', 'create_seo_score_columns'])
             ->hasCommands([
                 SeoCheck::class,
                 SeoCheckUrl::class,
@@ -25,6 +25,7 @@ class SeoServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
+                    ->publishMigrations()
                     ->askToStarRepoOnGitHub('vormkracht10/laravel-seo');
             });
     }
