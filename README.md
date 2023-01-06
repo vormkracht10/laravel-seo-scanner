@@ -1,16 +1,21 @@
-# Check if your SEO is setup correctly in your Laravel application.
+# Laravel SEO
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo)
 [![Tests](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml)
+[![PHPStan](https://github.com/vormkracht10/laravel-seo/actions/workflows/phpstan.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/phpstan.yml)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/vormkracht10/laravel-seo)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 [![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
 
-![Screenshot 2023-01-05 at 15 01 31](https://user-images.githubusercontent.com/10845460/210797753-9fabac88-9082-40f9-89f5-ac2115464cf3.png)
+## The Laravel tool to boost the SEO score of your web pages
+
+![Screenshot 2023-01-05 at 15 02 31](https://user-images.githubusercontent.com/10845460/210797960-d65e260e-d543-4aec-aca8-1d9cca3aee96.png)
 
 ## Introduction
 
-Laravel SEO is a package that helps you to check if your SEO is setup correctly in your Laravel application. Besides just checking the SEO score of a page, it can also save the score to a model. This way you can check the SEO score of a specific page and show it in your application.
+This package is your guidance to get a better SEO score on search engines. Laravel SEO scans your code and crawls the routes from your app. The package has 21 scans that will check on performance, configurations, use of meta tags and content quality.
+
+Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines.
 
 -   [Installation](#installation)
 -   [Usage](#usage)
