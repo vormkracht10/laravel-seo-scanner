@@ -1,12 +1,12 @@
 {
-    "name": "vormkracht10/laravel-seo",
+    "name": "vormkracht10/laravel-seo-scanner",
     "description": "Laravel package to check if you used important SEO tags in your website. ",
     "keywords": [
         "vormkracht10",
         "laravel",
-        "laravel-seo"
+        "laravel-seo-scanner"
     ],
-    "homepage": "https://github.com/vormkracht10/laravel-seo",
+    "homepage": "https://github.com/vormkracht10/laravel-seo-scanner",
     "license": "MIT",
     "authors": [
         {
