@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('seo_scans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('pages')->nullable();
+            $table->unsignedInteger('total_checks')->nullable();
+            $table->json('failed_checks')->nullable();
             $table->double('time', 10, 5)->nullable();
             $table->timestamps();
             $table->double('started_at', 16, 6)->nullable();
