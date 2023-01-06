@@ -17,6 +17,7 @@ This package is your guidance to get a better SEO score on search engines. Larav
 
 Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines.
 
+-   [Minimum requirements](#minimum-requirements)
 -   [Installation](#installation)
 -   [Usage](#usage)
     -   [Scanning routes](#scanning-routes)
@@ -37,6 +38,11 @@ Easily configure which routes to scan, exclude or include specific checks or eve
 -   [Security Vulnerabilities](#security-vulnerabilities)
 -   [Credits](#credits)
 -   [License](#license)
+
+## Minimum requirements
+
+-   PHP 8.1 or higher
+-   Laravel 9.0 or higher
 
 ## Installation
 
