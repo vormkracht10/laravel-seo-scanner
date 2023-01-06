@@ -125,12 +125,12 @@ class SeoScan extends Command
         }
 
         // Filter out excluded routes by name
-        if (config('seo.exclude_routes')) {
+        if (! empty(config('seo.exclude_routes'))) {
             $routes = $routes->filter(fn ($route, $name) => ! in_array($name, config('seo.exclude_routes')));
         }
 
         // Filter out excluded routes by path
-        if (config('seo.exclude_paths')) {
+        if (! empty(config('seo.exclude_paths'))) {
             $routes = $routes->filter(function ($route) {
                 foreach (config('seo.exclude_paths') as $path) {
                     // if path contains a wildcard, check if the route starts with the path
