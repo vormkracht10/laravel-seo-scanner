@@ -160,7 +160,7 @@ By default, all `GET` routes will be checked for SEO. If you want to check the S
 To check the SEO score of your routes, run the following command:
 
 ```bash
-php artisan seo:check-routes
+php artisan seo:scan-routes
 ```
 
 ### Scanning a single route
@@ -168,7 +168,7 @@ php artisan seo:check-routes
 Want to get the score of a specific url? Run the following command:
 
 ```bash
-php artisan seo:check-url https://vormkracht10.nl
+php artisan seo:scan-url https://vormkracht10.nl
 ```
 
 > Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
@@ -214,7 +214,7 @@ You can get the SEO score of a model by calling the `seoScore()` or `seoScoreDet
 To fill the database with the scores of all models, run the following command:
 
 ```bash
-php artisan seo:check
+php artisan seo:scan
 ```
 
 To get the SEO score(s) of a model, you have the following options:

@@ -1,7 +1,7 @@
 <?php
 
 it('can run the SEO check for a single URL', function () {
-    $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
+    $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
         ->assertExitCode(0);
 });
 
@@ -14,7 +14,7 @@ it('can only run configured checks for a single url', function () {
         ...config('seo'),
     ]);
 
-    $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
+    $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
         ->expectsOutputToContain('1 out of '.getCheckCount().' checks.')
         ->assertExitCode(0);
 });
@@ -26,7 +26,7 @@ it('can run all checks for a single url', function () {
         ...config('seo'),
     ]);
 
-    $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
+    $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
         ->expectsOutputToContain(getCheckCount().' out of '.getCheckCount().' checks.')
         ->assertExitCode(0);
 });
@@ -42,7 +42,7 @@ it('can run the SEO check for routes', function () {
         ...config('seo'),
     ]);
 
-    $this->artisan('seo:check')
+    $this->artisan('seo:scan')
         ->assertExitCode(0);
 });
 
@@ -55,7 +55,7 @@ it('can only run configured checks', function () {
         ...config('seo'),
     ]);
 
-    $this->artisan('seo:check-url', ['url' => 'https://vormkracht10.nl'])
+    $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
         ->expectsOutputToContain('1 out of '.getCheckCount().' checks.')
         ->assertExitCode(0);
 });
