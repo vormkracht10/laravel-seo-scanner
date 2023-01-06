@@ -42,7 +42,6 @@ it('can run the SEO check for routes', function () {
         ],
     ]);
 
-
     config(['seo.database.save' => false]);
 
     $this->artisan('seo:scan')
