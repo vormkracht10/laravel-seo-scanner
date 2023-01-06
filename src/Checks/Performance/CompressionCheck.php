@@ -2,10 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks\Performance;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class CompressionCheck implements Check
@@ -32,7 +32,7 @@ class CompressionCheck implements Check
     {
         $encodingHeader = collect($response->headers())->filter(function ($value, $key) {
             return Str::contains($key, 'Content-Encoding') || Str::contains($key, 'x-encoded-content-encoding');
-        })->filter(function ($values) {       
+        })->filter(function ($values) {
             $header = collect($values)->filter(function ($value) {
                 return in_array($value, $this->expectedValue);
             });
@@ -45,7 +45,7 @@ class CompressionCheck implements Check
 
             return false;
         }
-        
+
         return true;
     }
 }
