@@ -7,13 +7,13 @@ use Vormkracht10\Seo\Facades\Seo;
 
 class SeoScanUrl extends Command
 {
-    public $signature = 'seo:check-url {url}';
+    public $signature = 'seo:scan-url {url}';
 
-    public $description = 'Check the SEO score of a url';
+    public $description = 'Scan the SEO score of a url';
 
     public function handle(): int
     {
-        $this->info('Please wait while we check your web page...');
+        $this->info('Please wait while we scan your web page...');
         $this->line('');
 
         $progress = $this->output->createProgressBar(getCheckCount());

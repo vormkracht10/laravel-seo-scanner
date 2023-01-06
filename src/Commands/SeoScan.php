@@ -13,9 +13,9 @@ use Vormkracht10\Seo\SeoScore;
 
 class SeoScan extends Command
 {
-    public $signature = 'seo:check';
+    public $signature = 'seo:scan';
 
-    public $description = 'Check the SEO score of your website';
+    public $description = 'Scan the SEO score of your website';
 
     public int $success = 0;
 
@@ -35,7 +35,7 @@ class SeoScan extends Command
             return self::FAILURE;
         }
 
-        $this->info('Please wait while we check your web page(s)...');
+        $this->info('Please wait while we scan your web page(s)...');
         $this->line('');
 
         $this->progress = $this->output->createProgressBar(getCheckCount());
