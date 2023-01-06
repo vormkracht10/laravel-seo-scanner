@@ -13,14 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('seo_scans', function (Blueprint $table) {
+        Schema::create('seo_scores', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('url');
-            $table->nullableMorphs('model', 'model');
-            $table->integer('score');
-            $table->json('checks');
+            $table->unsignedBigInteger('seo_scan_id');
+            $table->unsignedInteger('pages')->nullable();
+            $table->double('time', 10, 5)->nullable();
             $table->timestamps();
-            $table->index('url');
+            $table->double('started_at', 16, 6)->nullable();
+            $table->double('ended_at', 16, 6)->nullable();
+
+            $table->foreign('seo_scan_id')
+                ->references('id')
+                ->on('seo_scans')
+                ->onDelete('cascade');
         });
     }
 
