@@ -5,7 +5,7 @@ namespace Vormkracht10\Seo\Commands;
 use Illuminate\Console\Command;
 use Vormkracht10\Seo\Facades\Seo;
 
-class SeoCheckUrl extends Command
+class SeoScanUrl extends Command
 {
     public $signature = 'seo:check-url {url}';
 

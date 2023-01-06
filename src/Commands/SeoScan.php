@@ -11,7 +11,7 @@ use Vormkracht10\Seo\Events\ScanCompleted;
 use Vormkracht10\Seo\Facades\Seo;
 use Vormkracht10\Seo\SeoScore;
 
-class SeoCheck extends Command
+class SeoScan extends Command
 {
     public $signature = 'seo:check';
 

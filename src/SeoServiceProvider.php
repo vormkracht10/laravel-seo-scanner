@@ -5,8 +5,8 @@ namespace Vormkracht10\Seo;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Vormkracht10\Seo\Commands\SeoCheck;
-use Vormkracht10\Seo\Commands\SeoCheckUrl;
+use Vormkracht10\Seo\Commands\SeoScan;
+use Vormkracht10\Seo\Commands\SeoScanUrl;
 
 class SeoServiceProvider extends PackageServiceProvider
 {
@@ -19,8 +19,8 @@ class SeoServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->hasMigrations(['create_seo_scans_columns', 'create_seo_score_columns'])
             ->hasCommands([
-                SeoCheck::class,
-                SeoCheckUrl::class,
+                SeoScan::class,
+                SeoScanUrl::class,
             ])
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
