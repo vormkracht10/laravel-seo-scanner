@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('seo_scores', function (Blueprint $table) {
+        Schema::create('seo_scans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('pages')->nullable();
             $table->double('time', 10, 5)->nullable();
