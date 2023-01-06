@@ -43,12 +43,20 @@ You can install the package via composer:
 composer require vormkracht10/laravel-seo-scanner
 ```
 
-The install command will publish the migrations and config file. You can publish and run the migrations with:
+Run the install command to publish the config file and run the migrations:
+
+```bash
+php artisan seo:install
+```
+
+Or you can publish the config file and run the migrations manually:
 
 ```bash
 php artisan vendor:publish --tag="seo-migrations"
 php artisan migrate
+```
 
+```bas
 php artisan vendor:publish --tag="seo-config"
 ```
 
