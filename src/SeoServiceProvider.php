@@ -2,11 +2,11 @@
 
 namespace Vormkracht10\Seo;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Vormkracht10\Seo\Commands\SeoCheck;
 use Vormkracht10\Seo\Commands\SeoCheckUrl;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class SeoServiceProvider extends PackageServiceProvider
 {
@@ -22,7 +22,7 @@ class SeoServiceProvider extends PackageServiceProvider
                 SeoCheck::class,
                 SeoCheckUrl::class,
             ])
-            ->hasInstallCommand(function(InstallCommand $command) {
+            ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
                     ->askToStarRepoOnGitHub('vormkracht10/laravel-seo');
