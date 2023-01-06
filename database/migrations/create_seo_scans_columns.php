@@ -20,8 +20,8 @@ return new class extends Migration
             $table->json('failed_checks')->nullable();
             $table->double('time', 10, 5)->nullable();
             $table->timestamps();
-            $table->double('started_at', 16, 6)->nullable();
-            $table->double('ended_at', 16, 6)->nullable();
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('finished_at')->nullable();
         });
     }
 
