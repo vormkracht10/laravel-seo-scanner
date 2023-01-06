@@ -19,6 +19,11 @@ Easily configure which routes to scan, exclude or include specific checks or eve
 
 -   [Minimum requirements](#minimum-requirements)
 -   [Installation](#installation)
+-   [Available checks](#available-checks)
+    -   [Configuration](#configuration)
+    -   [Content](#content)
+    -   [Meta](#meta)
+    -   [Performance](#performance)
 -   [Usage](#usage)
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
@@ -28,11 +33,6 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Retrieving scans](#retrieving-scans)
     -   [Retrieving scores](#retrieving-scores)
     -   [Adding your own checks](#adding-your-own-checks)
--   [Available checks](#available-checks)
-    -   [Configuration](#configuration)
-    -   [Content](#content)
-    -   [Meta](#meta)
-    -   [Performance](#performance)
 -   [Testing](#testing)
 -   [Changelog](#changelog)
 -   [Contributing](#contributing)
@@ -182,6 +182,43 @@ return [
     'models' => [],
 ];
 ```
+
+## Available checks
+
+These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
+
+### Configuration
+
+✅ The page does not have 'noindex' set. <br>
+✅ The page does not have 'nofollow' set. <br>
+✅ Robots.txt allows indexing. <br>
+
+### Content
+
+✅ The page has an H1 tag and if it is used only once per page. <br>
+✅ All links redirect to an url using HTTPS. <br>
+✅ Every image has an alt tag. <br>
+✅ The page contains no broken links. <br>
+✅ The page contains no broken images. <br>
+✅ Length of the content is at least 2100 characters. <br>
+
+### Meta
+
+✅ The page has a meta description. <br>
+✅ The page title is not longer than 60 characters. <br>
+✅ The page title does not contain 'home' or 'homepage'. <br>
+✅ The page has an Open Graph image.<br>
+✅ The lang attribute is set on the html tag.<br>
+
+### Performance
+
+✅ Time To First Byte (TTFB) is below 600ms. <br>
+✅ The page response returns a 200 status code. <br>
+✅ HTML is not larger than 100 KB. <br>
+✅ Images are not larger than 1 MB. <br>
+✅ JavaScript files are not larger than 1 MB. <br>
+✅ CSS files are not larger than 15 KB. <br>
+✅ HTML is GZIP compressed. <br>
 
 ## Usage
 
@@ -442,43 +479,6 @@ return [
     ],
 ];
 ```
-
-## Available checks
-
-These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
-
-### Configuration
-
-✅ The page does not have 'noindex' set. <br>
-✅ The page does not have 'nofollow' set. <br>
-✅ Robots.txt allows indexing. <br>
-
-### Content
-
-✅ The page has an H1 tag and if it is used only once per page. <br>
-✅ All links redirect to an url using HTTPS. <br>
-✅ Every image has an alt tag. <br>
-✅ The page contains no broken links. <br>
-✅ The page contains no broken images. <br>
-✅ Length of the content is at least 2100 characters. <br>
-
-### Meta
-
-✅ The page has a meta description. <br>
-✅ The page title is not longer than 60 characters. <br>
-✅ The page title does not contain 'home' or 'homepage'. <br>
-✅ The page has an Open Graph image.<br>
-✅ The lang attribute is set on the html tag.<br>
-
-### Performance
-
-✅ Time To First Byte (TTFB) is below 600ms. <br>
-✅ The page response returns a 200 status code. <br>
-✅ HTML is not larger than 100 KB. <br>
-✅ Images are not larger than 1 MB. <br>
-✅ JavaScript files are not larger than 1 MB. <br>
-✅ CSS files are not larger than 15 KB. <br>
-✅ HTML is GZIP compressed. <br>
 
 ## Testing
 
