@@ -191,7 +191,7 @@ By default, all `GET` routes will be checked for SEO. If you want to check the S
 To check the SEO score of your routes, run the following command:
 
 ```bash
-php artisan seo:scan-routes
+php artisan seo:scan
 ```
 
 ### Scanning a single route
