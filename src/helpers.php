@@ -106,6 +106,10 @@ if (! function_exists('getCheckCount')) {
 
         $checks = $checks->except(config('seo.exclude_checks', []));
 
+        if (empty(config('seo.checks')) || ! in_array('*', config('seo.checks'))) {
+            $checks = $checks->only(config('seo.checks'));
+        }
+
         return $checks->count();
     }
 }
