@@ -258,7 +258,7 @@ When you run the `seo:scan` command, the package will fire an event to let you k
 
 protected $listen = [
     // ...
-    SeoScoreChecked::class => [
+    ScanCompleted::class => [
         // Add your listener here
     ],
 ];
