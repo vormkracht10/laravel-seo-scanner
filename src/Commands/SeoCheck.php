@@ -2,13 +2,14 @@
 
 namespace Vormkracht10\Seo\Commands;
 
-use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Vormkracht10\Seo\SeoScore;
+use Illuminate\Console\Command;
+use Vormkracht10\Seo\Facades\Seo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Vormkracht10\Seo\Events\ScanCompleted;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Vormkracht10\Seo\Facades\Seo;
-use Vormkracht10\Seo\SeoScore;
 
 class SeoCheck extends Command
 {
@@ -55,6 +56,8 @@ class SeoCheck extends Command
         $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$totalPages.' pages.');
 
         cache()->tags('seo')->flush();
+
+        event(ScanCompleted::class);
 
         return self::SUCCESS;
     }

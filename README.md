@@ -1,6 +1,5 @@
 # Check if your SEO is setup correctly in your Laravel application.
 
-
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo)
 [![Tests](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/vormkracht10/laravel-seo)
@@ -13,23 +12,23 @@
 
 Laravel SEO is a package that helps you to check if your SEO is setup correctly in your Laravel application. Besides just checking the SEO score of a page, it can also save the score to a model. This way you can check the SEO score of a specific page and show it in your application.
 
-- [Installation](#installation)
-- [Usage](#usage)
-  * [Check the SEO score of routes](#check-the-seo-score-of-routes)
-  * [Check the SEO score of a single page](#check-the-seo-score-of-a-single-page)
-  * [Check the SEO score of a model](#check-the-seo-score-of-a-model)
-  * [Saving SEO scores into the database](#saving-seo-scores-into-the-database)
-- [Available checks](#available-checks)
-  * [Configuration](#configuration)
-  * [Content](#content)
-  * [Meta](#meta)
-  * [Performance](#performance)
-- [Testing](#testing)
-- [Changelog](#changelog)
-- [Contributing](#contributing)
-- [Security Vulnerabilities](#security-vulnerabilities)
-- [Credits](#credits)
-- [License](#license)
+-   [Installation](#installation)
+-   [Usage](#usage)
+    -   [Check the SEO score of routes](#check-the-seo-score-of-routes)
+    -   [Check the SEO score of a single page](#check-the-seo-score-of-a-single-page)
+    -   [Check the SEO score of a model](#check-the-seo-score-of-a-model)
+    -   [Saving SEO scores into the database](#saving-seo-scores-into-the-database)
+-   [Available checks](#available-checks)
+    -   [Configuration](#configuration)
+    -   [Content](#content)
+    -   [Meta](#meta)
+    -   [Performance](#performance)
+-   [Testing](#testing)
+-   [Changelog](#changelog)
+-   [Contributing](#contributing)
+-   [Security Vulnerabilities](#security-vulnerabilities)
+-   [Credits](#credits)
+-   [License](#license)
 
 ## Installation
 
@@ -41,12 +40,14 @@ composer require vormkracht10/laravel-seo
 
 You can publish and run the migrations with:
 
+> Optionally you can configure the database connection and table name in the config file. Please do this before running the migrations.
+
 ```bash
 php artisan vendor:publish --tag="seo-migrations"
 php artisan migrate
 ```
 
-You can publish the config file with:
+The install command asks if you want to publish the config file but you can also manually publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="seo-config"
@@ -154,7 +155,7 @@ return [
 
 ## Usage
 
-### Check the SEO score of routes
+### Scanning routes
 
 By default, all `GET` routes will be checked for SEO. If you want to check the SEO score of a specific route, you can add the route name to the `routes` array in the config file. If you want to skip a route, you can add the route name to the `exclude_routes` array in the config file. If you don't want to check the SEO score of routes at all, you can set the `check_routes` option to `false` in the config file.
 
@@ -164,7 +165,8 @@ To check the SEO score of your routes, run the following command:
 php artisan seo:check-routes
 ```
 
-### Check the SEO score of a single page
+### Scan a single page
+
 Want to get the score of a specific url? Run the following command:
 
 ```bash
@@ -173,15 +175,15 @@ php artisan seo:check-url https://vormkracht10.nl
 
 > Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
 
-### Check the SEO score of a model
+### Scan model urls
 
-When you have an application where you have a lot of pages which are related to a model, you can save the SEO score to the model. This way you can check the SEO score of a specific page and show it in your application. 
+When you have an application where you have a lot of pages which are related to a model, you can save the SEO score to the model. This way you can check the SEO score of a specific page and show it in your application.
 
 For example, you have a `BlogPost` model which has a page for each content item:
 
-1. Add the model to the `models` array in the config file. 
+1. Add the model to the `models` array in the config file.
 2. Implement the `SeoInterface` in your model.
-3. Add the `HasSeoScore` trait to your model. 
+3. Add the `HasSeoScore` trait to your model.
 
 > Note: Please make sure that the model has a `url` attribute. This attribute will be used to check the SEO score of the model. Also check that the migrations are run. Otherwise the command will fail.
 
@@ -209,7 +211,7 @@ class BlogPost extends Model implements SeoInterface
 }
 ```
 
-You can get the SEO score of a model by calling the `seoScore()` or `seoScoreDetails()` methods on the model. These methods are defined in the `HasSeoScore` trait and can be overridden by adding the modified method in your model. 
+You can get the SEO score of a model by calling the `seoScore()` or `seoScoreDetails()` methods on the model. These methods are defined in the `HasSeoScore` trait and can be overridden by adding the modified method in your model.
 
 To fill the database with the scores of all models, run the following command:
 
@@ -217,7 +219,7 @@ To fill the database with the scores of all models, run the following command:
 php artisan seo:check
 ```
 
-To get the SEO score(s) of a model, you have the following options: 
+To get the SEO score(s) of a model, you have the following options:
 
 1. Get the SEO scores of a single model from the database:
 
@@ -237,9 +239,9 @@ $score = $model->getCurrentScore();
 $scoreDetails = $model->getCurrentScoreDetails();
 ```
 
-### Saving SEO scores into the database
-    
-When you want to save the SEO score to the database, you need to set the `save` option to `true` in the config file. 
+### Saving scans into the database
+
+When you want to save the SEO score to the database, you need to set the `save` option to `true` in the config file.
 
 ```php
 'database' => [
@@ -251,15 +253,32 @@ When you want to save the SEO score to the database, you need to set the `save` 
 
 Optionally you can specify the table name and database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
 
+### Listening to events
+
+When you run the `seo:scan` command, the package will fire an event to let you know it's finished. You can listen to this events and do something with the data. For example, you can send an email to the administrator when the SEO score of a page is below a certain threshold. Add the following code to your `EventServiceProvider`:
+
+```php
+
+protected $listen = [
+    // ...
+    SeoScoreChecked::class => [
+        // Add your listener here
+    ],
+];
+```
+
 ## Available checks
+
 These checks are available in the package. You can add or remove checks in the config file. These checks are based on SEO best practices and if all checks are green, your website will have a good SEO score. If you want to add more checks, you can create a pull request.
 
 ### Configuration
+
 ✅ The page does not have 'noindex' set. <br>
 ✅ The page does not have 'nofollow' set. <br>
 ✅ Robots.txt allows indexing. <br>
 
 ### Content
+
 ✅ The page has an H1 tag and if it is used only once per page. <br>
 ✅ All links redirect to an url using HTTPS. <br>
 ✅ Every image has an alt tag. <br>
@@ -268,6 +287,7 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ Length of the content is at least 2100 characters. <br>
 
 ### Meta
+
 ✅ The page has a meta description. <br>
 ✅ The page title is not longer than 60 characters. <br>
 ✅ The page title does not contain 'home' or 'homepage'. <br>
@@ -275,6 +295,7 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ The lang attribute is set on the html tag.<br>
 
 ### Performance
+
 ✅ Time To First Byte (TTFB) is below 600ms. <br>
 ✅ The page response returns a 200 status code. <br>
 ✅ HTML is not larger than 100 KB. <br>
