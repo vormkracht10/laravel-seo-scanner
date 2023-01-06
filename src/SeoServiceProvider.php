@@ -17,7 +17,7 @@ class SeoServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasTranslations()
-            ->hasMigrations(['create_seo_scans_columns', 'create_seo_score_columns'])
+            ->hasMigrations(['create_seo_scans_table', 'create_seo_score_table'])
             ->hasCommands([
                 SeoScan::class,
                 SeoScanUrl::class,
