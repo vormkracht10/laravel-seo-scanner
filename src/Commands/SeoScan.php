@@ -122,7 +122,7 @@ class SeoScan extends Command
 
         // Filter out excluded routes by name
         if (config('seo.exclude_routes')) {
-            $routes = $routes->filter(fn ($route, $name) => ! in_array($name, config('seo.exclude_routes')));    
+            $routes = $routes->filter(fn ($route, $name) => ! in_array($name, config('seo.exclude_routes')));
         }
 
         // Filter out excluded routes by path
