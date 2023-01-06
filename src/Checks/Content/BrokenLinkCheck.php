@@ -29,23 +29,11 @@ class BrokenLinkCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        // if (! $this->validateContent($crawler)) {
-        //     return false;
-        // }
+        if (! $this->validateContent($crawler)) {
+            return false;
+        }
 
-        $this->actualValue = [
-            // Array with links
-            'https://www.google.com',
-            'https://facebook.com',
-            'https://twitter.com',
-            'https://www.youtube.com',
-            'https://www.instagram.com',
-            'https://www.linkedin.com',
-            'https://www.pinterest.com',
-            'https://www.tiktok.com',
-        ];
-
-        return false;
+        return true;
     }
 
     public function validateContent(Crawler $crawler): bool
