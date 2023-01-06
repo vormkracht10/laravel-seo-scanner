@@ -19,10 +19,10 @@ Easily configure which routes to scan, exclude or include specific checks or eve
 
 -   [Installation](#installation)
 -   [Usage](#usage)
-    -   [Check the SEO score of routes](#check-the-seo-score-of-routes)
-    -   [Check the SEO score of a single page](#check-the-seo-score-of-a-single-page)
-    -   [Check the SEO score of a model](#check-the-seo-score-of-a-model)
-    -   [Saving SEO scores into the database](#saving-seo-scores-into-the-database)
+    -   [Scanning routes](#scanning-routes)
+    -   [Scanning a single route](#scanning-a-single-route)
+    -   [Scan model urls](#scan-model-urls)
+    -   [Saving scans in the database](#saving-scans-in-the-database)
 -   [Available checks](#available-checks)
     -   [Configuration](#configuration)
     -   [Content](#content)
@@ -163,7 +163,7 @@ To check the SEO score of your routes, run the following command:
 php artisan seo:check-routes
 ```
 
-### Scan a single page
+### Scanning a single route
 
 Want to get the score of a specific url? Run the following command:
 
