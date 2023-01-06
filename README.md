@@ -27,6 +27,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Listening to events](#listening-to-events)
     -   [Retrieving scans](#retrieving-scans)
     -   [Retrieving scores](#retrieving-scores)
+    -   [Adding your own checks](#adding-your-own-checks)
 -   [Available checks](#available-checks)
     -   [Configuration](#configuration)
     -   [Content](#content)
@@ -324,6 +325,122 @@ $score = SeoScore::latest()->first();
 
 // Or get all scores for a specific scan
 $scan = SeoScan::latest()->with('scores')->first();
+```
+
+### Adding your own checks
+
+You can add your own checks to the package. To do this, you need to create a `check` class in your application.
+
+1. Create a new class in your application which implements the `Vormkracht10\Seo\Interfaces\Check` interface.
+2. Add the `Vormkracht10\Seo\Traits\PerformCheck` trait to your class.
+3. Add the base path of your check classes to the `check_paths` array in the config file.
+
+#### Example
+
+In this example I make use of the `symfony/dom-crawler` package to crawl the HTML of a page as this is far more reliable than using `preg_match` for example. Feel free to use anything you want. The crawler is always passed to the `check` method, so you still need to define the `$crawler` parameter in your `check` method.
+
+```php
+<?php
+
+namespace App\Support\Seo\Checks;
+
+use Illuminate\Http\Client\Response;
+use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
+
+class CanonicalCheck implements Check
+{
+    use PerformCheck;
+
+    /**
+     * The name of the check.
+     */
+    public string $title = "The page has a canonical tag";
+
+    /**
+     * The priority of the check (in terms of SEO).
+     */
+    public string $priority = 'low';
+
+    /**
+     * The time it takes to fix the issue.
+     */
+    public int $timeToFix = 1;
+
+    /**
+     * The weight of the check. This will be used to calculate the score.
+     */
+    public int $scoreWeight = 2;
+
+    /**
+     * If this check should continue after a failure. You don't
+     * want to continue after a failure if the page is not
+     * accessible, for example.
+     */
+    public bool $continueAfterFailure = true;
+
+    public string|null $failureReason;
+
+    /* If you want to check the actual value later on make sure
+     * to set the actualValue property. This will be used
+     * when saving the results.
+     */
+    public mixed $actualValue = null;
+
+    /* If you want to check the expected value later on make sure
+     * to set the expectedValue property. This will be used
+     * when saving the results.
+     */
+    public mixed $expectedValue = null;
+
+    public function check(Response $response, Crawler $crawler): bool
+    {
+        // Feel free to use any validation you want here.
+        if (! $this->validateContent($crawler)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function validateContent(Crawler $crawler): bool
+    {
+        // Get the canonical tag
+        $node = $crawler->filterXPath('//link[@rel="canonical"]')->getNode(0);
+
+        if (! $node) {
+            // We set the failure reason here so this will be showed in the CLI and saved in the database.
+            $this->failureReason = 'The canonical tag does not exist';
+            return false;
+        }
+
+        // Get the href attribute
+        $this->actualValue = $node->getAttribute('href');
+
+        if (! $this->actualValue) {
+            // The failure reason is different here because the canonical tag exists, but it does not have a href attribute.
+            $this->failureReason = 'The canonical tag does not have a href attribute';
+
+            return false;
+        }
+
+        // The canonical tag exists and has a href attribute, so the check is successful.
+        return true;
+    }
+}
+```
+
+The config file:
+
+```php
+return [
+    // ...
+    'check_paths' => [
+        'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo-scanner/src/Checks'),
+        'App\\Support\\Seo\\Checks' => base_path('app/Support/Seo/Checks'),
+    ],
+];
 ```
 
 ## Available checks
