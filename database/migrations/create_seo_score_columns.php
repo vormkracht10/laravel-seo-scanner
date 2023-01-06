@@ -15,12 +15,18 @@ return new class extends Migration
     {
         Schema::create('seo_scans', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('seo_scan_id');
             $table->string('url');
             $table->nullableMorphs('model', 'model');
             $table->integer('score');
             $table->json('checks');
             $table->timestamps();
             $table->index('url');
+
+            $table->foreign('seo_scan_id')
+                ->references('id')
+                ->on('seo_scans')
+                ->onDelete('cascade');
         });
     }
 
