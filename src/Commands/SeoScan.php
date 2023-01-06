@@ -71,7 +71,7 @@ class SeoScan extends Command
 
         $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$totalPages.' pages.');
 
-        cache()->tags('seo')->flush();
+        cache()->driver(config('seo.cache.driver'))->tags('seo')->flush();
 
         if (config('seo.database.save')) {
             $scan->update([

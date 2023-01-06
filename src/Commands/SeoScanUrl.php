@@ -62,7 +62,7 @@ class SeoScanUrl extends Command
         $this->info('Completed '.$totalChecks.' out of '.getCheckCount().' checks.');
         $this->line('');
 
-        cache()->tags('seo')->flush();
+        cache()->driver(config('seo.cache.driver'))->tags('seo')->flush();
 
         return self::SUCCESS;
     }

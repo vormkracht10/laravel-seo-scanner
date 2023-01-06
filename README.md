@@ -69,6 +69,20 @@ This will be the contents of the published config file:
 return [
     /*
     |--------------------------------------------------------------------------
+    | Cache
+    |--------------------------------------------------------------------------
+    |
+    | The following array lists the cache options for the application.
+    |
+    */
+    'cache' => [
+        // Only drivers that support tags are supported.
+        // These are: array, memcached and redis.
+        'driver' => 'array',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Check classes
     |--------------------------------------------------------------------------
     |
@@ -97,7 +111,7 @@ return [
     |
     */
     'check_paths' => [
-        'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo-scanner/src/Checks'),
+        'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo-scanner-scanner/src/Checks'),
     ],
 
     /*
