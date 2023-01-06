@@ -1,11 +1,11 @@
 # Laravel SEO Scanner
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo)
-[![Tests](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml)
-[![PHPStan](https://github.com/vormkracht10/laravel-seo/actions/workflows/phpstan.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/phpstan.yml)
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/vormkracht10/laravel-seo)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
-[![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo-scanner)
+[![Tests](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/run-tests.yml)
+[![PHPStan](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/phpstan.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/phpstan.yml)
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/vormkracht10/laravel-seo-scanner)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo-scanner.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo-scanner)
+[![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo-scanner.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo-scanner)
 
 ## The Laravel tool to boost the SEO score of your web pages
 
@@ -40,7 +40,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
 You can install the package via composer:
 
 ```bash
-composer require vormkracht10/laravel-seo-scanner
+composer require vormkracht10/laravel-seo-scanner-scanner
 ```
 
 The install command will publish the migrations and config file. You can publish and run the migrations with:
@@ -86,7 +86,7 @@ return [
     |
     */
     'check_paths' => [
-        'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo/src/Checks'),
+        'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo-scanner/src/Checks'),
     ],
 
     /*
