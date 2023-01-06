@@ -2,20 +2,19 @@
 
 namespace Vormkracht10\Seo\Models;
 
-use Vormkracht10\Seo\Models\SeoScan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class SeoScore extends Model
+class SeoScan extends Model
 {
     use Prunable;
 
     protected $guarded = [];
 
     protected $casts = [
-        'checks' => 'array',
+        'failed_checks' => 'array',
     ];
 
     public function __construct(array $attributes = [])
@@ -24,18 +23,13 @@ class SeoScore extends Model
             $this->setConnection(config('seo.database.connection'));
         }
 
-        $this->setTable('seo_scores');
+        $this->setTable('seo_scans');
 
         parent::__construct($attributes);
     }
 
-    public function model(): MorphTo
+    public function scores(): HasMany
     {
-        return $this->morphTo();
-    }
-
-    public function scan(): BelongsTo
-    {
-        return $this->belongsTo(SeoScan::class);
+        return $this->hasMany(SeoScore::class);
     }
 }

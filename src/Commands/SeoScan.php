@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Vormkracht10\Seo\Events\ScanCompleted;
 use Vormkracht10\Seo\Facades\Seo;
+use Vormkracht10\Seo\Models\SeoScan as SeoScanModel;
 use Vormkracht10\Seo\SeoScore;
 
 class SeoScan extends Command
@@ -27,6 +28,10 @@ class SeoScan extends Command
 
     public ProgressBar $progress;
 
+    public array $failedChecks = [];
+
+    public SeoScanModel $scan;
+
     public function handle(): int
     {
         if (empty(config('seo.models')) && ! config('seo.check_routes')) {
@@ -34,6 +39,15 @@ class SeoScan extends Command
 
             return self::FAILURE;
         }
+
+        $scan = SeoScanModel::create([
+            'total_checks' => getCheckCount(),
+            'started_at' => now(),
+        ]);
+
+        $this->scan = $scan;
+
+        $startTime = microtime(true);
 
         $this->info('Please wait while we scan your web page(s)...');
         $this->line('');
@@ -56,6 +70,13 @@ class SeoScan extends Command
         $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$totalPages.' pages.');
 
         cache()->tags('seo')->flush();
+
+        $scan->update([
+            'pages' => $totalPages,
+            'failed_checks' => $this->failedChecks,
+            'time' => microtime(true) - $startTime,
+            'finished_at' => now(),
+        ]);
 
         event(ScanCompleted::class);
 
@@ -101,7 +122,7 @@ class SeoScan extends Command
 
         // Filter out excluded routes by name
         if (config('seo.exclude_routes')) {
-            $routes = $routes->filter(fn ($route) => ! in_array($route, config('seo.exclude_routes')));
+            $routes = $routes->filter(fn ($route, $name) => ! in_array($name, config('seo.exclude_routes')));    
         }
 
         // Filter out excluded routes by path
@@ -169,8 +190,16 @@ class SeoScan extends Command
     {
         $score = $seo->getScore();
 
-        DB::table(config('seo.database.table_name'))
+        // Get the failed checks of each score so we can store them in the scan table.
+        $failedChecks = $seo->getFailedChecks()->map(function ($check) {
+            return get_class($check);
+        })->toArray();
+
+        $this->failedChecks = array_unique(array_merge($this->failedChecks, array_values($failedChecks)));
+
+        DB::table('seo_scores')
             ->insert([
+                'seo_scan_id' => $this->scan->id,
                 'url' => $url,
                 'model_type' => $model ? $model->getMorphClass() : null,
                 'model_id' => $model ? $model->id : null,
@@ -186,8 +215,6 @@ class SeoScan extends Command
 
     private function logResultToConsole(SeoScore $seo, string $url): void
     {
-        $score = $seo->getScore();
-
         $this->line('');
         $this->line('');
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');

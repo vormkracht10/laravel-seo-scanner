@@ -131,7 +131,7 @@ return [
     */
     'database' => [
         'connection' => 'mysql',
-        'save' => false,
+        'save' => true,
     ],
 
     /*
@@ -262,6 +262,37 @@ protected $listen = [
         // Add your listener here
     ],
 ];
+```
+
+### Retrieving scans
+
+You can retrieve the scans from the database by using the `SeoScan` model. This model is used to save the scans to the database. You can use the `SeoScan` model to retrieve the scans from the database. For example:
+
+```php
+use Vormkracht10\Seo\Models\SeoScan;
+
+// Get the latest scan
+$scan = SeoScan::latest()->first();
+
+// Get the failed checks
+$failedChecks = $scan->failedChecks;
+
+// Get the total amount of pages scanned
+$totalPages = $scan->pages;
+```
+
+### Retrieving scores
+
+You can retrieve the scores from the database by using the `SeoScore` model. This model is used to save the scores to the database. You can use the `SeoScore` model to retrieve the scores from the database. For example:
+
+```php
+use Vormkracht10\Seo\Models\SeoScore;
+
+// Get the latest score
+$score = SeoScore::latest()->first();
+
+// Or get all scores for a specific scan
+$scan = SeoScan::latest()->with('scores')->first();
 ```
 
 ## Available checks

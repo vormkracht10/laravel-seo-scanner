@@ -76,7 +76,7 @@ return [
     */
     'database' => [
         'connection' => 'mysql',
-        'save' => false,
+        'save' => true,
     ],
 
     /*
