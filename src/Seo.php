@@ -43,7 +43,8 @@ class Seo
 
     private function visitPage(string $url): object
     {
-        $response = $this->http::get(url: $url);
+        $response = $this->http::withHeaders(headers: ['Accept-Encoding' => 'gzip, deflate, br'])
+            ->get(url: $url);
 
         return $response;
     }

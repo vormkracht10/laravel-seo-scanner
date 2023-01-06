@@ -2,9 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks\Performance;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Client\Response;
-use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class CompressionCheck implements Check
@@ -25,16 +26,26 @@ class CompressionCheck implements Check
 
     public mixed $actualValue = null;
 
-    public mixed $expectedValue = null;
+    public mixed $expectedValue = ['gzip', 'compress', 'deflate', 'br'];
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        if (! in_array($response->header('Content-Encoding'), ['gzip', 'compress', 'deflate', 'br'])) {
+        $encodingHeader = collect($response->headers())->filter(function ($value, $key) {
+            return Str::contains($key, 'Content-Encoding') || Str::contains($key, 'x-encoded-content-encoding');
+        })->filter(function ($values) {       
+            $header = collect($values)->filter(function ($value) {
+                return in_array($value, $this->expectedValue);
+            });
+
+            return ! $header->isEmpty();
+        });
+
+        if ($encodingHeader->isEmpty()) {
             $this->failureReason = __('failed.performance.compression');
 
             return false;
         }
-
+        
         return true;
     }
 }
