@@ -22,7 +22,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
     -   [Scan model urls](#scan-model-urls)
-    -   [Saving scans in the database](#saving-scans-in-the-database)
+    -   [Saving scans into the database](#saving-scans-into-the-database)
 -   [Available checks](#available-checks)
     -   [Configuration](#configuration)
     -   [Content](#content)
