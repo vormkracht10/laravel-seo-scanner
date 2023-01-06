@@ -1,11 +1,11 @@
 # Laravel SEO Scanner
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo-scanner)
+[![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo-scanner.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo-scanner)
 [![Tests](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/run-tests.yml)
 [![PHPStan](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/phpstan.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo-scanner/actions/workflows/phpstan.yml)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo-scanner)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/vormkracht10/laravel-seo-scanner)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo-scanner.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo-scanner)
-[![Total Downloads](https://img.shields.io/packagist/dt/vormkracht10/laravel-seo-scanner.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo-scanner)
 
 ## The Laravel tool to boost the SEO score of your web pages
 
