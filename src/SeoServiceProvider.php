@@ -26,6 +26,7 @@ class SeoServiceProvider extends PackageServiceProvider
                 $command
                     ->publishConfigFile()
                     ->publishMigrations()
+                    ->askToRunMigrations()
                     ->askToStarRepoOnGitHub('vormkracht10/laravel-seo');
             });
     }
