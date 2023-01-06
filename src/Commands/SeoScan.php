@@ -40,12 +40,14 @@ class SeoScan extends Command
             return self::FAILURE;
         }
 
-        $scan = SeoScanModel::create([
-            'total_checks' => getCheckCount(),
-            'started_at' => now(),
-        ]);
+        if (config('seo.database.save')) {
+            $scan = SeoScanModel::create([
+                'total_checks' => getCheckCount(),
+                'started_at' => now(),
+            ]);
 
-        $this->scan = $scan;
+            $this->scan = $scan;
+        }
 
         $startTime = microtime(true);
 
@@ -71,12 +73,14 @@ class SeoScan extends Command
 
         cache()->tags('seo')->flush();
 
-        $scan->update([
-            'pages' => $totalPages,
-            'failed_checks' => $this->failedChecks,
-            'time' => microtime(true) - $startTime,
-            'finished_at' => now(),
-        ]);
+        if (config('seo.database.save')) {
+            $scan->update([
+                'pages' => $totalPages,
+                'failed_checks' => $this->failedChecks,
+                'time' => microtime(true) - $startTime,
+                'finished_at' => now(),
+            ]);
+        }
 
         event(ScanCompleted::class);
 

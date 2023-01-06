@@ -11,7 +11,6 @@ it('can only run configured checks for a single url', function () {
         'checks' => [
             \Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck::class,
         ],
-        ...config('seo'),
     ]);
 
     $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
@@ -22,8 +21,10 @@ it('can only run configured checks for a single url', function () {
 it('can run all checks for a single url', function () {
     config('seo', [
         'check_routes' => false,
+        'database' => [
+            'save' => false,
+        ],
         'checks' => [],
-        ...config('seo'),
     ]);
 
     $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
@@ -39,8 +40,10 @@ it('can run the SEO check for routes', function () {
         'routes' => [
             'https://vormkracht10.nl',
         ],
-        ...config('seo'),
     ]);
+
+
+    config(['seo.database.save' => false]);
 
     $this->artisan('seo:scan')
         ->assertExitCode(0);
@@ -52,8 +55,9 @@ it('can only run configured checks', function () {
         'checks' => [
             \Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck::class,
         ],
-        ...config('seo'),
     ]);
+
+    config(['seo.database.save' => false]);
 
     $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
         ->expectsOutputToContain('1 out of '.getCheckCount().' checks.')
