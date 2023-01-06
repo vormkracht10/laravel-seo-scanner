@@ -31,7 +31,9 @@ class CompressionCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         $encodingHeader = collect($response->headers())->filter(function ($value, $key) {
-            return Str::contains($key, 'Content-Encoding') || Str::contains($key, 'x-encoded-content-encoding');
+            $key = strtolower($key);
+
+            return Str::contains($key, 'content-encoding') || Str::contains($key, 'x-encoded-content-encoding');
         })->filter(function ($values) {
             $header = collect($values)->filter(function ($value) {
                 return in_array($value, $this->expectedValue);
