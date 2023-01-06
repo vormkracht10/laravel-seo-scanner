@@ -21,7 +21,14 @@ class SeoServiceProvider extends PackageServiceProvider
             ->hasCommands([
                 SeoScan::class,
                 SeoScanUrl::class,
-            ])
+            ]);
+
+        // When testing, we can ignore this code
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
+        $package
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
