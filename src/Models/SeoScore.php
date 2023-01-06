@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $seo_scan_id
+ * @property string $url
+ * @property string $model_type
+ * @property int $model_id
+ * @property int $score
+ * @property array $checks
+ */
 class SeoScore extends Model
 {
     use Prunable;

@@ -4,9 +4,17 @@ namespace Vormkracht10\Seo\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property int $pages
+ * @property int $total_checks
+ * @property array $failed_checks
+ * @property float $time
+ * @property \Illuminate\Support\Carbon $started_at
+ * @property \Illuminate\Support\Carbon $finished_at
+ */
 class SeoScan extends Model
 {
     use Prunable;
