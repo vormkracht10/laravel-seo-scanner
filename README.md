@@ -40,7 +40,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
 You can install the package via composer:
 
 ```bash
-composer require vormkracht10/laravel-seo-scanner-scanner
+composer require vormkracht10/laravel-seo-scanner
 ```
 
 The install command will publish the migrations and config file. You can publish and run the migrations with:
