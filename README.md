@@ -1,4 +1,4 @@
-# Laravel SEO
+# Laravel SEO Scanner
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/vormkracht10/laravel-seo)
 [![Tests](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml/badge.svg?branch=main)](https://github.com/vormkracht10/laravel-seo/actions/workflows/run-tests.yml)
@@ -13,7 +13,7 @@
 
 ## Introduction
 
-This package is your guidance to get a better SEO score on search engines. Laravel SEO scans your code and crawls the routes from your app. The package has 21 scans that will check on performance, configurations, use of meta tags and content quality.
+This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 21 checks that will check on performance, configurations, use of meta tags and content quality.
 
 Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines.
 
@@ -40,7 +40,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
 You can install the package via composer:
 
 ```bash
-composer require vormkracht10/laravel-seo
+composer require vormkracht10/laravel-seo-scanner
 ```
 
 You can publish and run the migrations with:
