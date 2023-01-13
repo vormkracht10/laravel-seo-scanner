@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v1.1.0 - 2023-01-13
+
+### What's Changed
+
+- Fix Windows tests by removing SSL validation when using `curl()` by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/16
+- Check if a relative url is used when performing broken link checks by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/17
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v1.0.1...v1.1.0
+
 ## v1.0.0 - 2023-01-06
 
 ### Laravel SEO Scanner v1.0.0 released
