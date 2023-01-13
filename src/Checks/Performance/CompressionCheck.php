@@ -26,7 +26,7 @@ class CompressionCheck implements Check
 
     public mixed $actualValue = null;
 
-    public mixed $expectedValue = ['gzip', 'compress', 'deflate', 'br'];
+    public mixed $expectedValue = ['gzip', 'deflate'];
 
     public function check(Response $response, Crawler $crawler): bool
     {

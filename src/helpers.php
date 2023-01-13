@@ -9,7 +9,7 @@ if (! function_exists('isBrokenLink')) {
     {
         $statusCode = (string) getRemoteStatus($url);
 
-        if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5')) {
+        if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
             return true;
         }
 
@@ -30,6 +30,12 @@ if (! function_exists('getRemoteStatus')) {
                 CURLOPT_TIMEOUT => 10,
                 CURLOPT_FOLLOWLOCATION,
             ];
+
+            if (app()->runningUnitTests()) {
+                $options[CURLOPT_SSL_VERIFYHOST] = false;
+                $options[CURLOPT_SSL_VERIFYPEER] = false;
+                $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+            }
 
             curl_setopt_array($ch, $options);
             curl_exec($ch);
@@ -62,7 +68,8 @@ if (! function_exists('getRemoteFileSize')) {
                 return 0;
             }
 
-            if (preg_match('/Content-Length: (\d+)/', $data, $matches) ||
+            if (
+                preg_match('/Content-Length: (\d+)/', $data, $matches) ||
                 preg_match('/content-length: (\d+)/', $data, $matches)
             ) {
                 $contentLength = (int) $matches[1];
