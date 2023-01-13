@@ -39,7 +39,7 @@ class CompressionCheck implements Check
                 return in_array($value, $this->expectedValue);
             });
 
-            return !$header->isEmpty();
+            return ! $header->isEmpty();
         });
 
         if ($encodingHeader->isEmpty()) {
