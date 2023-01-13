@@ -70,7 +70,7 @@ class Seo
                         return app($check)->merge($result);
                     });
 
-                $this->failed = $data['checks']->filter(fn ($result) => !$result['result'])
+                $this->failed = $data['checks']->filter(fn ($result) => ! $result['result'])
                     ->map(function ($result, $check) {
                         return app($check)->merge($result);
                     });
@@ -80,18 +80,18 @@ class Seo
     public static function getCheckPaths(): array
     {
         if (app()->runningUnitTests()) {
-            return collect(config('seo.check_paths', [__DIR__ . '/Checks']))
+            return collect(config('seo.check_paths', [__DIR__.'/Checks']))
                 ->toArray();
         }
 
-        return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__ . '/Checks']))
+        return collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
             ->filter(fn ($dir) => file_exists($dir))
             ->toArray();
     }
 
     public static function getCheckClasses(): Collection
     {
-        if (!in_array('*', Arr::wrap(config('seo.checks', '*')))) {
+        if (! in_array('*', Arr::wrap(config('seo.checks', '*')))) {
             return collect(Arr::wrap(config('seo.checks')))->mapWithKeys(fn ($check) => [$check => null]);
         }
 
@@ -103,13 +103,13 @@ class Seo
 
         collect($paths)->each(function ($path, $baseNamespace) use (&$checks) {
             if (app()->runningUnitTests()) {
-                $path = __DIR__ . '/Checks';
+                $path = __DIR__.'/Checks';
             }
 
             $files = is_dir($path) ? (new Finder)->in($path)->files() : Arr::wrap($path);
 
             foreach ($files as $fileInfo) {
-                $checkClass = $baseNamespace . str_replace(
+                $checkClass = $baseNamespace.str_replace(
                     ['/', '.php'],
                     ['\\', ''],
                     Str::after(
@@ -126,7 +126,7 @@ class Seo
             return $checks;
         }
 
-        return $checks->filter(fn ($check, $key) => !in_array($key, $exclusions));
+        return $checks->filter(fn ($check, $key) => ! in_array($key, $exclusions));
     }
 
     /**
