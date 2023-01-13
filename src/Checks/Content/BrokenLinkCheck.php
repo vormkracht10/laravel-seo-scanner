@@ -46,18 +46,21 @@ class BrokenLinkCheck implements Check
             return true;
         }
 
-        $content = collect($content)->filter(fn ($value) => $value !== null)->filter(function ($link) {
-            // Filter out all links that are mailto, tel or have a file extension
-            if (preg_match('/^mailto:/msi', $link) ||
-                preg_match('/^tel:/msi', $link) ||
-                preg_match('/\.[a-z]{2,4}$/msi', $link) ||
-                filter_var($link, FILTER_VALIDATE_URL) === false
-            ) {
-                return false;
-            }
+        $content = collect($content)->filter(fn ($value) => $value !== null)
+            ->map(fn ($link) => addBaseIfRelativeUrl($link, $this->url))
+            ->filter(function ($link) {
+                // Filter out all links that are mailto, tel or have a file extension
+                if (preg_match('/^mailto:/msi', $link) ||
+                    preg_match('/^tel:/msi', $link) ||
+                    preg_match('/\.[a-z]{2,4}$/msi', $link) ||
+                    filter_var($link, FILTER_VALIDATE_URL) === false
+                ) {
+                    return false;
+                }
 
-            return $link;
-        })->filter(fn ($link) => isBrokenLink($link))->toArray();
+                return $link;
+            })
+            ->filter(fn ($link) => isBrokenLink($link))->toArray();
 
         $this->actualValue = $content;
 

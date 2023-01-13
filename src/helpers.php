@@ -135,3 +135,22 @@ if (! function_exists('bytesToHumanReadable')) {
         return round($bytes / (1000 ** $i), 2).' '.$units[$i];
     }
 }
+
+if (! function_exists('addBaseIfRelativeUrl')) {
+    function addBaseIfRelativeUrl(string $url, string|null $checkedUrl = null): string
+    {
+        if (! Str::startsWith($url, '/')) {
+            return $url;
+        }
+
+        if (config('app.url')) {
+            return config('app.url').$url;
+        }
+
+        if ($checkedUrl) {
+            return $checkedUrl.$url;
+        }
+
+        return $url;
+    }
+}

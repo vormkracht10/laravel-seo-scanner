@@ -42,3 +42,16 @@ it('can perform the broken link check on content where no links are used', funct
 
     $this->assertTrue($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
+
+it('can run the broken link check on a relative url', function () {
+    $check = new BrokenLinkCheck();
+    $crawler = new Crawler();
+
+    Http::fake([
+        'vormkracht10.nl' => Http::response('<html><head></head><body><a href="/404">Vormkracht10</a></body></html>', 200),
+    ]);
+
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+});
