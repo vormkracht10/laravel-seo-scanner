@@ -4,12 +4,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 
-if (! function_exists('isBrokenLink')) {
+if (!function_exists('isBrokenLink')) {
     function isBrokenLink(string $url): bool
     {
         $statusCode = (string) getRemoteStatus($url);
 
-        if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5')) {
+        if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
             return true;
         }
 
@@ -17,7 +17,7 @@ if (! function_exists('isBrokenLink')) {
     }
 }
 
-if (! function_exists('getRemoteStatus')) {
+if (!function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url, function () use ($url) {
@@ -29,6 +29,8 @@ if (! function_exists('getRemoteStatus')) {
                 CURLOPT_NOBODY => true,
                 CURLOPT_TIMEOUT => 10,
                 CURLOPT_FOLLOWLOCATION,
+                CURLOPT_SSL_VERIFYHOST => false,
+                CURLOPT_SSL_VERIFYPEER => false,
             ];
 
             curl_setopt_array($ch, $options);
@@ -43,10 +45,10 @@ if (! function_exists('getRemoteStatus')) {
     }
 }
 
-if (! function_exists('getRemoteFileSize')) {
+if (!function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
-        return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
+        return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url . '.size', function () use ($url) {
             $ch = curl_init($url);
 
             curl_setopt($ch, CURLOPT_NOBODY, true);
@@ -62,13 +64,14 @@ if (! function_exists('getRemoteFileSize')) {
                 return 0;
             }
 
-            if (preg_match('/Content-Length: (\d+)/', $data, $matches) ||
+            if (
+                preg_match('/Content-Length: (\d+)/', $data, $matches) ||
                 preg_match('/content-length: (\d+)/', $data, $matches)
             ) {
                 $contentLength = (int) $matches[1];
             }
 
-            if (! isset($contentLength)) {
+            if (!isset($contentLength)) {
                 $contentLength = strlen(file_get_contents($url));
             }
 
@@ -77,21 +80,21 @@ if (! function_exists('getRemoteFileSize')) {
     }
 }
 
-if (! function_exists('getCheckCount')) {
+if (!function_exists('getCheckCount')) {
     function getCheckCount(): int
     {
         $checks = collect();
 
-        collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__.'/Checks']))
+        collect(config('seo.check_paths', ['Vormkracht10\\Seo\\Checks' => __DIR__ . '/Checks']))
             ->each(function ($path, $baseNamespace) use (&$checks) {
                 if (app()->runningUnitTests()) {
-                    $path = __DIR__.'/Checks';
+                    $path = __DIR__ . '/Checks';
                 }
 
                 $files = is_dir($path) ? (new Finder)->in($path)->files() : Arr::wrap($path);
 
                 foreach ($files as $fileInfo) {
-                    $checkClass = $baseNamespace.str_replace(
+                    $checkClass = $baseNamespace . str_replace(
                         ['/', '.php'],
                         ['\\', ''],
                         Str::after(
@@ -106,7 +109,7 @@ if (! function_exists('getCheckCount')) {
 
         $checks = $checks->except(config('seo.exclude_checks', []));
 
-        if (empty(config('seo.checks')) || ! in_array('*', config('seo.checks'))) {
+        if (empty(config('seo.checks')) || !in_array('*', config('seo.checks'))) {
             $checks = $checks->only(config('seo.checks'));
         }
 
@@ -114,7 +117,7 @@ if (! function_exists('getCheckCount')) {
     }
 }
 
-if (! function_exists('bytesToHumanReadable')) {
+if (!function_exists('bytesToHumanReadable')) {
     function bytesToHumanReadable(int $bytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
@@ -125,6 +128,6 @@ if (! function_exists('bytesToHumanReadable')) {
          */
         $i = (int) floor(log($bytes, 1000));
 
-        return round($bytes / (1000 ** $i), 2).' '.$units[$i];
+        return round($bytes / (1000 ** $i), 2) . ' ' . $units[$i];
     }
 }
