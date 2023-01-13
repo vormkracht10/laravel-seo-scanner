@@ -197,7 +197,7 @@ These checks are available in the package. You can add or remove checks in the c
 
 ✅ The page has an H1 tag and if it is used only once per page. <br>
 ✅ All links redirect to an url using HTTPS. <br>
-✅ Every image has an alt tag. <br>
+✅ Every image has an alt attribute. <br>
 ✅ The page contains no broken links. <br>
 ✅ The page contains no broken images. <br>
 ✅ Length of the content is at least 2100 characters. <br>
@@ -393,7 +393,7 @@ class CanonicalCheck implements Check
     /**
      * The name of the check.
      */
-    public string $title = "The page has a canonical tag";
+    public string $title = "The page has a canonical meta tag";
 
     /**
      * The priority of the check (in terms of SEO).
@@ -443,12 +443,12 @@ class CanonicalCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
-        // Get the canonical tag
+        // Get the canonical meta tag
         $node = $crawler->filterXPath('//link[@rel="canonical"]')->getNode(0);
 
         if (! $node) {
             // We set the failure reason here so this will be showed in the CLI and saved in the database.
-            $this->failureReason = 'The canonical tag does not exist';
+            $this->failureReason = 'The canonical meta tag does not exist';
             return false;
         }
 
@@ -457,12 +457,12 @@ class CanonicalCheck implements Check
 
         if (! $this->actualValue) {
             // The failure reason is different here because the canonical tag exists, but it does not have a href attribute.
-            $this->failureReason = 'The canonical tag does not have a href attribute';
+            $this->failureReason = 'The canonical meta tag does not have a href attribute';
 
             return false;
         }
 
-        // The canonical tag exists and has a href attribute, so the check is successful.
+        // The canonical meta tag exists and has a href attribute, so the check is successful.
         return true;
     }
 }
