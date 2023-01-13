@@ -18,7 +18,7 @@ class Seo
      * @var ProgressBar|null The progress bar to use for the checks.
      */
     public ProgressBar|null $progress;
-    
+
     public string $url;
 
     public function __construct(
