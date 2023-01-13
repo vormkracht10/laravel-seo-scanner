@@ -144,11 +144,11 @@ if (! function_exists('addBaseIfRelativeUrl')) {
         }
 
         if (config('app.url')) {
-            return config('app.url') . $url;
+            return config('app.url').$url;
         }
 
         if ($checkedUrl) {
-            return $checkedUrl . $url;
+            return $checkedUrl.$url;
         }
 
         return $url;
