@@ -29,9 +29,13 @@ if (!function_exists('getRemoteStatus')) {
                 CURLOPT_NOBODY => true,
                 CURLOPT_TIMEOUT => 10,
                 CURLOPT_FOLLOWLOCATION,
-                CURLOPT_SSL_VERIFYHOST => false,
-                CURLOPT_SSL_VERIFYPEER => false,
             ];
+
+            if (app()->runningUnitTests()) {
+                $options[CURLOPT_SSL_VERIFYHOST] = false;
+                $options[CURLOPT_SSL_VERIFYPEER] = false;
+                $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+            }
 
             curl_setopt_array($ch, $options);
             curl_exec($ch);
