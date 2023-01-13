@@ -6,8 +6,12 @@ use Closure;
 
 trait PerformCheck
 {
+    public string|null $url = null;
+
     public function __invoke(array $data, Closure $next)
     {
+        $this->url = $data['url'] ?? null;
+
         if (! in_array('exit', $data)) {
             $result = $this->check($data['response'], $data['crawler']);
         }

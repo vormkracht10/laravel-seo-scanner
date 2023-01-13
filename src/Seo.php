@@ -18,6 +18,8 @@ class Seo
      * @var ProgressBar|null The progress bar to use for the checks.
      */
     public ProgressBar|null $progress;
+    
+    public string $url;
 
     public function __construct(
         protected Http $http,
@@ -29,6 +31,7 @@ class Seo
     public function check(string $url, ProgressBar|null $progress = null): SeoScore
     {
         $this->progress = $progress;
+        $this->url = $url;
 
         try {
             $response = $this->visitPage(url: $url);
@@ -66,6 +69,7 @@ class Seo
                 'checks' => $checks,
                 'progress' => $this->progress,
                 'crawler' => $crawler,
+                'url' => $this->url,
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {

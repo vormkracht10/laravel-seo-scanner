@@ -47,6 +47,7 @@ class BrokenImageCheck implements Check
         }
 
         $content = collect($content)->filter(fn ($value) => $value !== null)
+            ->map(fn ($link) => addBaseIfRelativeUrl($link, $this->url))
             ->filter(fn ($link) => isBrokenLink($link))->toArray();
 
         $this->actualValue = $content;
