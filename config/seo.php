@@ -107,4 +107,19 @@ return [
     |
     */
     'models' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Http client options
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify the options of http client. Sometimes you need to
+    | disable the SSL certificate integrity check and you can use this option
+    | for this.
+    |
+    | Example to disable SSL certificate integrity check:
+    | ['verify' => false]
+    |
+    */
+    'http_options' => [],
 ];
