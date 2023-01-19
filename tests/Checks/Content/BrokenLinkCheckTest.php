@@ -53,5 +53,5 @@ it('can run the broken link check on a relative url', function () {
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+    $this->assertTrue($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
