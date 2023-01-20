@@ -114,8 +114,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you can specify the options of the http client. For example, in a
-    | local development environment you may want to disable the SSL 
-    | certificate integrity check. 
+    | local development environment you may want to disable the SSL
+    | certificate integrity check.
     |
     | An example of a http option:
     | 'verify' => false
