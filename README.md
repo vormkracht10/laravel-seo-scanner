@@ -25,6 +25,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Meta](#meta)
     -   [Performance](#performance)
 -   [Usage](#usage)
+    -   [Running the scanner in a local environment](#running-the-scanner-in-a-local-environment)
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
     -   [Scan model urls](#scan-model-urls)
@@ -180,6 +181,21 @@ return [
     |
     */
     'models' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Http client options
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify the options of the http client. For example, in a
+    | local development environment you may want to disable the SSL 
+    | certificate integrity check. 
+    |
+    | An example of a http option:
+    | 'verify' => false
+    |
+    */
+    'http_options' => [],
 ];
 ```
 
@@ -221,6 +237,25 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ HTML is GZIP compressed. <br>
 
 ## Usage
+
+### Running the scanner in a local environment
+If you are using auto signed SSL certificates in your local development environment, you may want to disable the SSL certificate integrity check. You can do this by adding the following option to the `http_options` array in the config file:
+
+```php
+'http_options' => [
+    'verify' => false,
+],
+```
+
+It's also possible to pass other options to the http client. For example, if you want to set a custom user agent, you can add the following option to the `http_options` array in the config file:
+
+```php
+'http_options' => [
+    'headers' => [
+        'User-Agent' => 'My custom user agent',
+    ],
+],
+```
 
 ### Scanning routes
 

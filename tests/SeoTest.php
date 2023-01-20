@@ -23,8 +23,7 @@ it('can only run configured checks', function () {
     config(['seo.check_routes' => false]);
     config(['seo.checks' => [
         \Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck::class,
-    ],
-    ]);
+    ]]);
 
     $this->artisan('seo:scan-url', ['url' => 'https://vormkracht10.nl'])
         ->expectsOutputToContain('1 out of '.getCheckCount().' checks.')

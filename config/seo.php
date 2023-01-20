@@ -113,12 +113,12 @@ return [
     | Http client options
     |--------------------------------------------------------------------------
     |
-    | Here you can specify the options of http client. Sometimes you need to
-    | disable the SSL certificate integrity check and you can use this option
-    | for this.
+    | Here you can specify the options of the http client. For example, in a
+    | local development environment you may want to disable the SSL 
+    | certificate integrity check. 
     |
-    | Example to disable SSL certificate integrity check:
-    | ['verify' => false]
+    | An example of a http option:
+    | 'verify' => false
     |
     */
     'http_options' => [],
