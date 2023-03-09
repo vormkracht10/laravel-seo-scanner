@@ -141,8 +141,6 @@ class Seo
     /**
      * Order the checks so that the checks where 'continueAfterFailure' is set to false comes first.
      * This way we can stop the pipeline when a check fails and we don't want to continue.
-     *
-     * @return Collection
      */
     public static function orderedCheckClasses(): Collection
     {
