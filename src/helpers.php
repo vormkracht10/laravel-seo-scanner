@@ -37,10 +37,10 @@ if (! function_exists('getRemoteStatus')) {
                 $options[CURLOPT_SSL_VERIFYSTATUS] = false;
             }
 
-            if(in_array($domain, array_keys(config('seo.domains')))) {
-                $domain =
+            if (in_array($domain, array_keys(config('seo.domains')))) {
+                $domain = 'x'; // @todo parse domain name
                 $port = str_contains($url, 'https://') ? 443 : 80;
-                $ipAddress = array_keys(config('seo.domains'));
+                $ipAddress = array_keys(config('seo.domains'))[$domain];
 
                 $options[CURLOPT_RESOLVE] = "{$domain}:{$port}:{$ipAddress}";
             }
