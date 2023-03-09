@@ -28,13 +28,21 @@ if (! function_exists('getRemoteStatus')) {
                 CURLOPT_HEADER => true,
                 CURLOPT_NOBODY => true,
                 CURLOPT_TIMEOUT => 10,
-                CURLOPT_FOLLOWLOCATION,
+                CURLOPT_FOLLOWLOCATION => true,
             ];
 
             if (app()->runningUnitTests()) {
                 $options[CURLOPT_SSL_VERIFYHOST] = false;
                 $options[CURLOPT_SSL_VERIFYPEER] = false;
                 $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+            }
+
+            if(in_array($domain, array_keys(config('seo.domains')))) {
+                $domain =
+                $port = str_contains($url, 'https://') ? 443 : 80;
+                $ipAddress = array_keys(config('seo.domains'));
+
+                $options[CURLOPT_RESOLVE] = "{$domain}:{$port}:{$ipAddress}";
             }
 
             curl_setopt_array($ch, $options);
