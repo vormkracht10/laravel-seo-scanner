@@ -38,6 +38,14 @@ class LangCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
+        $node = $crawler->filterXPath('//html')->getNode(0);
+
+        if (! $node) {
+            $this->failureReason = __('failed.meta.no_lang');
+
+            return false;
+        }
+        
         $lang = $crawler->filterXPath('//html')->attr('lang');
 
         if (! $lang) {
