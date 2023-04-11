@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Vormkracht10\Seo\Actions;
 
@@ -7,12 +7,14 @@ use Lorisleiva\Actions\Concerns\AsAction;
 
 class Scan
 {
-    use AsAction; 
+    use AsAction;
 
     public string $jobQueue = 'seo';
+
     public int $jobTimeout = 3600;
+
     public int $jobTries = 3;
-    
+
     public function handle(): void
     {
         Artisan::call('seo:scan');
@@ -22,5 +24,4 @@ class Scan
     {
         Artisan::queue('seo:scan');
     }
-
 }
