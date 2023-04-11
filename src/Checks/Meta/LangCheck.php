@@ -45,7 +45,7 @@ class LangCheck implements Check
 
             return false;
         }
-        
+
         $lang = $crawler->filterXPath('//html')->attr('lang');
 
         if (! $lang) {
