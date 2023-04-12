@@ -188,8 +188,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you can specify the options of the http client. For example, in a
-    | local development environment you may want to disable the SSL 
-    | certificate integrity check. 
+    | local development environment you may want to disable the SSL
+    | certificate integrity check.
     |
     | An example of a http option:
     | 'verify' => false
@@ -239,6 +239,7 @@ These checks are available in the package. You can add or remove checks in the c
 ## Usage
 
 ### Running the scanner in a local environment
+
 If you are using auto signed SSL certificates in your local development environment, you may want to disable the SSL certificate integrity check. You can do this by adding the following option to the `http_options` array in the config file:
 
 ```php
@@ -265,6 +266,14 @@ To check the SEO score of your routes, run the following command:
 
 ```bash
 php artisan seo:scan
+```
+
+If you want to queue the scan and trigger it manually you can dispatch the 'Scan' job:
+
+```php
+use Vormkracht10\LaravelSeo\Jobs\Scan;
+
+Scan::dispatch();
 ```
 
 ### Scanning a single route
