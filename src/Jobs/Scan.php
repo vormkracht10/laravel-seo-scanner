@@ -14,8 +14,9 @@ class Scan implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 1;
+
     public $timeout = 60 * 60 * 3;
-    
+
     public function __construct()
     {
         $this->onQueue('seo');
