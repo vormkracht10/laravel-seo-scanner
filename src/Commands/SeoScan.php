@@ -176,13 +176,13 @@ class SeoScan extends Command
             $this->success += count($seo->getSuccessfulChecks());
             $this->modelCount++;
 
+            dd($model->url);
+
             if (config('seo.database.save')) {
                 $this->saveScoreToDatabase(seo: $seo, url: $model->url, model: $model);
             }
 
             $this->progress->finish();
-
-            dd($model);
 
             if ($this->failed === 0 && $this->success === 0) {
                 $this->line('<fg=red>✘ Unfortunately, the url that is used is not correct. Please try again with a different url.</>');
