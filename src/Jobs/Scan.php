@@ -17,11 +17,6 @@ class Scan implements ShouldQueue
 
     public $timeout = 60 * 60 * 3;
 
-    public function __construct()
-    {
-        $this->onQueue('seo');
-    }
-
     public function handle(): void
     {
         Artisan::call('seo:scan');
