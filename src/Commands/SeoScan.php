@@ -174,8 +174,6 @@ class SeoScan extends Command
             $this->success += count($seo->getSuccessfulChecks());
             $this->modelCount++;
 
-            dd($model->url);
-
             if (config('seo.database.save')) {
                 $this->saveScoreToDatabase(seo: $seo, url: $model->url, model: $model);
             }
