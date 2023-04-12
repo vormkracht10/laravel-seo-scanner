@@ -165,8 +165,6 @@ class SeoScan extends Command
     {
         $model = new $model();
 
-        dd($model::all()->filter->url);
-
         $model::all()->filter->url->map(function ($model) {
             $this->progress->start();
 
