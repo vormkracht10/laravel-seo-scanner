@@ -17,8 +17,16 @@ class Scan implements ShouldQueue
 
     public $timeout = 60 * 60 * 3;
 
-    public function handle(): void
+    public function handle(string|null $url = null): void
     {
-        Artisan::call('seo:scan');
+        if (! $url) {
+            Artisan::call('seo:scan');
+
+            return;
+        }
+
+        Artisan::call('seo:scan-url', [
+            'url' => $url,
+        ]);
     }
 }
