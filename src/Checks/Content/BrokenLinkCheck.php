@@ -64,7 +64,6 @@ class BrokenLinkCheck implements Check
 
         dd($content);
 
-
         $this->actualValue = $content;
 
         if (count($content) > 0) {
