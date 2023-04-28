@@ -46,6 +46,8 @@ class BrokenLinkCheck implements Check
             return true;
         }
 
+        dd($content);
+
         $content = collect($content)->filter(fn ($value) => $value !== null)
             ->map(fn ($link) => addBaseIfRelativeUrl($link, $this->url))
             ->filter(function ($link) {
@@ -61,8 +63,6 @@ class BrokenLinkCheck implements Check
                 return $link;
             })
             ->filter(fn ($link) => isBrokenLink($link))->toArray();
-
-        dd($content);
 
         $this->actualValue = $content;
 
