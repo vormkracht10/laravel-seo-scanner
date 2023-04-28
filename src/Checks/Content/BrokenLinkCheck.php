@@ -46,8 +46,6 @@ class BrokenLinkCheck implements Check
             return true;
         }
 
-        dd($content);
-
         $content = collect($content)->filter(fn ($value) => $value !== null)
             ->map(fn ($link) => addBaseIfRelativeUrl($link, $this->url))
             ->filter(function ($link) {
@@ -62,16 +60,30 @@ class BrokenLinkCheck implements Check
 
                 return $link;
             })
-            ->filter(fn ($link) => isBrokenLink($link))->toArray();
+            ->filter(function ($link) {
+                $statusCode = (string) getRemoteStatus($link);
+    
+                if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
+                    return [
+                        'url' => $link,
+                        'status' => $statusCode,
+                    ];
+                }
+    
+                return false;
+            })->toArray();
 
         $this->actualValue = $content;
 
         if (count($content) > 0) {
-            dd($content);
+            $failureReasons = collect($content)->map(function ($link) {
+                return $link['url'] . ' (' . $link['status'] . ')';
+            })->implode(', ');
+    
             $this->failureReason = __('failed.content.broken_links', [
-                'actualValue' => implode(', ', $content),
+                'actualValue' => $failureReasons,
             ]);
-
+    
             return false;
         }
 
