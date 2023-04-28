@@ -62,9 +62,11 @@ class BrokenLinkCheck implements Check
             })
             ->filter(fn ($link) => isBrokenLink($link))->toArray();
 
+
         $this->actualValue = $content;
 
         if (count($content) > 0) {
+            dd($content);
             $this->failureReason = __('failed.content.broken_links', [
                 'actualValue' => implode(', ', $content),
             ]);
