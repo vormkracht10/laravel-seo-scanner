@@ -20,8 +20,7 @@ class RobotsCheck implements Check
 
     public int $scoreWeight = 5;
 
-    // public bool $continueAfterFailure = false;
-    public bool $continueAfterFailure = true;
+    public bool $continueAfterFailure = false;
 
     public string|null $failureReason;
 
