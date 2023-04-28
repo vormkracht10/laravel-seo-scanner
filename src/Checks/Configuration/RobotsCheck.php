@@ -22,7 +22,7 @@ class RobotsCheck implements Check
 
     // public bool $continueAfterFailure = false;
     public bool $continueAfterFailure = true;
-    
+
     public string|null $failureReason;
 
     public mixed $actualValue = null;
