@@ -62,6 +62,8 @@ class BrokenLinkCheck implements Check
             })
             ->filter(fn ($link) => isBrokenLink($link))->toArray();
 
+        dd($content);
+
 
         $this->actualValue = $content;
 
