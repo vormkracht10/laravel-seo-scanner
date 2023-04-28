@@ -62,14 +62,14 @@ class BrokenLinkCheck implements Check
             })
             ->filter(function ($link) {
                 $statusCode = (string) getRemoteStatus($link);
-    
+
                 if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
                     return [
                         'url' => $link,
                         'status' => $statusCode,
                     ];
                 }
-    
+
                 return false;
             })->toArray();
 
@@ -77,13 +77,13 @@ class BrokenLinkCheck implements Check
 
         if (count($content) > 0) {
             $failureReasons = collect($content)->map(function ($link) {
-                return $link['url'] . ' (' . $link['status'] . ')';
+                return $link['url'].' ('.$link['status'].')';
             })->implode(', ');
-    
+
             $this->failureReason = __('failed.content.broken_links', [
                 'actualValue' => $failureReasons,
             ]);
-    
+
             return false;
         }
 
