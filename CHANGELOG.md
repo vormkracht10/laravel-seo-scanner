@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v1.3.0 - 2023-05-05
+
+### What's Changed
+
+- Bump aglipanci/laravel-pint-action from 2.1.0 to 2.2.0 by @dependabot in https://github.com/vormkracht10/laravel-seo-scanner/pull/25
+- Run scan with queued job by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/26
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v1.2.0...v1.3.0
+
 ## v1.2.0 - 2023-03-09
 
 ### What's Changed
