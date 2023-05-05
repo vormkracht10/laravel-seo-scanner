@@ -64,16 +64,17 @@ class BrokenLinkCheck implements Check
                 $statusCode = (string) getRemoteStatus($link);
 
                 if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
-                    return [
-                        'url' => $link,
-                        'status' => $statusCode,
-                    ];
+                    return $link;
                 }
 
                 return false;
-            })->all();
-
-        dd($content);
+            })->map(function ($link) {
+                return [
+                    'url' => $link,
+                    'status' => (string) getRemoteStatus($link),
+                ];
+            })
+            ->all();
 
         $this->actualValue = $content;
 
