@@ -60,13 +60,31 @@ class BrokenLinkCheck implements Check
 
                 return $link;
             })
-            ->filter(fn ($link) => isBrokenLink($link))->toArray();
+            ->filter(function ($link) {
+                $statusCode = (string) getRemoteStatus($link);
+
+                if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
+                    return $link;
+                }
+
+                return false;
+            })->map(function ($link) {
+                return [
+                    'url' => $link,
+                    'status' => (string) getRemoteStatus($link),
+                ];
+            })
+            ->all();
 
         $this->actualValue = $content;
 
         if (count($content) > 0) {
+            $failureReasons = collect($content)->map(function ($link) {
+                return $link['url'].' ('.$link['status'].')';
+            })->implode(', ');
+
             $this->failureReason = __('failed.content.broken_links', [
-                'actualValue' => implode(', ', $content),
+                'actualValue' => $failureReasons,
             ]);
 
             return false;
