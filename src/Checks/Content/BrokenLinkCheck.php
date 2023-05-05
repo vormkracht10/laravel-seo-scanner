@@ -73,11 +73,13 @@ class BrokenLinkCheck implements Check
                 return false;
             })->all();
 
+        dd($content);
+
         $this->actualValue = $content;
 
         if (count($content) > 0) {
             $failureReasons = collect($content)->map(function ($link) {
-                return $link['url'].' ('.$link['status'].')'; // line 80
+                return $link['url'].' ('.$link['status'].')';
             })->implode(', ');
 
             $this->failureReason = __('failed.content.broken_links', [
