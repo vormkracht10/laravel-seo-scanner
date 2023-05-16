@@ -46,8 +46,14 @@ class Seo
 
     private function visitPage(string $url): object
     {
-        $response = $this->http::withHeaders(headers: ['Accept-Encoding' => 'gzip, deflate'])
-            ->withOptions(config('seo.http_options', []));
+        $headers = (array) config('seo.http.headers', []);
+        $options = (array) config('seo.http.options', []);
+
+        $response = $this->http::withOptions($options)
+            ->withHeaders([
+                'Accept-Encoding' => 'gzip, deflate',
+                ...$headers,
+            ]);
 
         if (app()->runningUnitTests()) {
             $response = $response->withoutVerifying();

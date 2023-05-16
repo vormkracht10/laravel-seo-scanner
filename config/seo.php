@@ -108,18 +108,32 @@ return [
     */
     'models' => [],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Http client options
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify the options of the http client. For example, in a
-    | local development environment you may want to disable the SSL
-    | certificate integrity check.
-    |
-    | An example of a http option:
-    | 'verify' => false
-    |
-    */
-    'http_options' => [],
+    'http' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Http client options
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify the options of the http client. For example, in a
+        | local development environment you may want to disable the SSL
+        | certificate integrity check.
+        |
+        | An example of a http option:
+        | 'verify' => false
+        |
+        */
+        'options' => [],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Http headers
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify custom headers of the http client.
+        |
+        */
+        'headers' => [
+            'User-Agent' => 'Laravel SEO Scanner/1.0',
+        ],
+    ],
 ];

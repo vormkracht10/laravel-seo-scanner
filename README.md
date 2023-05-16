@@ -182,20 +182,34 @@ return [
     */
     'models' => [],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Http client options
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify the options of the http client. For example, in a
-    | local development environment you may want to disable the SSL
-    | certificate integrity check.
-    |
-    | An example of a http option:
-    | 'verify' => false
-    |
-    */
-    'http_options' => [],
+    'http' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Http client options
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify the options of the http client. For example, in a
+        | local development environment you may want to disable the SSL
+        | certificate integrity check.
+        |
+        | An example of a http option:
+        | 'verify' => false
+        |
+        */
+        'options' => [],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Http headers
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify custom headers of the http client.
+        |
+        */
+        'headers' => [
+            'User-Agent' => 'Laravel SEO Scanner/1.0',
+        ],
+    ],
 ];
 ```
 
@@ -240,18 +254,20 @@ These checks are available in the package. You can add or remove checks in the c
 
 ### Running the scanner in a local environment
 
-If you are using auto signed SSL certificates in your local development environment, you may want to disable the SSL certificate integrity check. You can do this by adding the following option to the `http_options` array in the config file:
+If you are using auto signed SSL certificates in your local development environment, you may want to disable the SSL certificate integrity check. You can do this by adding the following option to the `http.options` array in the config file:
 
 ```php
-'http_options' => [
-    'verify' => false,
+'http' => [
+    'options' => [
+        'verify' => false,
+    ],
 ],
 ```
 
-It's also possible to pass other options to the http client. For example, if you want to set a custom user agent, you can add the following option to the `http_options` array in the config file:
+It's also possible to pass custom headers to the http client. For example, if you want to set a custom user agent, you can add the following option to the `http.headers` array in the config file:
 
 ```php
-'http_options' => [
+'http' => [
     'headers' => [
         'User-Agent' => 'My custom user agent',
     ],
