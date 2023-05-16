@@ -173,7 +173,7 @@ class SeoScan extends Command
             $items = $items->{$scope}();
         }
 
-        $items->all()->filter->url->map(function ($model) {
+        $items->get()->filter->url->map(function ($model) {
             $this->progress->start();
 
             $seo = $model->seoScore();
