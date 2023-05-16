@@ -28,7 +28,7 @@ if (! function_exists('getRemoteStatus')) {
                 CURLOPT_HEADER => true,
                 CURLOPT_NOBODY => true,
                 CURLOPT_TIMEOUT => 10,
-                CURLOPT_FOLLOWLOCATION,
+                CURLOPT_FOLLOWLOCATION => true,
             ];
 
             if (app()->runningUnitTests()) {
