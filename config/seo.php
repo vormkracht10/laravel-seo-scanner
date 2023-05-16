@@ -102,8 +102,9 @@ return [
     | model, the SEO score will be saved to the database. This way you can
     | check the SEO score of a specific page.
     |
-    | An example of a model:
+    | An example of a model and an example with a model and a scope:
     | \App\Models\BlogPost::class
+    | [\App\Models\BlogPost::class, 'published']
     |
     */
     'models' => [],
