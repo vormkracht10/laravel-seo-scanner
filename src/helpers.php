@@ -26,7 +26,6 @@ if (! function_exists('getRemoteStatus')) {
             $options = [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => true,
-                CURLOPT_NOBODY => true,
                 CURLOPT_TIMEOUT => 10,
                 CURLOPT_FOLLOWLOCATION => true,
             ];
@@ -40,7 +39,7 @@ if (! function_exists('getRemoteStatus')) {
             curl_setopt_array($ch, $options);
             curl_exec($ch);
 
-            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $statusCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
             curl_close($ch);
 
@@ -55,7 +54,6 @@ if (! function_exists('getRemoteFileSize')) {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
             $ch = curl_init($url);
 
-            curl_setopt($ch, CURLOPT_NOBODY, true);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // not necessary unless the file redirects (like the PHP example we're using here)
