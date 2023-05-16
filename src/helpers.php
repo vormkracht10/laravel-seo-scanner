@@ -141,12 +141,16 @@ if (! function_exists('addBaseIfRelativeUrl')) {
             return $url;
         }
 
-        if (config('app.url')) {
-            return config('app.url').$url;
+        if ($checkedUrl) {
+            $parsedUrl = parse_url($checkedUrl);
+
+            if ($parsedUrl) {
+                return $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/'.ltrim($url, '/');
+            }
         }
 
-        if ($checkedUrl) {
-            return $checkedUrl.$url;
+        if (config('app.url')) {
+            return config('app.url').$url;
         }
 
         return $url;
