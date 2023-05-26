@@ -47,4 +47,4 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: vendor/bin/pest --parallel --processes=12
+        run: vendor/bin/pest
