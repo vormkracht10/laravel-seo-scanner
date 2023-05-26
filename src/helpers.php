@@ -21,15 +21,23 @@ if (! function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url, function () use ($url) {
-            $ch = curl_init($url);
+            $handle = curl_init($url);
+
+            if (! $handle) {
+                return 0;
+            }
 
             $options = [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => true,
                 CURLOPT_NOBODY => true,
-                CURLOPT_TIMEOUT => 10,
+                CURLOPT_TIMEOUT => 30,
                 CURLOPT_FOLLOWLOCATION => true,
             ];
+
+            if (config('seo.http.headers', [])) {
+                $options[CURLOPT_HTTPHEADER] = http_build_headers((array) config('seo.http.headers', []));
+            }
 
             if (app()->runningUnitTests()) {
                 $options[CURLOPT_SSL_VERIFYHOST] = false;
@@ -37,23 +45,31 @@ if (! function_exists('getRemoteStatus')) {
                 $options[CURLOPT_SSL_VERIFYSTATUS] = false;
             }
 
+            $domain = parse_url($url, PHP_URL_HOST);
+
             if (in_array($domain, array_keys(config('seo.domains')))) {
-                $domain = 'x'; // @todo parse domain name
                 $port = str_contains($url, 'https://') ? 443 : 80;
                 $ipAddress = array_keys(config('seo.domains'))[$domain];
 
                 $options[CURLOPT_RESOLVE] = "{$domain}:{$port}:{$ipAddress}";
             }
 
-            curl_setopt_array($ch, $options);
-            curl_exec($ch);
+            curl_setopt_array($handle, $options);
+            curl_exec($handle);
 
-            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $statusCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
 
-            curl_close($ch);
+            curl_close($handle);
 
             return $statusCode;
         });
+    }
+}
+
+if (! function_exists('http_build_headers')) {
+    function http_build_headers(array $headers): array
+    {
+        return array_map(fn ($value, $header): string => $header.': '.$value, array_values($headers), array_keys($headers));
     }
 }
 
@@ -61,16 +77,43 @@ if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
-            $ch = curl_init($url);
+            $handle = curl_init($url);
 
-            curl_setopt($ch, CURLOPT_NOBODY, true);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // not necessary unless the file redirects (like the PHP example we're using here)
+            if (! $handle) {
+                return 0;
+            }
 
-            $data = curl_exec($ch);
+            $options = [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER => true,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => true,
+            ];
 
-            curl_close($ch);
+            if (config('seo.http.headers', [])) {
+                $options[CURLOPT_HTTPHEADER] = http_build_headers((array) config('seo.http.headers', []));
+            }
+
+            if (app()->runningUnitTests()) {
+                $options[CURLOPT_SSL_VERIFYHOST] = false;
+                $options[CURLOPT_SSL_VERIFYPEER] = false;
+                $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+            }
+
+            $domain = parse_url($url, PHP_URL_HOST);
+
+            if (in_array($domain, array_keys(config('seo.domains')))) {
+                $port = str_contains($url, 'https://') ? 443 : 80;
+                $ipAddress = array_keys(config('seo.domains'))[$domain];
+
+                $options[CURLOPT_RESOLVE] = "{$domain}:{$port}:{$ipAddress}";
+            }
+
+            curl_setopt_array($handle, $options);
+
+            $data = curl_exec($handle);
+
+            curl_close($handle);
 
             if ($data === false) {
                 return 0;
@@ -151,12 +194,16 @@ if (! function_exists('addBaseIfRelativeUrl')) {
             return $url;
         }
 
-        if (config('app.url')) {
-            return config('app.url').$url;
+        if ($checkedUrl) {
+            $parsedUrl = parse_url($checkedUrl);
+
+            if ($parsedUrl) {
+                return $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/'.ltrim($url, '/');
+            }
         }
 
-        if ($checkedUrl) {
-            return $checkedUrl.$url;
+        if (config('app.url')) {
+            return config('app.url').$url;
         }
 
         return $url;

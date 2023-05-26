@@ -2,6 +2,7 @@
 
 namespace Vormkracht10\Seo\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $total_checks
  * @property array $failed_checks
  * @property float $time
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
  * @property \Illuminate\Support\Carbon $started_at
  * @property \Illuminate\Support\Carbon $finished_at
  */
@@ -39,5 +42,14 @@ class SeoScan extends Model
     public function scores(): HasMany
     {
         return $this->hasMany(SeoScore::class);
+    }
+
+    public function prunable(): Builder
+    {
+        if (! config('seo.database.prune.older_than_days')) {
+            return static::query();
+        }
+
+        return static::where('created_at', '<=', now()->subDays(config('seo.database.prune.older_than_days')));
     }
 }

@@ -98,7 +98,7 @@ return [
     | Database
     |--------------------------------------------------------------------------
     |
-    | Here you can specify the database connection that will be
+    | Here you can specify database related configurations like the connection that will be
     | used to save the SEO scores. When you set the save option to true, the
     | SEO score will be saved to the database.
     |
@@ -106,6 +106,9 @@ return [
     'database' => [
         'connection' => 'mysql',
         'save' => true,
+        'prune' => [
+            'older_than_days' => 30,
+        ],
     ],
 
     /*
@@ -117,24 +120,39 @@ return [
     | model, the SEO score will be saved to the database. This way you can
     | check the SEO score of a specific page.
     |
-    | An example of a model:
+    | An example of a model and an example with a model and a scope:
     | \App\Models\BlogPost::class
+    | [\App\Models\BlogPost::class, 'published']
     |
     */
     'models' => [],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Http client options
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify the options of the http client. For example, in a
-    | local development environment you may want to disable the SSL
-    | certificate integrity check.
-    |
-    | An example of a http option:
-    | 'verify' => false
-    |
-    */
-    'http_options' => [],
+    'http' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Http client options
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify the options of the http client. For example, in a
+        | local development environment you may want to disable the SSL
+        | certificate integrity check.
+        |
+        | An example of a http option:
+        | 'verify' => false
+        |
+        */
+        'options' => [],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Http headers
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify custom headers of the http client.
+        |
+        */
+        'headers' => [
+            'User-Agent' => 'Laravel SEO Scanner/1.0',
+        ],
+    ],
 ];

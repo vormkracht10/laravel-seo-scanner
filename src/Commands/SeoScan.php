@@ -63,7 +63,11 @@ class SeoScan extends Command
 
         if (config('seo.models')) {
             foreach (config('seo.models') as $model) {
-                $this->calculateScoreForModel($model);
+                if (is_array($model)) {
+                    $this->calculateScoreForModel($model[0], $model[1]);
+                } else {
+                    $this->calculateScoreForModel($model);
+                }
             }
         }
 
@@ -161,11 +165,15 @@ class SeoScan extends Command
         return $routes;
     }
 
-    private function calculateScoreForModel(string $model)
+    private function calculateScoreForModel(string $model, ?string $scope = null): void
     {
-        $model = new $model();
+        $items = new $model;
 
-        $model::all()->filter->url->map(function ($model) {
+        if ($scope) {
+            $items = $items->{$scope}();
+        }
+
+        $items->get()->filter->url->map(function ($model) {
             $this->progress->start();
 
             $seo = $model->seoScore();

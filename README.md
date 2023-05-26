@@ -157,14 +157,17 @@ return [
     | Database
     |--------------------------------------------------------------------------
     |
-    | Here you can specify the database connection that will be
-    | used to save the SEO scores. When you set the save option to true, the
-    | SEO score will be saved to the database.
+    | Here you can specify database related configurations like the connection 
+    | that will be used to save the SEO scores. When you set the save 
+    | option to true, the SEO score will be saved to the database. 
     |
     */
     'database' => [
         'connection' => 'mysql',
         'save' => true,
+        'prune' => [
+            'older_than_days' => 30,
+        ]
     ],
 
     /*
@@ -182,20 +185,34 @@ return [
     */
     'models' => [],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Http client options
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify the options of the http client. For example, in a
-    | local development environment you may want to disable the SSL 
-    | certificate integrity check. 
-    |
-    | An example of a http option:
-    | 'verify' => false
-    |
-    */
-    'http_options' => [],
+    'http' => [
+        /*
+        |--------------------------------------------------------------------------
+        | Http client options
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify the options of the http client. For example, in a
+        | local development environment you may want to disable the SSL
+        | certificate integrity check.
+        |
+        | An example of a http option:
+        | 'verify' => false
+        |
+        */
+        'options' => [],
+
+        /*
+        |--------------------------------------------------------------------------
+        | Http headers
+        |--------------------------------------------------------------------------
+        |
+        | Here you can specify custom headers of the http client.
+        |
+        */
+        'headers' => [
+            'User-Agent' => 'Laravel SEO Scanner/1.0',
+        ],
+    ],
 ];
 ```
 
@@ -239,18 +256,21 @@ These checks are available in the package. You can add or remove checks in the c
 ## Usage
 
 ### Running the scanner in a local environment
-If you are using auto signed SSL certificates in your local development environment, you may want to disable the SSL certificate integrity check. You can do this by adding the following option to the `http_options` array in the config file:
+
+If you are using auto signed SSL certificates in your local development environment, you may want to disable the SSL certificate integrity check. You can do this by adding the following option to the `http.options` array in the config file:
 
 ```php
-'http_options' => [
-    'verify' => false,
+'http' => [
+    'options' => [
+        'verify' => false,
+    ],
 ],
 ```
 
-It's also possible to pass other options to the http client. For example, if you want to set a custom user agent, you can add the following option to the `http_options` array in the config file:
+It's also possible to pass custom headers to the http client. For example, if you want to set a custom user agent, you can add the following option to the `http.headers` array in the config file:
 
 ```php
-'http_options' => [
+'http' => [
     'headers' => [
         'User-Agent' => 'My custom user agent',
     ],
@@ -265,6 +285,14 @@ To check the SEO score of your routes, run the following command:
 
 ```bash
 php artisan seo:scan
+```
+
+If you want to queue the scan and trigger it manually you can dispatch the 'Scan' job:
+
+```php
+use Vormkracht10\LaravelSeo\Jobs\Scan;
+
+Scan::dispatch();
 ```
 
 ### Scanning a single route
@@ -349,10 +377,28 @@ When you want to save the SEO score to the database, you need to set the `save` 
 'database' => [
     'connection' => 'mysql',
     'save' => true,
+    'prune' => [
+        'older_than_days' => 30,
+    ],
 ],
 ```
 
 Optionally you can specify the database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
+
+#### Pruning the database
+Per default the package will prune the database from old scans. You can disable this by setting the `prune` option to `false` in the config file. If you want to prune the database, you can specify the number of days you want to keep the scans in the database. The default is 30 days.
+
+If you want to prune the database, you need to add the prune command to your `App\Console\Kernel`:
+
+```php
+protected function schedule(Schedule $schedule)
+{
+    // ...
+    $schedule->command('model:prune')->daily();
+}
+```
+
+Please refer to the [Laravel documentation](https://laravel.com/docs/10.x/eloquent#pruning-models) for more information about pruning the database.
 
 ### Listening to events
 
