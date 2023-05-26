@@ -48,6 +48,6 @@ class SeoScan extends Model
             return static::query();
         }
         
-        return static::where('created_at', '<=', now()->subDay(config('seo.database.prune.older_than_days')));
+        return static::where('created_at', '<=', now()->subDays(config('seo.database.prune.older_than_days')));
     }
 }
