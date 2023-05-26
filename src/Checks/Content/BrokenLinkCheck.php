@@ -51,7 +51,7 @@ class BrokenLinkCheck implements Check
             ->filter(function ($link) {
                 // Filter out all links that are mailto or tel
                 if (preg_match('/^mailto:/msi', $link) ||
-                    preg_match('/^tel:/msi', $link)  ||
+                    preg_match('/^tel:/msi', $link) ||
                     filter_var($link, FILTER_VALIDATE_URL) === false
                 ) {
                     return false;
