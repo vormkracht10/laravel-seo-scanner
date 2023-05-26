@@ -2,9 +2,9 @@
 
 namespace Vormkracht10\Seo\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -41,7 +41,7 @@ class SeoScan extends Model
     {
         return $this->hasMany(SeoScore::class);
     }
-    
+
     public function prunable(): Builder
     {
         if (! config('seo.database.prune.older_than_days')) {
