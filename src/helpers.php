@@ -47,9 +47,9 @@ if (! function_exists('getRemoteStatus')) {
 
             $domain = parse_url($url, PHP_URL_HOST);
 
-            if (in_array($domain, array_keys(config('seo.domains')))) {
+            if (in_array($domain, array_keys(config('seo.resolve')))) {
                 $port = str_contains($url, 'https://') ? 443 : 80;
-                $ipAddress = array_keys(config('seo.domains'))[$domain];
+                $ipAddress = array_keys(config('seo.resolve'))[$domain];
 
                 $options[CURLOPT_RESOLVE] = "{$domain}:{$port}:{$ipAddress}";
             }
@@ -102,9 +102,9 @@ if (! function_exists('getRemoteFileSize')) {
 
             $domain = parse_url($url, PHP_URL_HOST);
 
-            if (in_array($domain, array_keys(config('seo.domains')))) {
+            if (in_array($domain, array_keys(config('seo.resolve')))) {
                 $port = str_contains($url, 'https://') ? 443 : 80;
-                $ipAddress = array_keys(config('seo.domains'))[$domain];
+                $ipAddress = array_keys(config('seo.resolve'))[$domain];
 
                 $options[CURLOPT_RESOLVE] = "{$domain}:{$port}:{$ipAddress}";
             }

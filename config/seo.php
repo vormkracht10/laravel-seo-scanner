@@ -88,7 +88,6 @@ return [
     | or resolve a domain to localhost.
     |
     */
-
     'resolve' => [
         'example.com' => '127.0.0.1',
     ],
