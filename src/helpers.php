@@ -80,6 +80,7 @@ if (! function_exists('getRemoteFileSize')) {
             $handle = curl_init($url);
 
             if (! $handle) {
+                dd('no handle', $url);
                 return 0;
             }
 
