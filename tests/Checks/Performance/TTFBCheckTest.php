@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Checks\Performance\TTFBCheck;
+use Vormkracht10\Seo\Checks\Performance\TtfbCheck;
 
 it('can perform the ttfb check', function () {
     $this->markTestSkipped('We can\'t fully rely on this test as we can\'t manually set the ttfb value.');
 
-    $check = new TTFBCheck();
+    $check = new TtfbCheck();
 
     Http::fake([
         'vormkracht10.nl/robots.txt' => Http::response('<html></html>', 200),
