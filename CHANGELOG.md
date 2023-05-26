@@ -2,6 +2,26 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v2.0.0 - 2023-05-26
+
+### Breaking changes
+
+The following changes have been made to classnames with abbreviations in the checks:
+
+- `CCSSizeCheck` has been changed to `CssSizeCheck`
+- `TTFBSizeCheck` has been changed to `TtfbSizeCheck`
+- `HTMLSizeCheck` has been changed to `HtmlSizeCheck`
+
+If you have scans saved in the database, please ensure you update the failed_checks column in the seo_scans table. The previous namespaces used in this column are no longer compatible.
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/vormkracht10/laravel-seo-scanner/pull/27
+- Save broken link status code by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/28
+- Reformat to abbrevation to lowercase by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/29
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v1.3.0...v2.0.0
+
 ## v1.3.0 - 2023-05-05
 
 ### What's Changed
