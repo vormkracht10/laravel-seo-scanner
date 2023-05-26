@@ -55,7 +55,7 @@ if (! function_exists('getRemoteStatus')) {
             }
 
             curl_setopt_array($handle, $options);
-            $data = curl_exec($handle);
+            curl_exec($handle);
 
             $statusCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
 
@@ -76,65 +76,63 @@ if (! function_exists('http_build_headers')) {
 if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
-        // return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
-        $handle = curl_init($url);
+        return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
+            $handle = curl_init($url);
 
-        if (! $handle) {
-            dd('no handle', $url);
-            return 0;
-        }
+            if (! $handle) {
+            
+                return 0;
+            }
 
-        $options = [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_FOLLOWLOCATION => true,
-        ];
+            $options = [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER => true,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => true,
+            ];
 
-        if (config('seo.http.headers', [])) {
-            $options[CURLOPT_HTTPHEADER] = http_build_headers((array) config('seo.http.headers', []));
-        }
+            if (config('seo.http.headers', [])) {
+                $options[CURLOPT_HTTPHEADER] = http_build_headers((array) config('seo.http.headers', []));
+            }
 
-        if (app()->runningUnitTests()) {
-            $options[CURLOPT_SSL_VERIFYHOST] = false;
-            $options[CURLOPT_SSL_VERIFYPEER] = false;
-            $options[CURLOPT_SSL_VERIFYSTATUS] = false;
-        }
+            if (app()->runningUnitTests()) {
+                $options[CURLOPT_SSL_VERIFYHOST] = false;
+                $options[CURLOPT_SSL_VERIFYPEER] = false;
+                $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+            }
 
-        $domain = parse_url($url, PHP_URL_HOST);
+            $domain = parse_url($url, PHP_URL_HOST);
 
-        if (in_array($domain, array_keys(config('seo.resolve')))) {
-            $port = str_contains($url, 'https://') ? 443 : 80;
-            $ipAddress = array_keys(config('seo.resolve'))[$domain];
+            if (in_array($domain, array_keys(config('seo.resolve')))) {
+                $port = str_contains($url, 'https://') ? 443 : 80;
+                $ipAddress = array_keys(config('seo.resolve'))[$domain];
 
-            $options[CURLOPT_RESOLVE] = ["{$domain}:{$port}:{$ipAddress}"];
-        }
+                $options[CURLOPT_RESOLVE] = ["{$domain}:{$port}:{$ipAddress}"];
+            }
 
-        curl_setopt_array($handle, $options);
+            curl_setopt_array($handle, $options);
 
-        $data = curl_exec($handle);
+            $data = curl_exec($handle);
 
-        dd($data);
+            curl_close($handle);
 
-        curl_close($handle);
+            if ($data === false) {
+                return 0;
+            }
 
-        if ($data === false) {
-            return 0;
-        }
+            if (
+                preg_match('/Content-Length: (\d+)/', $data, $matches) ||
+                preg_match('/content-length: (\d+)/', $data, $matches)
+            ) {
+                $contentLength = (int) $matches[1];
+            }
 
-        if (
-            preg_match('/Content-Length: (\d+)/', $data, $matches) ||
-            preg_match('/content-length: (\d+)/', $data, $matches)
-        ) {
-            $contentLength = (int) $matches[1];
-        }
+            if (! isset($contentLength)) {
+                $contentLength = strlen(file_get_contents($url));
+            }
 
-        if (! isset($contentLength)) {
-            $contentLength = strlen(file_get_contents($url));
-        }
-
-        return $contentLength;
-        // });
+            return $contentLength;
+        });
     }
 }
 
