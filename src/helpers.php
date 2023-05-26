@@ -55,7 +55,9 @@ if (! function_exists('getRemoteStatus')) {
             }
 
             curl_setopt_array($handle, $options);
-            curl_exec($handle);
+            $data = curl_exec($handle);
+
+            dd($data);
 
             $statusCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
 
@@ -112,6 +114,8 @@ if (! function_exists('getRemoteFileSize')) {
             curl_setopt_array($handle, $options);
 
             $data = curl_exec($handle);
+
+            dd($data);
 
             curl_close($handle);
 
