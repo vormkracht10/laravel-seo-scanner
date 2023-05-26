@@ -56,7 +56,6 @@ if (! function_exists('getRemoteStatus')) {
 
             curl_setopt_array($handle, $options);
             $data = curl_exec($handle);
-            dd($data, $options);
 
             $statusCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
 
