@@ -81,6 +81,7 @@ if (! function_exists('getRemoteFileSize')) {
 
         if (! $handle) {
             dd('no handle', $url);
+
             return 0;
         }
 
