@@ -83,14 +83,17 @@ return [
     | Database
     |--------------------------------------------------------------------------
     |
-    | Here you can specify the database connection that will be
+    | Here you can specify database related configurations like the connection that will be
     | used to save the SEO scores. When you set the save option to true, the
-    | SEO score will be saved to the database.
+    | SEO score will be saved to the database. 
     |
     */
     'database' => [
         'connection' => 'mysql',
         'save' => true,
+        'prune' => [
+            'older_than_days' => 30,
+        ]
     ],
 
     /*
