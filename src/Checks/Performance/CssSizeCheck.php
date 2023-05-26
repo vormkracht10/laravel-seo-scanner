@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
-class CSSSizeCheck implements Check
+class CssSizeCheck implements Check
 {
     use PerformCheck;
 
