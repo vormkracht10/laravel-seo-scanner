@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Checks\Performance\CSSSizeCheck;
+use Vormkracht10\Seo\Checks\Performance\CssSizeCheck;
 
 /**
  * @see In this test, we pass the stylesheet as a response to the check method.
@@ -11,7 +11,7 @@ use Vormkracht10\Seo\Checks\Performance\CSSSizeCheck;
  * we don't have access to the stylesheet in the test.
  */
 it('can perform the CSS size check on a page with a CSS file larger than 15 KB', function () {
-    $check = new CSSSizeCheck();
+    $check = new CssSizeCheck();
     $crawler = new Crawler();
 
     Http::fake([
@@ -28,7 +28,7 @@ it('can perform the CSS size check on a page with a CSS file larger than 15 KB',
 });
 
 it('can perform the CSS size check on a page with a CSS file smaller than 15 KB', function () {
-    $check = new CSSSizeCheck();
+    $check = new CssSizeCheck();
     $crawler = new Crawler();
 
     Http::fake([
@@ -45,7 +45,7 @@ it('can perform the CSS size check on a page with a CSS file smaller than 15 KB'
 });
 
 it('can perform the CSS size check on a page with no CSS files', function () {
-    $check = new CSSSizeCheck();
+    $check = new CssSizeCheck();
     $crawler = new Crawler();
 
     Http::fake([
