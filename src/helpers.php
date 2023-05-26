@@ -76,7 +76,7 @@ if (! function_exists('http_build_headers')) {
 if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
-        return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
+        // return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
             $handle = curl_init($url);
 
             if (! $handle) {
@@ -133,7 +133,7 @@ if (! function_exists('getRemoteFileSize')) {
             }
 
             return $contentLength;
-        });
+        // });
     }
 }
 
