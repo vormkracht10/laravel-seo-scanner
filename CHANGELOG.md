@@ -2,6 +2,28 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v2.2.0 - 2023-05-29
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/vormkracht10/laravel-seo-scanner/pull/31
+- Bump aglipanci/laravel-pint-action from 2.2.0 to 2.3.0 by @dependabot in https://github.com/vormkracht10/laravel-seo-scanner/pull/32
+- [Feature] Domain custom resolve by @markvaneijk in https://github.com/vormkracht10/laravel-seo-scanner/pull/22
+
+### New Contributors
+
+- @markvaneijk made their first contribution in https://github.com/vormkracht10/laravel-seo-scanner/pull/22
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v2.1.0...v2.2.0
+
+## v2.1.0 - 2023-05-29
+
+### What's Changed
+
+- Prunable scans by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/30
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v2.0.0...v2.1.0
+
 ## v2.0.0 - 2023-05-26
 
 ### Breaking changes
