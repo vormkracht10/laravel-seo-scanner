@@ -80,6 +80,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Domains (DNS resolving)
+    |--------------------------------------------------------------------------
+    |
+    | Here you can add domains and a corresponding IP address
+    | Can be used for example to bypass certain DNS layers like the Cloudflare proxy,
+    | or resolve a domain to localhost.
+    |
+    */
+    'resolve' => [
+        'example.com' => '127.0.0.1',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Database
     |--------------------------------------------------------------------------
     |

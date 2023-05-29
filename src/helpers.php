@@ -30,6 +30,7 @@ if (! function_exists('getRemoteStatus')) {
             $options = [
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => true,
+                CURLOPT_NOBODY => true,
                 CURLOPT_TIMEOUT => 30,
                 CURLOPT_FOLLOWLOCATION => true,
             ];
@@ -42,6 +43,18 @@ if (! function_exists('getRemoteStatus')) {
                 $options[CURLOPT_SSL_VERIFYHOST] = false;
                 $options[CURLOPT_SSL_VERIFYPEER] = false;
                 $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+            }
+
+            $domain = parse_url($url, PHP_URL_HOST);
+
+            if (in_array($domain, array_keys(config('seo.resolve')))) {
+                $port = str_contains($url, 'https://') ? 443 : 80;
+
+                $ipAddress = config('seo.resolve')[$domain];
+
+                if (! empty($ipAddress)) {
+                    $options[CURLOPT_RESOLVE] = ["{$domain}:{$port}:{$ipAddress}"];
+                }
             }
 
             curl_setopt_array($handle, $options);
@@ -70,6 +83,7 @@ if (! function_exists('getRemoteFileSize')) {
             $handle = curl_init($url);
 
             if (! $handle) {
+
                 return 0;
             }
 
@@ -88,6 +102,18 @@ if (! function_exists('getRemoteFileSize')) {
                 $options[CURLOPT_SSL_VERIFYHOST] = false;
                 $options[CURLOPT_SSL_VERIFYPEER] = false;
                 $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+            }
+
+            $domain = parse_url($url, PHP_URL_HOST);
+
+            if (in_array($domain, array_keys(config('seo.resolve')))) {
+                $port = str_contains($url, 'https://') ? 443 : 80;
+
+                $ipAddress = config('seo.resolve')[$domain];
+
+                if (! empty($ipAddress)) {
+                    $options[CURLOPT_RESOLVE] = ["{$domain}:{$port}:{$ipAddress}"];
+                }
             }
 
             curl_setopt_array($handle, $options);
