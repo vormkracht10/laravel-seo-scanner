@@ -44,10 +44,10 @@ class SeoScan extends Model
         return $this->hasMany(SeoScore::class);
     }
 
-    public function prunable(): Builder
+    public function prunable(): ?Builder
     {
-        if (! config('seo.database.prune.older_than_days')) {
-            return static::query();
+        if (! config('seo.database.prune.save')) {
+            return null;
         }
 
         return static::where('created_at', '<=', now()->subDays(config('seo.database.prune.older_than_days')));
