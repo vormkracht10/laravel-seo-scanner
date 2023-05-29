@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v2.1.0 - 2023-05-29
+
+### What's Changed
+
+- Prunable scans by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/30
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v2.0.0...v2.1.0
+
 ## v2.0.0 - 2023-05-26
 
 ### Breaking changes
