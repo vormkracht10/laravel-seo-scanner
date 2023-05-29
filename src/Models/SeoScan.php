@@ -46,7 +46,7 @@ class SeoScan extends Model
 
     public function prunable(): ?Builder
     {
-        if (! config('seo.database.prune.save')) {
+        if (! config('seo.database.prune.older_than_days')) {
             return null;
         }
 
