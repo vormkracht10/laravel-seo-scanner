@@ -386,7 +386,7 @@ When you want to save the SEO score to the database, you need to set the `save` 
 Optionally you can specify the database connection in the config file. If you want to save the SEO score to a model, you need to add the model to the `models` array in the config file. More information about this can be found in the [Check the SEO score of a model](#check-the-seo-score-of-a-model) section.
 
 #### Pruning the database
-Per default the package will prune the database from old scans. You can disable this by setting the `prune` option to `false` in the config file. If you want to prune the database, you can specify the number of days you want to keep the scans in the database. The default is 30 days.
+Per default the package will prune the database from old scans. You can specify the number of days you want to keep the scans in the database. The default is 30 days.
 
 If you want to prune the database, you need to add the prune command to your `App\Console\Kernel`:
 
