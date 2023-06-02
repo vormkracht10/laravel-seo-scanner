@@ -122,7 +122,7 @@ if (! function_exists('getRemoteFileSize')) {
             ]);
 
             $data = $http->get($url)->body();
-            
+
             if (empty($data)) {
                 return 0;
             }
