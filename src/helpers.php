@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 
@@ -21,28 +22,21 @@ if (! function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url, function () use ($url) {
-            $handle = curl_init($url);
-
-            if (! $handle) {
-                return 0;
-            }
-
             $options = [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HEADER => true,
-                CURLOPT_NOBODY => true,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_FOLLOWLOCATION => true,
+                'timeout' => 30,
+                'return_transfer' => true,
+                'follow_location' => true,
+                'no_body' => true,
+                'header' => true,
             ];
 
-            if (config('seo.http.headers', [])) {
-                $options[CURLOPT_HTTPHEADER] = http_build_headers((array) config('seo.http.headers', []));
-            }
-
             if (app()->runningUnitTests()) {
-                $options[CURLOPT_SSL_VERIFYHOST] = false;
-                $options[CURLOPT_SSL_VERIFYPEER] = false;
-                $options[CURLOPT_SSL_VERIFYSTATUS] = false;
+                $options = [
+                    ...$options,
+                    'ssl_verifyhost' => false,
+                    'ssl_verifypeer' => false,
+                    'ssl_verifystatus' => false,
+                ];
             }
 
             $domain = parse_url($url, PHP_URL_HOST);
@@ -53,16 +47,23 @@ if (! function_exists('getRemoteStatus')) {
                 $ipAddress = config('seo.resolve')[$domain];
 
                 if (! empty($ipAddress)) {
-                    $options[CURLOPT_RESOLVE] = ["{$domain}:{$port}:{$ipAddress}"];
+                    $options = [
+                        ...$options,
+                        'resolve' => ["{$domain}:{$port}:{$ipAddress}"],
+                    ];
                 }
             }
 
-            curl_setopt_array($handle, $options);
-            curl_exec($handle);
+            $http = Http::withOptions([
+                ...config('seo.http.options', []),
+                ...$options,
+            ])->withHeaders([
+                ...config('seo.http.headers', []),
+            ]);
 
-            $statusCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
+            $response = $http->get($url);
 
-            curl_close($handle);
+            $statusCode = $response->status();
 
             return $statusCode;
         });
