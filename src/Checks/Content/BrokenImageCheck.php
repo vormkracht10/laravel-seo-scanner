@@ -46,15 +46,25 @@ class BrokenImageCheck implements Check
             return true;
         }
 
+        $links = [];
+
         $content = collect($content)->filter(fn ($value) => $value !== null)
             ->map(fn ($link) => addBaseIfRelativeUrl($link, $this->url))
-            ->filter(fn ($link) => isBrokenLink($link))->toArray();
+            ->filter(fn ($link) => isBrokenLink($link))
+            ->map(function ($link) use (&$links) {
 
-        $this->actualValue = $content;
+                $remoteStatus = getRemoteStatus($link);
+
+                $links[] = $link . ' (status: ' . $remoteStatus . ')';
+
+                return $link;
+            });
+
+        $this->actualValue = $links;
 
         if (count($content) > 0) {
             $this->failureReason = __('failed.content.broken_images', [
-                'actualValue' => implode(', ', $content),
+                'actualValue' => implode(', ', $links),
             ]);
 
             return false;
