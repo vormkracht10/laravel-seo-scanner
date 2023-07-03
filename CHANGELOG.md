@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v2.3.0 - 2023-07-03
+
+Broken image check now also saves the status in the database.
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v2.2.3...v2.3.0
+
 ## v2.2.0 - 2023-05-29
 
 ### What's Changed
