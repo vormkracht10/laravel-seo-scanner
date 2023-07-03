@@ -55,7 +55,7 @@ class BrokenImageCheck implements Check
 
                 $remoteStatus = getRemoteStatus($link);
 
-                $links[] = $link . ' (status: ' . $remoteStatus . ')';
+                $links[] = $link.' (status: '.$remoteStatus.')';
 
                 return $link;
             });
