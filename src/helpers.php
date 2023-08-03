@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
+use Vormkracht10\Seo\Http;
 
 if (! function_exists('isBrokenLink')) {
     function isBrokenLink(string $url): bool
@@ -22,47 +22,8 @@ if (! function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url, function () use ($url) {
-            $options = [
-                'timeout' => 30,
-                'return_transfer' => true,
-                'follow_location' => true,
-                'no_body' => true,
-                'header' => true,
-            ];
-
-            if (app()->runningUnitTests()) {
-                $options = [
-                    ...$options,
-                    'ssl_verifyhost' => false,
-                    'ssl_verifypeer' => false,
-                    'ssl_verifystatus' => false,
-                ];
-            }
-
-            $domain = parse_url($url, PHP_URL_HOST);
-
-            if (in_array($domain, array_keys(config('seo.resolve')))) {
-                $port = str_contains($url, 'https://') ? 443 : 80;
-
-                $ipAddress = config('seo.resolve')[$domain];
-
-                if (! empty($ipAddress)) {
-                    $options = [
-                        ...$options,
-                        'resolve' => ["{$domain}:{$port}:{$ipAddress}"],
-                    ];
-                }
-            }
-
-            $http = Http::withOptions([
-                ...config('seo.http.options', []),
-                ...$options,
-            ])->withHeaders([
-                ...config('seo.http.headers', []),
-            ]);
-
             try {
-                $response = $http->get($url);
+                $response = Http::make($url)->getRemoteResponse();
             } catch (\Exception $e) {
                 return 0;
             }
@@ -85,55 +46,22 @@ if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
-
-            $options = [
-                'timeout' => 30,
-                'return_transfer' => true,
-                'follow_location' => true,
-                'no_body' => true,
-                'header' => true,
-            ];
-
-            if (app()->runningUnitTests()) {
-                $options = [
-                    ...$options,
-                    'ssl_verifyhost' => false,
-                    'ssl_verifypeer' => false,
-                    'ssl_verifystatus' => false,
-                ];
+            
+            try {
+                $response = Http::make($url)->getRemoteResponse();
+            } catch (\Exception $e) {
+                return 0;
             }
 
-            $domain = parse_url($url, PHP_URL_HOST);
-
-            if (in_array($domain, array_keys(config('seo.resolve')))) {
-                $port = str_contains($url, 'https://') ? 443 : 80;
-
-                $ipAddress = config('seo.resolve')[$domain];
-
-                if (! empty($ipAddress)) {
-                    $options = [
-                        ...$options,
-                        'resolve' => ["{$domain}:{$port}:{$ipAddress}"],
-                    ];
-                }
-            }
-
-            $http = Http::withOptions([
-                ...config('seo.http.options', []),
-                ...$options,
-            ])->withHeaders([
-                ...config('seo.http.headers', []),
-            ]);
-
-            $data = $http->get($url)->body();
-
-            if (empty($data)) {
+            $response = $response->body();
+            
+            if (empty($response)) {
                 return 0;
             }
 
             if (
-                preg_match('/Content-Length: (\d+)/', $data, $matches) ||
-                preg_match('/content-length: (\d+)/', $data, $matches)
+                preg_match('/Content-Length: (\d+)/', $response, $matches) ||
+                preg_match('/content-length: (\d+)/', $response, $matches)
             ) {
                 $contentLength = (int) $matches[1];
             }
