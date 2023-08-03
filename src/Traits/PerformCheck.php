@@ -6,7 +6,7 @@ use Closure;
 
 trait PerformCheck
 {
-    public string|null $url = null;
+    public ?string $url = null;
 
     public function __invoke(array $data, Closure $next)
     {

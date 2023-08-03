@@ -200,7 +200,7 @@ if (! function_exists('bytesToHumanReadable')) {
 }
 
 if (! function_exists('addBaseIfRelativeUrl')) {
-    function addBaseIfRelativeUrl(string $url, string|null $checkedUrl = null): string
+    function addBaseIfRelativeUrl(string $url, string $checkedUrl = null): string
     {
         if (! Str::startsWith($url, '/')) {
             return $url;

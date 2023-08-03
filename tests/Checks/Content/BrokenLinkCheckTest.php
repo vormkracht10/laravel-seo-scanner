@@ -58,7 +58,7 @@ it('can run the broken link check on a relative url', function () {
 
 it('can bypass DNS layers using DNS resolving', function () {
     $this->markTestSkipped('This test is skipped because we cannot fake DNS resolving.');
-    
+
     $check = new BrokenLinkCheck();
     $crawler = new Crawler();
 

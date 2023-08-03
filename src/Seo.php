@@ -17,7 +17,7 @@ class Seo
     /**
      * @var ProgressBar|null The progress bar to use for the checks.
      */
-    public ProgressBar|null $progress;
+    public ?ProgressBar $progress;
 
     public string $url;
 
@@ -28,7 +28,7 @@ class Seo
     ) {
     }
 
-    public function check(string $url, ProgressBar|null $progress = null): SeoScore
+    public function check(string $url, ProgressBar $progress = null): SeoScore
     {
         $this->progress = $progress;
         $this->url = $url;
