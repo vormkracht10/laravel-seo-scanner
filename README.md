@@ -239,7 +239,6 @@ These checks are available in the package. You can add or remove checks in the c
 
 ✅ The page has a meta description. <br>
 ✅ The page title is not longer than 60 characters. <br>
-✅ The page title does not contain 'home' or 'homepage'. <br>
 ✅ The page has an Open Graph image.<br>
 ✅ The lang attribute is set on the html tag.<br>
 
