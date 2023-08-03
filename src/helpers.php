@@ -3,6 +3,7 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
+use Vormkracht10\Seo\Http;
 
 if (! function_exists('isBrokenLink')) {
     function isBrokenLink(string $url): bool
@@ -21,48 +22,13 @@ if (! function_exists('getRemoteStatus')) {
     function getRemoteStatus(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url, function () use ($url) {
-            $handle = curl_init($url);
-
-            if (! $handle) {
+            try {
+                $response = Http::make($url)->getRemoteResponse();
+            } catch (\Exception $e) {
                 return 0;
             }
 
-            $options = [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HEADER => true,
-                CURLOPT_NOBODY => true,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_FOLLOWLOCATION => true,
-            ];
-
-            if (config('seo.http.headers', [])) {
-                $options[CURLOPT_HTTPHEADER] = http_build_headers((array) config('seo.http.headers', []));
-            }
-
-            if (app()->runningUnitTests()) {
-                $options[CURLOPT_SSL_VERIFYHOST] = false;
-                $options[CURLOPT_SSL_VERIFYPEER] = false;
-                $options[CURLOPT_SSL_VERIFYSTATUS] = false;
-            }
-
-            $domain = parse_url($url, PHP_URL_HOST);
-
-            if (in_array($domain, array_keys(config('seo.resolve')))) {
-                $port = str_contains($url, 'https://') ? 443 : 80;
-
-                $ipAddress = config('seo.resolve')[$domain];
-
-                if (! empty($ipAddress)) {
-                    $options[CURLOPT_RESOLVE] = ["{$domain}:{$port}:{$ipAddress}"];
-                }
-            }
-
-            curl_setopt_array($handle, $options);
-            curl_exec($handle);
-
-            $statusCode = curl_getinfo($handle, CURLINFO_RESPONSE_CODE);
-
-            curl_close($handle);
+            $statusCode = $response->status();
 
             return $statusCode;
         });
@@ -80,55 +46,22 @@ if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
-            $handle = curl_init($url);
 
-            if (! $handle) {
-
+            try {
+                $response = Http::make($url)->getRemoteResponse();
+            } catch (\Exception $e) {
                 return 0;
             }
 
-            $options = [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HEADER => true,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_FOLLOWLOCATION => true,
-            ];
+            $response = $response->body();
 
-            if (config('seo.http.headers', [])) {
-                $options[CURLOPT_HTTPHEADER] = http_build_headers((array) config('seo.http.headers', []));
-            }
-
-            if (app()->runningUnitTests()) {
-                $options[CURLOPT_SSL_VERIFYHOST] = false;
-                $options[CURLOPT_SSL_VERIFYPEER] = false;
-                $options[CURLOPT_SSL_VERIFYSTATUS] = false;
-            }
-
-            $domain = parse_url($url, PHP_URL_HOST);
-
-            if (in_array($domain, array_keys(config('seo.resolve')))) {
-                $port = str_contains($url, 'https://') ? 443 : 80;
-
-                $ipAddress = config('seo.resolve')[$domain];
-
-                if (! empty($ipAddress)) {
-                    $options[CURLOPT_RESOLVE] = ["{$domain}:{$port}:{$ipAddress}"];
-                }
-            }
-
-            curl_setopt_array($handle, $options);
-
-            $data = curl_exec($handle);
-
-            curl_close($handle);
-
-            if ($data === false) {
+            if (empty($response)) {
                 return 0;
             }
 
             if (
-                preg_match('/Content-Length: (\d+)/', $data, $matches) ||
-                preg_match('/content-length: (\d+)/', $data, $matches)
+                preg_match('/Content-Length: (\d+)/', $response, $matches) ||
+                preg_match('/content-length: (\d+)/', $response, $matches)
             ) {
                 $contentLength = (int) $matches[1];
             }
@@ -195,7 +128,7 @@ if (! function_exists('bytesToHumanReadable')) {
 }
 
 if (! function_exists('addBaseIfRelativeUrl')) {
-    function addBaseIfRelativeUrl(string $url, string|null $checkedUrl = null): string
+    function addBaseIfRelativeUrl(string $url, string $checkedUrl = null): string
     {
         if (! Str::startsWith($url, '/')) {
             return $url;

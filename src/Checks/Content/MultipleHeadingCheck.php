@@ -21,7 +21,7 @@ class MultipleHeadingCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public string|null $failureReason;
+    public ?string $failureReason;
 
     public mixed $actualValue = null;
 

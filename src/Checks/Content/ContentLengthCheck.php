@@ -22,7 +22,7 @@ class ContentLengthCheck implements Check
 
     public bool $continueAfterFailure = true;
 
-    public string|null $failureReason;
+    public ?string $failureReason;
 
     public mixed $actualValue = null;
 
@@ -47,7 +47,7 @@ class ContentLengthCheck implements Check
         return $this->validateContent($content);
     }
 
-    public function getContentToValidate(Response $response): string|null
+    public function getContentToValidate(Response $response): ?string
     {
         $url = $response->transferStats->getHandlerStats()['url'];
 
