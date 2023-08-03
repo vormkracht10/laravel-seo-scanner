@@ -46,7 +46,7 @@ if (! function_exists('getRemoteFileSize')) {
     function getRemoteFileSize(string $url): int
     {
         return cache()->driver(config('seo.cache.driver'))->tags('seo')->rememberForever($url.'.size', function () use ($url) {
-            
+
             try {
                 $response = Http::make($url)->getRemoteResponse();
             } catch (\Exception $e) {
@@ -54,7 +54,7 @@ if (! function_exists('getRemoteFileSize')) {
             }
 
             $response = $response->body();
-            
+
             if (empty($response)) {
                 return 0;
             }

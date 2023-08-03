@@ -16,7 +16,7 @@ class Http
 
     public function __construct(string $url)
     {
-        $this->url = $url;   
+        $this->url = $url;
     }
 
     public static function make(string $url): self
@@ -88,4 +88,3 @@ class Http
         return $this->get();
     }
 }
-
