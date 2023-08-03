@@ -21,8 +21,7 @@ class Http
 
     public static function make(string $url): self
     {
-        
-        return new static($url);
+        return new self($url);
     }
 
     public function withOptions(array $options): self
