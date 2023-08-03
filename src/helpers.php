@@ -61,7 +61,11 @@ if (! function_exists('getRemoteStatus')) {
                 ...config('seo.http.headers', []),
             ]);
 
-            $response = $http->get($url);
+            try {
+                $response = $http->get($url);
+            } catch (\Exception $e) {
+                return 0;
+            }
 
             $statusCode = $response->status();
 
