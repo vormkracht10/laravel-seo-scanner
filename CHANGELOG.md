@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v2.4.0 - 2023-08-03
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/vormkracht10/laravel-seo-scanner/pull/34
+- Replace cURL with HTTP by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/33
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v2.3.0...v2.4.0
+
 ## v2.3.0 - 2023-07-03
 
 Broken image check now also saves the status in the database.
