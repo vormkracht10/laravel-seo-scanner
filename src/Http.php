@@ -58,7 +58,6 @@ class Http
         return $http->get($this->url);
     }
 
-
     public function getRemoteResponse(): object
     {
         $options = [
