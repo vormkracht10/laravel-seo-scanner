@@ -30,7 +30,8 @@ class FocusKeywordInTitleCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
-            $this->failureReason = __('failed.meta.focus_keyword_in_title_check');
+            $this->failureReason = 'test';
+            // $this->failureReason = __('failed.meta.focus_keyword_in_title_check');
 
             return false;
         }
