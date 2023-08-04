@@ -40,13 +40,15 @@ class Http
 
     public function get(): object
     {
-        return HttpFacade::withOptions([
+        $http = HttpFacade::withOptions([
             ...config('seo.http.options', []),
             ...$this->options,
         ])->withHeaders([
             ...config('seo.http.headers', []),
             ...$this->headers,
-        ])->get($this->url);
+        ]);
+
+        return $http->get($this->url);
     }
 
     public function getRemoteResponse(): object

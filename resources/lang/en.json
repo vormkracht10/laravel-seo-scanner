@@ -15,6 +15,8 @@
     "failed.content.no_title": "The page does not contain a title tag, while it should.",
     "failed.content.title_length": "The page title is :actualValue characters long. It should be max :expectedValue characters long.",
     "failed.meta.description": "The page does not contain a description meta tag, while it should.",
+    "failed.meta.keyword_in_title_check": "The page title does not contain the focus keyword, while it should.",
+    "failed.meta.keyword_in_first_paragraph_check": "The page does not contain the focus keyword in the first paragraph, while it should.",
     "failed.meta.no_lang": "The page does not contain a lang attribute, while it should.",
     "failed.meta.open_graph_image": "The page does not contain an open graph image, while it should.",
     "failed.meta.open_graph_image.broken": "The page contains a broken open graph image. This image was found: :actualValue.",
