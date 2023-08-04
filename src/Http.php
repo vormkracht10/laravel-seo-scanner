@@ -40,7 +40,7 @@ class Http
 
     public function get(): object
     {
-        $http = $this->http::withOptions([
+        $http = HttpFacade::withOptions([
             ...config('seo.http.options', []),
             ...$this->options,
         ])->withHeaders([
