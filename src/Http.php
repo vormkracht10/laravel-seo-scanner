@@ -40,14 +40,24 @@ class Http
 
     public function get(): object
     {
-        return HttpFacade::withOptions([
+        $http = Http::withOptions([
             ...config('seo.http.options', []),
             ...$this->options,
         ])->withHeaders([
             ...config('seo.http.headers', []),
             ...$this->headers,
-        ])->get($this->url);
+        ]);
+
+        if (config('seo.http.throttle.enabled', false)) {
+            $http = $http->build()->throttle(
+                config('seo.http.throttle.max_requests', 10),
+                config('seo.http.throttle.seconds', 1)
+            );
+        }
+
+        return $http->get($this->url);
     }
+
 
     public function getRemoteResponse(): object
     {

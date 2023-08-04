@@ -71,6 +71,6 @@ class FocusKeywordInTitleCheck implements Check
             return [];
         }
 
-        return explode(' ', $keywords);
+        return explode(', ', $keywords);
     }
 }
