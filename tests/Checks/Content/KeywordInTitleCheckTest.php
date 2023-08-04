@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Checks\Meta\KeywordInTitleCheck;
+use Vormkracht10\Seo\Checks\Content\KeywordInTitleCheck;
 
 it('can perform the keyword in title check on a page with the keyword in the title', function () {
     $check = new KeywordInTitleCheck();

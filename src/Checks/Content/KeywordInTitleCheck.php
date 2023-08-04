@@ -1,6 +1,6 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks\Meta;
+namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Str;
@@ -8,15 +8,15 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
-class KeywordInFirstParagraphCheck implements Check
+class KeywordInTitleCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'The page has the focus keyword in the first paragraph';
+    public string $title = 'The page has the focus keyword in the title';
 
     public string $priority = 'medium';
 
-    public int $timeToFix = 10;
+    public int $timeToFix = 1;
 
     public int $scoreWeight = 5;
 
@@ -31,7 +31,7 @@ class KeywordInFirstParagraphCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
-            $this->failureReason = __('failed.meta.keyword_in_first_paragraph_check');
+            $this->failureReason = __('failed.meta.keyword_in_title_check');
 
             return false;
         }
@@ -47,28 +47,17 @@ class KeywordInFirstParagraphCheck implements Check
             return false;
         }
 
-        $firstParagraph = $this->getFirstParagraphContent($crawler);
+        $title = $crawler->filterXPath('//title')->text();
 
-        if (! $firstParagraph) {
+        if (! $title) {
             return false;
         }
 
-        if (! Str::contains($firstParagraph, $keywords)) {
+        if (! Str::contains($title, $keywords)) {
             return false;
         }
 
         return true;
-    }
-
-    public function getFirstParagraphContent(Crawler $crawler): ?string
-    {
-        $node = $crawler->filterXPath('//p')->getNode(0);
-
-        if (! $node) {
-            return null;
-        }
-
-        return $crawler->filterXPath('//p')->text();
     }
 
     public function getKeywords(Crawler $crawler): array
