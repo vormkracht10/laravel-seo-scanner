@@ -2,10 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks\Meta;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class FocusKeywordInTitleCheck implements Check
