@@ -48,7 +48,7 @@ class KeywordInFirstParagraphCheck implements Check
         }
 
         $firstParagraph = $this->getFirstParagraphContent($crawler);
-        
+
         if (! $firstParagraph) {
             return false;
         }
