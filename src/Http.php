@@ -40,20 +40,13 @@ class Http
 
     public function get(): object
     {
-        $http = Http::withOptions([
+        $http = $this->http::withOptions([
             ...config('seo.http.options', []),
             ...$this->options,
         ])->withHeaders([
             ...config('seo.http.headers', []),
             ...$this->headers,
         ]);
-
-        if (config('seo.http.throttle.enabled', false)) {
-            $http = $http->build()->throttle(
-                config('seo.http.throttle.max_requests', 10),
-                config('seo.http.throttle.seconds', 1)
-            );
-        }
 
         return $http->get($this->url);
     }
