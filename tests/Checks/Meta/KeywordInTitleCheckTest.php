@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Checks\Meta\FocusKeywordInTitleCheck;
+use Vormkracht10\Seo\Checks\Meta\KeywordInTitleCheck;
 
 it('can perform the focus keyword in title check on a page with the focus keyword in the title', function () {
-    $check = new FocusKeywordInTitleCheck();
+    $check = new KeywordInTitleCheck();
     $crawler = new Crawler();
 
     Http::fake([
@@ -18,7 +18,7 @@ it('can perform the focus keyword in title check on a page with the focus keywor
 });
 
 it('can perform the focus keyword in title check on a page without the focus keyword in the title', function () {
-    $check = new FocusKeywordInTitleCheck();
+    $check = new KeywordInTitleCheck();
     $crawler = new Crawler();
 
     Http::fake([
@@ -31,7 +31,7 @@ it('can perform the focus keyword in title check on a page without the focus key
 });
 
 it('can perform the focus keyword in title check on a page without keywords', function () {
-    $check = new FocusKeywordInTitleCheck();
+    $check = new KeywordInTitleCheck();
     $crawler = new Crawler();
 
     Http::fake([

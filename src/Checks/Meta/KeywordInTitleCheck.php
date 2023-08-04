@@ -8,7 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
-class FocusKeywordInTitleCheck implements Check
+class KeywordInTitleCheck implements Check
 {
     use PerformCheck;
 
