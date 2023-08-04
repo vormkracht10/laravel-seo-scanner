@@ -29,8 +29,6 @@ class FocusKeywordInTitleCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        return true;
-
         if (! $this->validateContent($crawler)) {
             $this->failureReason = 'test';
             // $this->failureReason = __('failed.meta.focus_keyword_in_title_check');
@@ -44,7 +42,7 @@ class FocusKeywordInTitleCheck implements Check
     public function validateContent(Crawler $crawler): bool
     {
 
-        // dd($this->getKeywords($crawler));
+        dd($this->getKeywords($crawler));
         // $node = $crawler->filterXPath('//meta[@name="description"]')->getNode(0);
 
         // if (! $node) {
@@ -74,6 +72,6 @@ class FocusKeywordInTitleCheck implements Check
             return [];
         }
 
-        return explode(' ', $keywords);
+        return explode(', ', $keywords);
     }
 }
