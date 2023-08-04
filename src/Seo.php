@@ -68,6 +68,8 @@ class Seo
     {
         $checks = self::orderedCheckClasses();
 
+        dd($checks);
+
         $crawler = new Crawler($response->body());
 
         app(Pipeline::class)
