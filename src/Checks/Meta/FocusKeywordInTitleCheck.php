@@ -41,15 +41,16 @@ class FocusKeywordInTitleCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
+        $keywords = $this->getKeywords($crawler);
+        $node = $crawler->filterXPath('//meta[@name="description"]')->getNode(0);
 
-        dd($this->getKeywords($crawler));
-        // $node = $crawler->filterXPath('//meta[@name="description"]')->getNode(0);
+        if (! $node) {
+            return false;
+        }
 
-        // if (! $node) {
-        //     return false;
-        // }
+        $content = $crawler->filterXPath('//meta[@name="description"]')->attr('content');
 
-        // $content = $crawler->filterXPath('//meta[@name="description"]')->attr('content');
+        dd($content, $keywords);
 
         // if (! $content) {
         //     return false;
