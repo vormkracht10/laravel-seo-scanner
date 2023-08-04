@@ -2,12 +2,11 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
 use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Traits\PerformCheck;
 use Vormkracht10\Seo\Checks\Helpers\TransitionWords;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TransitionWordRatioCheck implements Check
 {
