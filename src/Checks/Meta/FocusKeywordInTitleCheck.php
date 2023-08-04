@@ -2,9 +2,10 @@
 
 namespace Vormkracht10\Seo\Checks\Meta;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Client\Response;
-use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class FocusKeywordInTitleCheck implements Check
@@ -30,8 +31,7 @@ class FocusKeywordInTitleCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
-            $this->failureReason = 'test';
-            // $this->failureReason = __('failed.meta.focus_keyword_in_title_check');
+            $this->failureReason = __('failed.meta.focus_keyword_in_title_check');
 
             return false;
         }
@@ -48,13 +48,15 @@ class FocusKeywordInTitleCheck implements Check
             return false;
         }
 
-        $content = $crawler->filterXPath('//meta[@name="description"]')->attr('content');
+        $title = $crawler->filterXPath('//meta[@name="description"]')->attr('content');
 
-        dd($content, $keywords);
+        if (! $title) {
+            return false;
+        }
 
-        // if (! $content) {
-        //     return false;
-        // }
+        if (! Str::contains($title, $keywords)) {
+            return false;
+        }
 
         return true;
     }
