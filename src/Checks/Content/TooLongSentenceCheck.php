@@ -30,7 +30,6 @@ class TooLongSentenceCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
-
             return false;
         }
 
@@ -42,23 +41,17 @@ class TooLongSentenceCheck implements Check
         $realSentences = [];
         $sentences = $this->getSentencesFromCrawler($crawler);
 
-        foreach ($sentences as $sentence) {
-
-            // If the sentence contains a dot, followed by a space, followed by a capital letter, it's a real sentence. 
-            // This is not 100% correct, but it's good enough for now.
-            if (! preg_match('/\.\s[A-Z]/', $sentence)) {
-                continue;
-            }
-
+        foreach ($sentences as $sentence) {        
             $sentence = explode('.', $sentence);
             $realSentences = array_merge($realSentences, $sentence);
         }
+
 
         $sentences = $realSentences;
 
         $this->actualValue = $this->calculateSentencesWithTooManyWords($sentences);
 
-        if ($this->actualValue > 1) {
+        if (count($this->actualValue) > 0) {
             $this->failureReason = __('failed.content.too_long_sentence', [
                 'actualValue' => count($this->actualValue),
             ]);
