@@ -3,10 +3,10 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Interfaces\Check;
 use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Traits\PerformCheck;
 use Vormkracht10\Seo\Helpers\TransitionWords;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TransitionWordRatioCheck implements Check
 {
@@ -56,13 +56,14 @@ class TransitionWordRatioCheck implements Check
         return true;
     }
 
-    public function calculatePercentageOfTransitionWordsInContent($content, $transitionWords) 
+    public function calculatePercentageOfTransitionWordsInContent($content, $transitionWords)
     {
         $totalPhrases = preg_match_all('/\b[\w\s]+\b/', $content, $matches);
-    
+
         if ($totalPhrases === 0) {
             $this->actualValue = 0;
             $this->failureReason = __('failed.content.transition_words_ratio_check.no_phrases_found');
+
             return 0;
         }
 
@@ -75,18 +76,18 @@ class TransitionWordRatioCheck implements Check
         return round($phrasesWithTransitionWord / $totalPhrases * 100, 0, PHP_ROUND_HALF_UP);
     }
 
-    public function calculateNumberOfPhrasesWithTransitionWord(string $content, string $transitionWord): int 
+    public function calculateNumberOfPhrasesWithTransitionWord(string $content, string $transitionWord): int
     {
         preg_match_all('/\b[\w\s]+\b/', $content, $matches);
-    
+
         $phrasesWithTransitionWord = 0;
-    
+
         foreach ($matches[0] as $phrase) {
             if (stripos($phrase, $transitionWord) !== false) {
                 $phrasesWithTransitionWord++;
             }
         }
-    
+
         return $phrasesWithTransitionWord;
     }
 }
