@@ -67,7 +67,7 @@ class TooLongSentenceCheck implements Check
     {
         $newSentences = [];
 
-        foreach ($sentences as $sentence) {        
+        foreach ($sentences as $sentence) {
             $sentence = explode('.', $sentence);
             $newSentences = array_merge($newSentences, $sentence);
         }
