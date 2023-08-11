@@ -39,7 +39,7 @@ class TransitionWordRatioCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
-        $content = $crawler->filter('body')->text();
+        $content = $crawler->filterXPath('//body')->text();
 
         $transitionWords = TransitionWords::getTransitionWordsOnly(config('seo.language'));
 
