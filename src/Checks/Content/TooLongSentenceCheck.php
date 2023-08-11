@@ -43,7 +43,14 @@ class TooLongSentenceCheck implements Check
         $sentences = $this->getSentencesFromCrawler($crawler);
 
         foreach ($sentences as $sentence) {
-            $sentence = explode('.', $sentence); // TODO: Now also 'St. Maarten' will be split which is not correct
+
+            // If the sentence contains a dot, followed by a space, followed by a capital letter, it's a real sentence. 
+            // This is not 100% correct, but it's good enough for now.
+            if (! preg_match('/\.\s[A-Z]/', $sentence)) {
+                continue;
+            }
+
+            $sentence = explode('.', $sentence);
             $realSentences = array_merge($realSentences, $sentence);
         }
 
