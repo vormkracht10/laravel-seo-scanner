@@ -8,10 +8,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | The following array lists the default options for the application.
-    | 
+    |
     */
     // en, nl or null (which will use the app locale)
-    'language' => null, 
+    'language' => null,
 
     /*
     |--------------------------------------------------------------------------
