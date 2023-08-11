@@ -41,11 +41,10 @@ class TooLongSentenceCheck implements Check
         $realSentences = [];
         $sentences = $this->getSentencesFromCrawler($crawler);
 
-        foreach ($sentences as $sentence) {        
+        foreach ($sentences as $sentence) {
             $sentence = explode('.', $sentence);
             $realSentences = array_merge($realSentences, $sentence);
         }
-
 
         $sentences = $realSentences;
 
