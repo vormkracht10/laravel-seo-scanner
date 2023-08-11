@@ -69,7 +69,7 @@ class TooLongSentenceCheck implements Check
         return true;
     }
 
-    public function getSentencesFromCrawler(Crawler $crawler): array 
+    public function getSentencesFromCrawler(Crawler $crawler): array
     {
         $content = $crawler->filterXPath('//body')->children();
 
@@ -87,7 +87,7 @@ class TooLongSentenceCheck implements Check
     {
         $tooLongSentences = [];
 
-       foreach ($sentences as $sentence) {
+        foreach ($sentences as $sentence) {
             if (str_word_count($sentence) > 20) {
                 $tooLongSentences[] = $sentence;
             }
