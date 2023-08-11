@@ -49,7 +49,7 @@ class FleschReadingEaseCheck implements Check
         $averageSyllableCount = $this->getAverageSyllableCountPerWord($sentences);
 
         dd($averageSyllableCount, $averageWordCount);
-        
+
         // return true;
     }
 
@@ -79,33 +79,34 @@ class FleschReadingEaseCheck implements Check
         return round($totalSyllableCount / count($sentences), 0, PHP_ROUND_HALF_UP);
     }
 
-    private function countSyllables($word) 
+    private function countSyllables($word)
     {
-        $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y');
+        $vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y'];
         $syllables = 0;
         $prevChar = null;
-    
+
         for ($i = 0; $i < strlen($word); $i++) {
             $char = $word[$i];
-            if (in_array($char, $vowels) && ($prevChar === null || !in_array($prevChar, $vowels))) {
+            if (in_array($char, $vowels) && ($prevChar === null || ! in_array($prevChar, $vowels))) {
                 $syllables++;
             }
             $prevChar = $char;
         }
-    
+
         return max(1, $syllables); // Ensure at least one syllable for non-empty word
     }
-    
-    private function averageSyllablesPerWord($text) 
+
+    private function averageSyllablesPerWord($text)
     {
         $words = preg_split('/\s+/', $text);
         $totalSyllables = array_reduce($words, function ($carry, $word) {
             return $carry + $this->countSyllables($word);
         }, 0);
         $totalWords = count($words);
-    
+
         if ($totalWords > 0) {
             $averageSyllables = $totalSyllables / $totalWords;
+
             return $averageSyllables;
         } else {
             return 0; // Handle case of empty input
