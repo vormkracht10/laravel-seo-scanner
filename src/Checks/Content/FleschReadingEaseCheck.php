@@ -48,9 +48,21 @@ class FleschReadingEaseCheck implements Check
         // Average syllable count per word
         $averageSyllableCount = $this->getAverageSyllableCountPerWord($sentences);
 
-        dd($averageSyllableCount, $averageWordCount);
+        $fleschReadingEase = $this->fleschReadingEaseScoreFromAverages($averageSyllableCount, $averageWordCount);
+
+        // TODO: 
+        // Average word count is too low and the average syllable count is too high. That's why the calculation is not accurate. 
+        // Probably because we still get sentences like: cls-11{stroke:#fe8185}
+        // We need to find a better way to get all sentences from a web page. 
+        dd($averageSyllableCount, $averageWordCount, $fleschReadingEase);
         
         // return true;
+    }
+
+    private function fleschReadingEaseScoreFromAverages(float $averageSyllableCount, float $averageWordCount): float
+    {
+        $fleschReadingEase = 206.835 - (1.015 * $averageWordCount) - (84.6 * $averageSyllableCount);
+        return $fleschReadingEase;
     }
 
     private function getAverageWordCountPerSentence(array $sentences): int
