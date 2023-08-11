@@ -4,7 +4,6 @@ namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Helpers\TransitionWords;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
@@ -31,6 +30,7 @@ class TooLongSentenceCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
+
             return false;
         }
 
@@ -39,40 +39,21 @@ class TooLongSentenceCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
+        $realSentences = [];
         $sentences = $this->getSentencesFromCrawler($crawler);
 
-        // Loop through all html elements in $sentences
+        foreach ($sentences as $sentence) {
+            $sentence = explode('.', $sentence); // TODO: Now also 'St. Maarten' will be split which is not correct
+            $realSentences = array_merge($realSentences, $sentence);
+        }
 
-        // dd($sentences);
+        $sentences = $realSentences;
 
-        // Remove sentences that cannot be seen as real sentences
-        $content = $crawler->filterXPath('//body')->children()->each(function (Crawler $node, $i) {
-            $node->children()->each(function (Crawler $node, $i) {
-                dump($node->text());
-            });
-        });
-
-        // Loop through all HTML elements
-        
-
-        dd('');
-
-        // TODO: Get the content which is all the text in the body tag but inside a tag. Also get them by tag
-        $ccontent = $crawler->filterXPath('//body')->children()->each(function (Crawler $node, $i) {
-            $node->children()->each(function (Crawler $node, $i) {
-                dump($node->html());
-            });
-        });
-
-        dd($content);
-
-        $this->actualValue = $this->calculateSentencesWithTooManyWords($content);
-
-        dd($this->actualValue);
+        $this->actualValue = $this->calculateSentencesWithTooManyWords($sentences);
 
         if ($this->actualValue > 1) {
             $this->failureReason = __('failed.content.too_long_sentence', [
-                'actualValue' => $this->actualValue,
+                'actualValue' => count($this->actualValue),
             ]);
 
             return false;
@@ -81,51 +62,30 @@ class TooLongSentenceCheck implements Check
         return true;
     }
 
-    public function getSentencesFromCrawler(Crawler $crawler): array {
-        $sentences = [];
+    public function getSentencesFromCrawler(Crawler $crawler): array 
+    {
+        $content = $crawler->filterXPath('//body')->children();
 
-        // Select all elements that contain text
-        $elements = $crawler->filterXPath('//*/text()[normalize-space()]');
+        // Get all elements that contain text
+        $content = $content->filterXPath('//*/text()[normalize-space()]');
 
-        // Loop through each element and split the text into sentences
-        foreach ($elements as $element) {
-            $text = trim($element->textContent);
+        $content = $content->each(function (Crawler $node, $i) {
+            return $node->text();
+        });
 
-            // Exclude any text that is inside HTML tags
-            $text = preg_replace('/<[^>]*>/', '', $text);
-
-            // Exclude any text that is inside JavaScript
-            $text = preg_replace('/<script[^>]*>.*?<\/script>/is', '', $text);
-
-            // Exclude any text that contains '(function(' or 'window.' 
-
-            // Split the remaining text into sentences
-            $matches = preg_split('/(?<=[.?!])\s+(?=[a-z])/i', $text);
-            $sentences = array_merge($sentences, $matches);
-        }
-
-        return $sentences;
+        return $content;
     }
 
-    public function calculateSentencesWithTooManyWords($content)
+    public function calculateSentencesWithTooManyWords(array $sentences): array
     {
-        $totalSentences = preg_match_all('/\b[\w\s]+\b/', $content, $matches);
+        $tooLongSentences = [];
 
-        if ($totalSentences === 0) {
-            $this->actualValue = 0;
-
-            return 0;
-        }
-
-        $sentencesWithTooManyWords = 0;
-
-        foreach ($matches[0] as $match) {
-            if (str_word_count($match) > 20 ? 1 : 0) {
-                dump($match);
+       foreach ($sentences as $sentence) {
+            if (str_word_count($sentence) > 20) {
+                $tooLongSentences[] = $sentence;
             }
-            $sentencesWithTooManyWords += str_word_count($match) > 20 ? 1 : 0;
         }
 
-        return $sentencesWithTooManyWords;
+        return $tooLongSentences;
     }
 }
