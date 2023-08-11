@@ -234,7 +234,7 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ The page contains no broken links. <br>
 ✅ The page contains no broken images. <br>
 ✅ Length of the content is at least 2100 characters. <br>
-✅ The content contains no too long sentences (more than 20 words). <br>
+✅ No more than 20% of the content contains too long sentences (more than 20 words). <br>
 
 ### Meta
 
