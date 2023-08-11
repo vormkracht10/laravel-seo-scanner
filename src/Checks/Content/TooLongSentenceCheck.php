@@ -44,7 +44,7 @@ class TooLongSentenceCheck implements Check
 
         foreach ($sentences as $sentence) {
 
-            // If the sentence contains a dot, followed by a space, followed by a capital letter, it's a real sentence. 
+            // If the sentence contains a dot, followed by a space, followed by a capital letter, it's a real sentence.
             // This is not 100% correct, but it's good enough for now.
             if (! preg_match('/\.\s[A-Z]/', $sentence)) {
                 continue;
