@@ -1,6 +1,6 @@
 <?php
 
-namespace Vormkracht10\Seo\Checks\Helpers;
+namespace Vormkracht10\Seo\Helpers;
 
 class TransitionWords
 {
@@ -29,7 +29,7 @@ class TransitionWords
             'for example', 'for instance', 'such as', 'to illustrate', 'in particular',
         ],
         'sequence_order' => [
-            'first, second, third', 'next', 'then', 'afterward', 'meanwhile',
+            'first', 'second', 'third', 'next', 'then', 'afterward', 'meanwhile',
             'finally', 'in the meantime', 'subsequently',
         ],
         'conclusion_summary' => [
@@ -54,7 +54,7 @@ class TransitionWords
         return self::$transitionWords;
     }
 
-    public static function getTransitionWordsOnly(): array
+    public static function getTransitionWordsOnly(?string $locale = null): array
     {
         $transitionWords = self::$transitionWords;
 
@@ -62,7 +62,7 @@ class TransitionWords
 
         foreach ($transitionWords as $transitionWord) {
             foreach ($transitionWord as $word) {
-                $words[] = $word;
+                $words[] = __($word, [], $locale);
             }
         }
 

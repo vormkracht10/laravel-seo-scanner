@@ -3,20 +3,20 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Checks\Helpers\TransitionWords;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Helpers\TransitionWords;
 
 class TransitionWordRatioCheck implements Check
 {
     use PerformCheck;
 
-    public string $title = 'The page has the focus keyword in the title';
+    public string $title = 'Transition word ratio check';
 
     public string $priority = 'medium';
 
-    public int $timeToFix = 1;
+    public int $timeToFix = 60;
 
     public int $scoreWeight = 5;
 
@@ -31,8 +31,6 @@ class TransitionWordRatioCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         if (! $this->validateContent($crawler)) {
-            // $this->failureReason = __('failed.meta.keyword_in_title_check');
-
             return false;
         }
 
@@ -41,27 +39,54 @@ class TransitionWordRatioCheck implements Check
 
     public function validateContent(Crawler $crawler): bool
     {
-        // Get the content of the page
         $content = $crawler->filter('body')->text();
 
-        // Get the transition words
-        // TODO: Get transition words by language. For now, we only support English.
-        // TODO: Add Dutch as well.
-        $transitionWords = TransitionWords::getTransitionWordsOnly();
+        $transitionWords = TransitionWords::getTransitionWordsOnly(config('seo.language'));
 
         $this->actualValue = $this->calculatePercentageOfTransitionWordsInContent($content, $transitionWords);
-    }
 
-    public function calculatePercentageOfTransitionWordsInContent(string $content, array $transitionWords): int
-    {
-        $totalWords = str_word_count($content);
+        if ($this->actualValue < 30) {
+            $this->failureReason = __('failed.content.transition_words_ratio_check.too_few_transition_words', [
+                'actualValue' => $this->actualValue,
+            ]);
 
-        $transitionWordsInContent = 0;
-
-        foreach ($transitionWords as $transitionWord) {
-            $transitionWordsInContent += substr_count($content, $transitionWord);
+            return false;
         }
 
-        return $transitionWordsInContent / $totalWords * 100;
+        return true;
+    }
+
+    public function calculatePercentageOfTransitionWordsInContent($content, $transitionWords) 
+    {
+        $totalPhrases = preg_match_all('/\b[\w\s]+\b/', $content, $matches);
+    
+        if ($totalPhrases === 0) {
+            $this->actualValue = 0;
+            $this->failureReason = __('failed.content.transition_words_ratio_check.no_phrases_found');
+            return 0;
+        }
+
+        $phrasesWithTransitionWord = 0;
+
+        foreach ($transitionWords as $transitionWord) {
+            $phrasesWithTransitionWord += $this->calculateNumberOfPhrasesWithTransitionWord($content, $transitionWord);
+        }
+
+        return round($phrasesWithTransitionWord / $totalPhrases * 100, 0, PHP_ROUND_HALF_UP);
+    }
+
+    public function calculateNumberOfPhrasesWithTransitionWord(string $content, string $transitionWord): int 
+    {
+        preg_match_all('/\b[\w\s]+\b/', $content, $matches);
+    
+        $phrasesWithTransitionWord = 0;
+    
+        foreach ($matches[0] as $phrase) {
+            if (stripos($phrase, $transitionWord) !== false) {
+                $phrasesWithTransitionWord++;
+            }
+        }
+    
+        return $phrasesWithTransitionWord;
     }
 }
