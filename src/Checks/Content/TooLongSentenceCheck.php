@@ -41,17 +41,18 @@ class TooLongSentenceCheck implements Check
         $realSentences = [];
         $sentences = $this->getSentencesFromCrawler($crawler);
 
-        foreach ($sentences as $sentence) {        
-            $sentence = explode('.', $sentence);
-            $realSentences = array_merge($realSentences, $sentence);
-        }
+        $sentences = $this->separateSentencesByDot($sentences);
 
-
-        $sentences = $realSentences;
+        $sentencesWithTooManyWords = $this->calculateSentencesWithTooManyWords($sentences);
 
         $this->actualValue = $this->calculateSentencesWithTooManyWords($sentences);
 
-        if (count($this->actualValue) > 0) {
+        if (count($sentencesWithTooManyWords) === 0) {
+            return true;
+        }
+
+        // If more than 20% of the total sentences are too long, fail
+        if (count($sentencesWithTooManyWords) / count($sentences) > 0.2) {
             $this->failureReason = __('failed.content.too_long_sentence', [
                 'actualValue' => count($this->actualValue),
             ]);
@@ -62,7 +63,24 @@ class TooLongSentenceCheck implements Check
         return true;
     }
 
-    public function getSentencesFromCrawler(Crawler $crawler): array
+    private function separateSentencesByDot(array $sentences): array
+    {
+        $newSentences = [];
+
+        foreach ($sentences as $sentence) {        
+            $sentence = explode('.', $sentence);
+            $newSentences = array_merge($newSentences, $sentence);
+        }
+
+        // Remove all sentences that are empty
+        $sentences = array_filter($newSentences, function ($sentence) {
+            return ! empty($sentence);
+        });
+
+        return $sentences;
+    }
+
+    private function getSentencesFromCrawler(Crawler $crawler): array
     {
         $content = $crawler->filterXPath('//body')->children();
 
@@ -76,7 +94,7 @@ class TooLongSentenceCheck implements Check
         return $content;
     }
 
-    public function calculateSentencesWithTooManyWords(array $sentences): array
+    private function calculateSentencesWithTooManyWords(array $sentences): array
     {
         $tooLongSentences = [];
 
