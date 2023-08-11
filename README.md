@@ -234,7 +234,7 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ The page contains no broken links. <br>
 ✅ The page contains no broken images. <br>
 ✅ Length of the content is at least 2100 characters. <br>
-✅ A minimum of 30% of the phrases contain a transition word or phrase. <br>
+✅ A minimum of 30% of the sentences contain a transition word or phrase. <br>
 
 > Note: To change the locale of the transition words, you can publish the config file and change the locale in the config file. The default locale is `null` which uses the language of your `app` config. If set to `nl` or `en`, the transition words will be in Dutch or English. If you want to add more locales, you can create a pull request.
 
