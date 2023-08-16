@@ -40,6 +40,7 @@ class FleschReadingEaseCheck implements Check
     {
         $sentences = $this->getSentencesFromCrawler($crawler);
 
+        dd($sentences);
         $sentences = $this->separateSentencesByDot($sentences);
 
         // Average word count per sentence
@@ -150,7 +151,7 @@ class FleschReadingEaseCheck implements Check
         $content = $content->filterXPath('//*/text()[normalize-space()]');
 
         $content = $content->each(function (Crawler $node, $i) {
-            return $node->text();
+            return strip_tags($node->text());
         });
 
         return $content;
