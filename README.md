@@ -13,7 +13,7 @@
 
 ## Introduction
 
-This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 22 checks that will check on performance, configurations, use of meta tags and content quality.
+This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 24 checks that will check on performance, configurations, use of meta tags and content quality.
 
 Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines.
 
@@ -28,7 +28,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Running the scanner in a local environment](#running-the-scanner-in-a-local-environment)
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
-    -   [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application)
+    -   [Scanning routes in an SPA application](#scanning-routes-in-an-spa-application)
     -   [Scan model urls](#scan-model-urls)
     -   [Saving scans into the database](#saving-scans-into-the-database)
     -   [Listening to events](#listening-to-events)
@@ -57,7 +57,7 @@ composer require vormkracht10/laravel-seo-scanner
 
 If you want to scan pages that are rendered using Javascript, for example Vue or React, you need to install Puppeteer. You can install it using the following command:
 
-> If you want to know how to scan Javascript rendered pages, check out [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application). Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
+> If you want to know how to scan Javascript rendered pages, check out [Scanning routes in an SPA application](#scanning-routes-in-an-spa-application). Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
 
 ```bash
 npm install puppeteer
@@ -222,6 +222,18 @@ return [
             'User-Agent' => 'Laravel SEO Scanner/1.0',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Javascript rendering
+    |--------------------------------------------------------------------------
+    |
+    | If your website uses javascript to render the content, you can enable
+    | javascript rendering. This will use a headless browser to render
+    | the content.
+    |
+    */
+    'javascript' => false,
 ];
 ```
 
@@ -244,6 +256,9 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ The page contains no broken images. <br>
 ✅ Length of the content is at least 2100 characters. <br>
 ✅ No more than 20% of the content contains too long sentences (more than 20 words). <br>
+✅ A minimum of 30% of the sentences contain a transition word or phrase. <br>
+
+> Note: To change the locale of the transition words, you can publish the config file and change the locale in the config file. The default locale is `null` which uses the language of your `app` config. If set to `nl` or `en`, the transition words will be in Dutch or English. If you want to add more locales, you can create a pull request.
 
 ### Meta
 
@@ -316,9 +331,9 @@ php artisan seo:scan-url https://vormkracht10.nl
 
 > Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
 
-### Scanning a single route in an SPA application
+### Scanning routes in an SPA application
 
-If you have an SPA application, you may want to check the SEO score of a specific route. You can do this by running the following command:
+If you have an SPA application, you can enable javascript rendering. This will use a headless browser to render the content. To enable javascript rendering, set the `javascript` option to `true` in the config file. You can also enable javascript rendering for a single route by adding the `--javascript` option to the command:
 
 ```bash
 php artisan seo:scan-url https://vormkracht10.nl --javascript

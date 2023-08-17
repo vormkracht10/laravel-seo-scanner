@@ -1,6 +1,18 @@
 <?php
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default options
+    |--------------------------------------------------------------------------
+    |
+    | The following array lists the default options for the application.
+    |
+    */
+    // en, nl or null (which will use the app locale)
+    'language' => null,
+
     /*
     |--------------------------------------------------------------------------
     | Cache
@@ -153,21 +165,17 @@ return [
         'headers' => [
             'User-Agent' => 'Laravel SEO Scanner/1.0',
         ],
-
-        /*
-        |--------------------------------------------------------------------------
-        | Http throttle
-        |--------------------------------------------------------------------------
-        |
-        | Here you can specify the throttle options of the http client. This
-        | will throttle the requests to the same domain. This is useful
-        | when you have a lot of routes to check.
-        |
-        */
-        'throttle' => [
-            'enabled' => false,
-            'max_requests' => 10,
-            'seconds' => 1,
-        ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Javascript rendering
+    |--------------------------------------------------------------------------
+    |
+    | If your website uses javascript to render the content, you can enable
+    | javascript rendering. This will use a headless browser to render
+    | the content.
+    |
+    */
+    'javascript' => false,
 ];
