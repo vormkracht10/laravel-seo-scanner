@@ -37,7 +37,7 @@
     "failed.content.no_heading": "The page does not contain any h1 tag, while it should.",
     "failed.content.no_title": "The page does not contain a title tag, while it should.",
     "failed.content.title_length": "The page title is :actualValue characters long. It should be max :expectedValue characters long.",
-    "failed.content.too_long_sentence": "The page contains :actualValue sentences that are too long.",
+    "failed.content.too_long_sentence": "The page has :actualValue too long sentences which exceeds 20% of the total sentences. Rectify :neededToFix sentences to meet the 20% limit.",
     "failed.content.transition_words_ratio_check.no_phrases_found": "The page does not contain any transition words.",
     "failed.content.transition_words_ratio_check.too_few_transition_words": "The page contains too few transition words. The recommended minimum is 30%, while the actual number is :actualValue%.",
     "failed.meta.description": "The page does not contain a description meta tag, while it should.",

@@ -37,7 +37,7 @@
     "failed.content.no_heading": "The page does not contain any h1 tag, while it should.",
     "failed.content.no_title": "The page does not contain a title tag, while it should.",
     "failed.content.title_length": "The page title is :actualValue characters long. It should be max :expectedValue characters long.",
-    "failed.content.too_long_sentence": "The page contains :actualValue sentences that are too long.",
+    "failed.content.too_long_sentence": "De pagina bevat :actualValue te lange zinnen welke meer dan 20% van het totale aantal zinnen uitmaken. Corrigeer :neededToFix zinnen om aan de limiet van 20% te voldoen.",
     "failed.content.transition_words_ratio_check.no_phrases_found": "De pagina bevat geen zinnen.",
     "failed.content.transition_words_ratio_check.too_few_transition_words": "De pagina bevat te weinig transitiewoorden. Het zou minstens 30% moeten zijn, maar het is :actualValue%.",
     "failed.meta.description": "The page does not contain a description meta tag, while it should.",
