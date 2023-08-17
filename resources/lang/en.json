@@ -31,7 +31,7 @@
     "failed.performance.response": "The page returned a response code other than :expectedValue. The actual response code was :actualValue.",
     "failed.performance.ttfb": "The page took too long to load (max :expectedValuems). The actual time was :actualValuems.",
     "failed.performance.ttfb.missing_url": "We could not get the TTFB for this page.",
-    "failed.content.transition_words_ratio_check.too_few_transition_words": "The page contains too few transition words. The recommended minimum is 30%, while the actual number is :actualValue.",
+    "failed.content.transition_words_ratio_check.too_few_transition_words": "The page contains too few transition words. The recommended minimum is 30%, while the actual number is :actualValue%.",
     "failed.content.transition_words_ratio_check.no_phrases_found": "The page does not contain any transition words.",
     "additionally": "additionally",
     "moreover": "moreover",

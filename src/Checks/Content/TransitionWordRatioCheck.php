@@ -40,10 +40,17 @@ class TransitionWordRatioCheck implements Check
 
     public function validateContent(Response $response, Crawler $crawler): bool
     {
-        $content = $crawler->filterXPath('//body')->text();
+        $body = $response->body();
 
-        $readability = new Readability($response->body());
+        if ($this->useJavascript) {
+            $body = $crawler->filter('body')->html();
+        }
+
+        $readability = new Readability($body);
+
         $readability->init();
+
+        $content = $readability->getContent()->textContent;
 
         $transitionWords = TransitionWords::getTransitionWordsOnly(config('seo.language'));
 
@@ -62,7 +69,11 @@ class TransitionWordRatioCheck implements Check
 
     public function calculatePercentageOfTransitionWordsInContent($content, $transitionWords)
     {
-        $totalPhrases = preg_match_all('/\b[\w\s]+\b/', $content, $matches);
+        // Filter out all phrases that contain 2 or less words
+        $content = preg_replace('/\b[\w\s]{1,2}\b/', '', $content);
+
+        // Total phrases is content split by \n
+        $totalPhrases = preg_match_all('/\n/', $content, $matches);
 
         if ($totalPhrases === 0) {
             $this->actualValue = 0;
