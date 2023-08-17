@@ -42,15 +42,11 @@ class TransitionWordRatioCheck implements Check
     {
         $body = $response->body();
 
-        dd($this->useJavascript);
         if ($this->useJavascript) {
-            // dd($body);
-
             $body = $crawler->filter('body')->html();
         }
 
         $readability = new Readability($body);
-
 
         $readability->init();
 
@@ -79,15 +75,15 @@ class TransitionWordRatioCheck implements Check
 
     public function calculatePercentageOfTransitionWordsInContent($content, $transitionWords)
     {
-        // Filter out all phrases that contain 2 or less words
-        $content = preg_replace('/\b[\w\s]{1,2}\b/', '', $content);
+        // Get phrases seperate by new line, dot, exclamation mark or question mark
+        $phrases = preg_split('/\n|\.|\!|\?/', $content);
 
-        dd($content);
-
-        // Total phrases is content split by \n
-        $totalPhrases = preg_match_all('/\n/', $content, $matches);
-
-        if ($totalPhrases === 0) {
+        // Count all phrases where it has more than 5 words
+        $totalPhrases = array_filter($phrases, function ($phrase) {
+            return str_word_count($phrase) > 5;
+        });
+        
+        if (count($totalPhrases) === 0) {
             $this->actualValue = 0;
             $this->failureReason = __('failed.content.transition_words_ratio_check.no_phrases_found');
 
@@ -100,7 +96,7 @@ class TransitionWordRatioCheck implements Check
             $phrasesWithTransitionWord += $this->calculateNumberOfPhrasesWithTransitionWord($content, $transitionWord);
         }
 
-        return round($phrasesWithTransitionWord / $totalPhrases * 100, 0, PHP_ROUND_HALF_UP);
+        return round($phrasesWithTransitionWord / count($totalPhrases) * 100, 0, PHP_ROUND_HALF_UP);
     }
 
     public function calculateNumberOfPhrasesWithTransitionWord(string $content, string $transitionWord): int
