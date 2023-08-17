@@ -38,24 +38,43 @@ class ContentLengthCheck implements Check
             return true;
         }
 
-        $content = $this->getContentToValidate($response);
+        $content = $this->getContentToValidate($response, $crawler);
 
         if (! $content) {
-            return true;
+            return false;
         }
 
         return $this->validateContent($content);
     }
 
-    public function getContentToValidate(Response $response): ?string
+    public function getContentToValidate(Response $response, Crawler $crawler): ?string
     {
-        $url = $response->transferStats->getHandlerStats()['url'];
+        $body = $response->body();
 
-        $readability = new Readability($response->body(), $url);
+        if ($this->useJavascript) {
+            $body = $crawler->filter('body')->html();
+        }
+
+        $readability = new Readability($body);
 
         $readability->init();
 
-        return $readability->getContent()->textContent ?? null;
+        $textContent = $readability->getContent()->textContent;
+
+        /**
+         * This is a fallback for when Readability is unable to parse the content.
+         * Sometimes it happens when scanning a JavaScript rendered page, that
+         * we don't get a proper response. In that case we just return null.
+         *
+         * @todo we should check if we can improve this.
+         */
+        if ($textContent == 'Sorry, Readability was unable to parse this page for content.') {
+            $this->failureReason = __('failed.content.length.parse');
+
+            return null;
+        }
+
+        return $textContent;
     }
 
     public function validateContent(string|array $content): bool

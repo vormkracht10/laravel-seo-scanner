@@ -57,6 +57,8 @@ class OpenGraphImageCheck implements Check
             return false;
         }
 
+        $content = addBaseIfRelativeUrl($content, $this->url);
+
         if (isBrokenLink($content)) {
             $this->failureReason = __('failed.meta.open_graph_image.broken', [
                 'actualValue' => $content,

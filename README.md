@@ -13,7 +13,7 @@
 
 ## Introduction
 
-This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 21 checks that will check on performance, configurations, use of meta tags and content quality.
+This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 24 checks that will check on performance, configurations, use of meta tags and content quality.
 
 Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines.
 
@@ -28,6 +28,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Running the scanner in a local environment](#running-the-scanner-in-a-local-environment)
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
+    -   [Scanning routes in an SPA application](#scanning-routes-in-an-spa-application)
     -   [Scan model urls](#scan-model-urls)
     -   [Saving scans into the database](#saving-scans-into-the-database)
     -   [Listening to events](#listening-to-events)
@@ -54,6 +55,14 @@ You can install the package via composer:
 composer require vormkracht10/laravel-seo-scanner
 ```
 
+If you want to scan pages that are rendered using Javascript, for example Vue or React, you need to install Puppeteer. You can install it using the following command:
+
+> If you want to know how to scan Javascript rendered pages, check out [Scanning routes in an SPA application](#scanning-routes-in-an-spa-application). Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
+
+```bash
+npm install puppeteer
+```
+
 Run the install command to publish the config file and run the migrations:
 
 ```bash
@@ -71,150 +80,7 @@ php artisan migrate
 php artisan vendor:publish --tag="seo-config"
 ```
 
-This will be the contents of the published config file:
-
-```php
-return [
-    /*
-    |--------------------------------------------------------------------------
-    | Cache
-    |--------------------------------------------------------------------------
-    |
-    | The following array lists the cache options for the application.
-    |
-    */
-    'cache' => [
-        // Only drivers that support tags are supported.
-        // These are: array, memcached and redis.
-        'driver' => 'array',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Check classes
-    |--------------------------------------------------------------------------
-    |
-    | The following array lists the "check" classes that will be registered
-    | with Laravel Seo. These checks run an check on the application via
-    | various methods. Feel free to customize it.
-    |
-    | An example of a check class:
-    | \Vormkracht10\Seo\Checks\Content\BrokenLinkCheck::class
-    |
-    */
-    'checks' => ['*'],
-
-    // If you wish to skip running some checks, list the classes in the array below.
-    'exclude_checks' => [],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Check paths
-    |--------------------------------------------------------------------------
-    |
-    | The following array lists the "checks" paths that will be searched
-    | recursively to find check classes. This option will only be used
-    | if the checks option above is set to the asterisk wildcard. The
-    | key is the base namespace to resolve the class name.
-    |
-    */
-    'check_paths' => [
-        'Vormkracht10\\Seo\\Checks' => base_path('vendor/vormkracht10/laravel-seo-scanner-scanner/src/Checks'),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Routes
-    |--------------------------------------------------------------------------
-    |
-    | The following array lists the "checkable" routes that will be registered
-    | with Laravel Seo. These routes will be checked for SEO. Feel free to
-    | customize it. To check for specific routes, use the route name.
-    |
-    | An example of a checkable route:
-    | 'blog.index'
-    |
-    */
-    'check_routes' => true,
-    'routes' => ['*'],
-
-    // If you wish to skip running some checks on some routes, list the routes
-    // in the array below by using the route name. For example:
-    // 'blog.index'
-    'exclude_routes' => [],
-
-    // If you wish to skip running some checks on some paths, list the paths
-    // in the array below.
-    'exclude_paths' => [
-        'admin/*',
-        'nova/*',
-        'horizon/*',
-        'vapor-ui/*',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Database
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify database related configurations like the connection 
-    | that will be used to save the SEO scores. When you set the save 
-    | option to true, the SEO score will be saved to the database. 
-    |
-    */
-    'database' => [
-        'connection' => 'mysql',
-        'save' => true,
-        'prune' => [
-            'older_than_days' => 30,
-        ]
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Models
-    |--------------------------------------------------------------------------
-    |
-    | Here you can specify which models you want to check. When you specify a
-    | model, the SEO score will be saved to the database. This way you can
-    | check the SEO score of a specific page.
-    |
-    | An example of a model:
-    | \App\Models\BlogPost::class
-    |
-    */
-    'models' => [],
-
-    'http' => [
-        /*
-        |--------------------------------------------------------------------------
-        | Http client options
-        |--------------------------------------------------------------------------
-        |
-        | Here you can specify the options of the http client. For example, in a
-        | local development environment you may want to disable the SSL
-        | certificate integrity check.
-        |
-        | An example of a http option:
-        | 'verify' => false
-        |
-        */
-        'options' => [],
-
-        /*
-        |--------------------------------------------------------------------------
-        | Http headers
-        |--------------------------------------------------------------------------
-        |
-        | Here you can specify custom headers of the http client.
-        |
-        */
-        'headers' => [
-            'User-Agent' => 'Laravel SEO Scanner/1.0',
-        ],
-    ],
-];
-```
+Click here to see the [config file](https://github.com/vormkracht10/laravel-seo-scanner/blob/too-long-sentences-check/config/seo.php).
 
 ## Available checks
 
@@ -235,6 +101,9 @@ These checks are available in the package. You can add or remove checks in the c
 ✅ The page contains no broken images. <br>
 ✅ Length of the content is at least 2100 characters. <br>
 ✅ No more than 20% of the content contains too long sentences (more than 20 words). <br>
+✅ A minimum of 30% of the sentences contain a transition word or phrase. <br>
+
+> Note: To change the locale of the transition words, you can publish the config file and change the locale in the config file. The default locale is `null` which uses the language of your `app` config. If set to `nl` or `en`, the transition words will be in Dutch or English. If you want to add more locales, you can create a pull request.
 
 ### Meta
 
@@ -306,6 +175,16 @@ php artisan seo:scan-url https://vormkracht10.nl
 ```
 
 > Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
+
+### Scanning routes in an SPA application
+
+If you have an SPA application, you can enable javascript rendering. This will use a headless browser to render the content. To enable javascript rendering, set the `javascript` option to `true` in the config file. You can also enable javascript rendering for a single route by adding the `--javascript` option to the command:
+
+```bash
+php artisan seo:scan-url https://vormkracht10.nl --javascript
+```
+
+> Note: This command will use Puppeteer to render the page. Make sure that you have Puppeteer installed on your system. You can install Puppeteer by running the following command: `npm install puppeteer`. **At this moment it's only available when scanning single routes.**
 
 ### Scan model urls
 

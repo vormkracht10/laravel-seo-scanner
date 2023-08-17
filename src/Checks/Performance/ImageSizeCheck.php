@@ -74,7 +74,7 @@ class ImageSizeCheck implements Check
             return false;
         })->toArray();
 
-        if (! empty($tooBigOrFailedLinks)) {
+        if (! empty($tooBigOrFailedLinks) && count($links) > 0) {
             $this->actualValue = $links;
 
             $this->failureReason = __('failed.performance.image_size', [
