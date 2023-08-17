@@ -49,9 +49,7 @@ class ContentLengthCheck implements Check
 
     public function getContentToValidate(Response $response): ?string
     {
-        $url = $response->transferStats->getHandlerStats()['url'];
-
-        $readability = new Readability($response->body(), $url);
+        $readability = new Readability($response->body(), $this->url);
 
         $readability->init();
 

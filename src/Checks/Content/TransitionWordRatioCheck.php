@@ -2,11 +2,12 @@
 
 namespace Vormkracht10\Seo\Checks\Content;
 
+use Readability\Readability;
 use Illuminate\Http\Client\Response;
-use Symfony\Component\DomCrawler\Crawler;
-use Vormkracht10\Seo\Helpers\TransitionWords;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Helpers\TransitionWords;
 
 class TransitionWordRatioCheck implements Check
 {
@@ -30,16 +31,19 @@ class TransitionWordRatioCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        if (! $this->validateContent($crawler)) {
+        if (! $this->validateContent($response, $crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function validateContent(Crawler $crawler): bool
+    public function validateContent(Response $response, Crawler $crawler): bool
     {
         $content = $crawler->filterXPath('//body')->text();
+
+        $readability = new Readability($response->body());
+        $readability->init();
 
         $transitionWords = TransitionWords::getTransitionWordsOnly(config('seo.language'));
 
