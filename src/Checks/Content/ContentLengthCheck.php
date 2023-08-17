@@ -76,7 +76,7 @@ class ContentLengthCheck implements Check
             return null;
         }
 
-        return $textContent ?? null;
+        return $textContent;
     }
 
     public function validateContent(string|array $content): bool
