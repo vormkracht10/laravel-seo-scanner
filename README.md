@@ -13,7 +13,7 @@
 
 ## Introduction
 
-This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 21 checks that will check on performance, configurations, use of meta tags and content quality.
+This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 22 checks that will check on performance, configurations, use of meta tags and content quality.
 
 Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines.
 
@@ -28,6 +28,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Running the scanner in a local environment](#running-the-scanner-in-a-local-environment)
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
+    -   [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application)
     -   [Scan model urls](#scan-model-urls)
     -   [Saving scans into the database](#saving-scans-into-the-database)
     -   [Listening to events](#listening-to-events)
@@ -52,6 +53,14 @@ You can install the package via composer:
 
 ```bash
 composer require vormkracht10/laravel-seo-scanner
+```
+
+If you want to scan pages that are rendered using Javascript, for example Vue or React, you need to install Puppeteer. You can install it using the following command:
+
+> If you want to know how to scan Javascript rendered pages, check out [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application). Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
+
+```bash
+npm install puppeteer
 ```
 
 Run the install command to publish the config file and run the migrations:
@@ -308,6 +317,16 @@ php artisan seo:scan-url https://vormkracht10.nl
 ```
 
 > Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
+
+### Scanning a single route in an SPA application
+
+If you have an SPA application, you may want to check the SEO score of a specific route. You can do this by running the following command:
+
+```bash
+php artisan seo:scan-url https://vormkracht10.nl --javascript
+```
+
+> Note: This command will use Puppeteer to render the page. Make sure that you have Puppeteer installed on your system. You can install Puppeteer by running the following command: `npm install puppeteer`. **At this moment it's only available when scanning single routes.**
 
 ### Scan model urls
 
