@@ -2,16 +2,16 @@
 
 namespace Vormkracht10\Seo;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Http\Client\Response;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\DomCrawler\Crawler;
+use Illuminate\Support\Str;
+use Spatie\Browsershot\Browsershot;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Finder\Finder;
 
 class Seo
 {
@@ -77,7 +77,7 @@ class Seo
         return $response;
     }
 
-    private function runChecks(Response $response, ?string $javascriptResponse = null): void
+    private function runChecks(Response $response, string $javascriptResponse = null): void
     {
         $checks = self::orderedCheckClasses();
 

@@ -67,10 +67,12 @@ class ContentLengthCheck implements Check
          * This is a fallback for when Readability is unable to parse the content.
          * Sometimes it happens when scanning a JavaScript rendered page, that
          * we don't get a proper response. In that case we just return null.
+         *
          * @todo we should check if we can improve this.
          */
         if ($textContent == 'Sorry, Readability was unable to parse this page for content.') {
             $this->failureReason = __('failed.content.length.parse');
+
             return null;
         }
 
