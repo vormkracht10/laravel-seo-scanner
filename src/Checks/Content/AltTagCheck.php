@@ -52,9 +52,8 @@ class AltTagCheck implements Check
 
         $imagesWithEmptyAlt = $crawler->filterXPath('//img[@alt=""]')->each(function (Crawler $node, $i) {
             $src = $node->attr('src');
-            
-            $dimensions = $this->getImageDimensions($src, $node);
 
+            $dimensions = $this->getImageDimensions($src, $node);
 
             if ($dimensions['width'] < 5 || $dimensions['height'] < 5) {
                 return null;
