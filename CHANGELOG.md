@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v3.1.0 - 2023-08-17
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v3.0.0...v3.1.0
+
 ## v3.0.0 - 2023-08-17
 
 ### What's Changed
