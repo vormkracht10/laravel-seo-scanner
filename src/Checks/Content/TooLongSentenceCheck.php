@@ -3,19 +3,21 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Traits\Actions;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TooLongSentenceCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Actions;
 
     public string $title = 'Too long sentence check';
 
     public string $priority = 'medium';
 
-    public int $timeToFix = 45;
+    public int $timeToFix = 30;
 
     public int $scoreWeight = 5;
 
@@ -29,30 +31,28 @@ class TooLongSentenceCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        if (! $this->validateContent($crawler)) {
-            return false;
+        if ($this->validateContent($response, $crawler)) {
+            return true;    
         }
 
-        return true;
+        return false;
     }
 
-    public function validateContent(Crawler $crawler): bool
+    public function validateContent(Response $response, Crawler $crawler): bool
     {
-        $realSentences = [];
-        $sentences = $this->getSentencesFromCrawler($crawler);
+        $phrases = $this->extractPhrases(
+            $this->getTextContent($response, $crawler)
+        );
 
-        $sentences = $this->separateSentencesByDot($sentences);
-
-        $sentencesWithTooManyWords = $this->calculateSentencesWithTooManyWords($sentences);
-
-        $this->actualValue = $this->calculateSentencesWithTooManyWords($sentences);
-
+        $sentencesWithTooManyWords = $this->calculateSentencesWithTooManyWords($phrases);
+        $this->actualValue = $sentencesWithTooManyWords;
+        
         if (count($sentencesWithTooManyWords) === 0) {
             return true;
         }
 
         // If more than 20% of the total sentences are too long, fail
-        if (count($sentencesWithTooManyWords) / count($sentences) > 0.2) {
+        if (count($sentencesWithTooManyWords) / count($phrases) > 0.2) {
             $this->failureReason = __('failed.content.too_long_sentence', [
                 'actualValue' => count($this->actualValue),
             ]);
@@ -61,37 +61,6 @@ class TooLongSentenceCheck implements Check
         }
 
         return true;
-    }
-
-    private function separateSentencesByDot(array $sentences): array
-    {
-        $newSentences = [];
-
-        foreach ($sentences as $sentence) {
-            $sentence = explode('.', $sentence);
-            $newSentences = array_merge($newSentences, $sentence);
-        }
-
-        // Remove all sentences that are empty
-        $sentences = array_filter($newSentences, function ($sentence) {
-            return ! empty($sentence);
-        });
-
-        return $sentences;
-    }
-
-    private function getSentencesFromCrawler(Crawler $crawler): array
-    {
-        $content = $crawler->filterXPath('//body')->children();
-
-        // Get all elements that contain text
-        $content = $content->filterXPath('//*/text()[normalize-space()]');
-
-        $content = $content->each(function (Crawler $node, $i) {
-            return $node->text();
-        });
-
-        return $content;
     }
 
     private function calculateSentencesWithTooManyWords(array $sentences): array
