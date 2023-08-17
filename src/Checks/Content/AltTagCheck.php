@@ -41,7 +41,7 @@ class AltTagCheck implements Check
         $imagesWithoutAlt = $crawler->filterXPath('//img[not(@alt)]')->each(function (Crawler $node, $i) {
             return $this->filterImage($node);
         });
-        
+
         $imagesWithEmptyAlt = $crawler->filterXPath('//img[@alt=""]')->each(function (Crawler $node, $i) {
             return $this->filterImage($node);
         });

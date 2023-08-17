@@ -82,7 +82,7 @@ class TransitionWordRatioCheck implements Check
         $totalPhrases = array_filter($phrases, function ($phrase) {
             return str_word_count($phrase) > 5;
         });
-        
+
         if (count($totalPhrases) === 0) {
             $this->actualValue = 0;
             $this->failureReason = __('failed.content.transition_words_ratio_check.no_phrases_found');
