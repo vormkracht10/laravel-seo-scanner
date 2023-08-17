@@ -2,9 +2,8 @@
 
 namespace Vormkracht10\Seo\Traits;
 
-use Closure;
-use Readability\Readability;
 use Illuminate\Http\Client\Response;
+use Readability\Readability;
 use Symfony\Component\DomCrawler\Crawler;
 
 trait Actions
