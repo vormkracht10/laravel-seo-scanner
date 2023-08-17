@@ -49,15 +49,13 @@ class ContentLengthCheck implements Check
 
     public function getContentToValidate(Response $response, Crawler $crawler): ?string
     {
-        $url = $response->transferStats->getHandlerStats()['url'];
-
         $body = $response->body();
 
         if ($this->useJavascript) {
             $body = $crawler->filter('body')->html();
         }
 
-        $readability = new Readability($body, $url);
+        $readability = new Readability($body);
 
         $readability->init();
 
