@@ -39,12 +39,30 @@ class AltTagCheck implements Check
     public function validateContent(Crawler $crawler): bool
     {
         $imagesWithoutAlt = $crawler->filterXPath('//img[not(@alt)]')->each(function (Crawler $node, $i) {
-            return false;
+            $src = $node->attr('src');
+            $dimensions = getimagesize($src);
+
+            if ($dimensions[0] < 5 || $dimensions[1] < 5) {
+                return null;
+            }
+
+            return $src;
         });
 
         $imagesWithEmptyAlt = $crawler->filterXPath('//img[@alt=""]')->each(function (Crawler $node, $i) {
-            return false;
+            $src = $node->attr('src');
+            $dimensions = getimagesize($src);
+
+            if ($dimensions[0] < 5 || $dimensions[1] < 5) {
+                return null;
+            }
+
+            return $src;
         });
+
+        // Remove null values from the arrays
+        $imagesWithoutAlt = array_filter($imagesWithoutAlt);
+        $imagesWithEmptyAlt = array_filter($imagesWithEmptyAlt);
 
         $imagesWithoutAlt = array_merge($imagesWithoutAlt, $imagesWithEmptyAlt);
 
