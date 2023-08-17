@@ -40,9 +40,10 @@ class AltTagCheck implements Check
     {
         $imagesWithoutAlt = $crawler->filterXPath('//img[not(@alt)]')->each(function (Crawler $node, $i) {
             $src = $node->attr('src');
-            $dimensions = getimagesize($src);
 
-            if ($dimensions[0] < 5 || $dimensions[1] < 5) {
+            $dimensions = $this->getImageDimensions($src, $node);
+
+            if ($dimensions['width'] < 5 || $dimensions['height'] < 5) {
                 return null;
             }
 
@@ -51,9 +52,11 @@ class AltTagCheck implements Check
 
         $imagesWithEmptyAlt = $crawler->filterXPath('//img[@alt=""]')->each(function (Crawler $node, $i) {
             $src = $node->attr('src');
-            $dimensions = getimagesize($src);
+            
+            $dimensions = $this->getImageDimensions($src, $node);
 
-            if ($dimensions[0] < 5 || $dimensions[1] < 5) {
+
+            if ($dimensions['width'] < 5 || $dimensions['height'] < 5) {
                 return null;
             }
 
@@ -77,5 +80,22 @@ class AltTagCheck implements Check
         }
 
         return true;
+    }
+
+    public function getImageDimensions(string $src, Crawler $node): array
+    {
+        if (app()->runningUnitTests()) {
+            return [
+                'width' => $node->attr('width'),
+                'height' => $node->attr('height'),
+            ];
+        }
+
+        $dimensions = getimagesize($src);
+
+        return [
+            'width' => $dimensions[0],
+            'height' => $dimensions[1],
+        ];
     }
 }
