@@ -28,7 +28,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Running the scanner in a local environment](#running-the-scanner-in-a-local-environment)
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
-    -   [Scanning a single route in a SPA application](#scanning-a-single-route-in-a-spa-application)
+    -   [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application)
     -   [Scan model urls](#scan-model-urls)
     -   [Saving scans into the database](#saving-scans-into-the-database)
     -   [Listening to events](#listening-to-events)
@@ -63,7 +63,7 @@ php artisan seo:install
 
 If you want to scan pages that are rendered using Javascript, for example Vue or React, you need to install Puppeteer. You can install it using the following command:
 
-> If you want to know how to scan Javascript rendered pages, check out [Scanning a single route in a SPA application](#scanning-a-single-route-in-a-spa-application) Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
+> If you want to know how to scan Javascript rendered pages, check out [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application) Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
 
 ```bash
 npm install puppeteer
@@ -315,9 +315,9 @@ php artisan seo:scan-url https://vormkracht10.nl
 
 > Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
 
-### Scanning a single route in a SPA application
+### Scanning a single route in an SPA application
 
-If you have a SPA application, you may want to check the SEO score of a specific route. You can do this by running the following command:
+If you have an SPA application, you may want to check the SEO score of a specific route. You can do this by running the following command:
 
 ```bash
 php artisan seo:scan-url https://vormkracht10.nl --javascript
