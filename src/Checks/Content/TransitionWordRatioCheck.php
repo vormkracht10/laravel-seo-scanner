@@ -42,15 +42,25 @@ class TransitionWordRatioCheck implements Check
     {
         $body = $response->body();
 
+        dd($this->useJavascript);
         if ($this->useJavascript) {
+            // dd($body);
+
             $body = $crawler->filter('body')->html();
         }
 
         $readability = new Readability($body);
 
+
         $readability->init();
 
         $content = $readability->getContent()->textContent;
+
+        if ($content == 'Sorry, Readability was unable to parse this page for content.') {
+            $this->failureReason = __('failed.content.length.parse');
+
+            return false;
+        }
 
         $transitionWords = TransitionWords::getTransitionWordsOnly(config('seo.language'));
 
@@ -71,6 +81,8 @@ class TransitionWordRatioCheck implements Check
     {
         // Filter out all phrases that contain 2 or less words
         $content = preg_replace('/\b[\w\s]{1,2}\b/', '', $content);
+
+        dd($content);
 
         // Total phrases is content split by \n
         $totalPhrases = preg_match_all('/\n/', $content, $matches);

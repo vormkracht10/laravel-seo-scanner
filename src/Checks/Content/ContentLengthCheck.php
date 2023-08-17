@@ -41,7 +41,7 @@ class ContentLengthCheck implements Check
         $content = $this->getContentToValidate($response, $crawler);
 
         if (! $content) {
-            return true;
+            return false;
         }
 
         return $this->validateContent($content);
