@@ -13,7 +13,7 @@
 
 ## Introduction
 
-This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 22 checks that will check on performance, configurations, use of meta tags and content quality.
+This package is your guidance to get a better SEO score on search engines. Laravel SEO Scanner scans your code and crawls the routes from your app. The package has 23 checks that will check on performance, configurations, use of meta tags and content quality.
 
 Easily configure which routes to scan, exclude or include specific checks or even add your own checks! Completing checks will further improve the SEO score and thus increase the chance of ranking higher at the search engines.
 
