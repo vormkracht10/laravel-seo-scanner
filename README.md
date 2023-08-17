@@ -63,7 +63,7 @@ php artisan seo:install
 
 If you want to scan pages that are rendered using Javascript, for example Vue or React, you need to install Puppeteer. You can install it using the following command:
 
-> If you want to know how to scan Javascript rendered pages, check out [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application) Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
+> If you want to know how to scan Javascript rendered pages, check out [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application). Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
 
 ```bash
 npm install puppeteer
