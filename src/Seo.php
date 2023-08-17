@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Spatie\Browsershot\Browsershot;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Finder\Finder;
@@ -28,20 +29,32 @@ class Seo
     ) {
     }
 
-    public function check(string $url, ProgressBar $progress = null): SeoScore
+    public function check(string $url, ProgressBar $progress = null, bool $useJavascript = false): SeoScore
     {
         $this->progress = $progress;
         $this->url = $url;
 
         try {
             $response = $this->visitPage(url: $url);
+
+            if ($useJavascript) {
+                $javascriptResponse = $this->visitPageUsingJavascript(url: $url);
+            }
         } catch (\Exception $e) {
             return (new SeoScore)($this->successful, $this->failed);
         }
 
-        $this->runChecks(response: $response);
+        $this->runChecks(response: $response, javascriptResponse: $javascriptResponse ?? null);
 
         return (new SeoScore)($this->successful, $this->failed);
+    }
+
+    private function visitPageUsingJavascript(string $url): string
+    {
+        $response = Browsershot::url($url)
+            ->bodyHtml();
+
+        return $response;
     }
 
     private function visitPage(string $url): object
@@ -64,11 +77,11 @@ class Seo
         return $response;
     }
 
-    private function runChecks(Response $response): void
+    private function runChecks(Response $response, string $javascriptResponse = null): void
     {
         $checks = self::orderedCheckClasses();
 
-        $crawler = new Crawler($response->body());
+        $crawler = new Crawler($javascriptResponse ?? $response->body());
 
         app(Pipeline::class)
             ->send([
@@ -77,6 +90,7 @@ class Seo
                 'progress' => $this->progress,
                 'crawler' => $crawler,
                 'url' => $this->url,
+                'javascriptResponse' => $javascriptResponse,
             ])
             ->through($checks->keys()->toArray())
             ->then(function ($data) {

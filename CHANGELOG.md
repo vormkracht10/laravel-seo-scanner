@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-seo` will be documented in this file.
 
+## v3.0.0 - 2023-08-17
+
+### What's Changed
+
+- Crawl Javascript pages (SPA) by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/39
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v2.6.1...v3.0.0
+
+## v2.6.1 - 2023-08-04
+
+### What's Changed
+
+- Keyword checks by @Baspa in https://github.com/vormkracht10/laravel-seo-scanner/pull/36
+
+**Full Changelog**: https://github.com/vormkracht10/laravel-seo-scanner/compare/v2.5.0...v2.6.1
+
 ## v2.5.0 - 2023-08-03
 
 ### What's Changed

@@ -8,9 +8,13 @@ trait PerformCheck
 {
     public ?string $url = null;
 
+    public bool $useJavascript = false;
+
     public function __invoke(array $data, Closure $next)
     {
         $this->url = $data['url'] ?? null;
+
+        $this->useJavascript = $data['javascriptResponse'] ?? false;
 
         if (! in_array('exit', $data)) {
             $result = $this->check($data['response'], $data['crawler']);

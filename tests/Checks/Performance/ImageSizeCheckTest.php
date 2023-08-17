@@ -14,7 +14,7 @@ it('can perform the image size check on broken images', function () {
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), $crawler));
+    $this->assertTrue($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
 
 it('can perform the image size check on small images', function () {

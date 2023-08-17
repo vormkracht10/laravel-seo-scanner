@@ -7,7 +7,7 @@ use Vormkracht10\Seo\Facades\Seo;
 
 class SeoScanUrl extends Command
 {
-    public $signature = 'seo:scan-url {url}';
+    public $signature = 'seo:scan-url {url} {--javascript}';
 
     public $description = 'Scan the SEO score of a url';
 
@@ -19,7 +19,7 @@ class SeoScanUrl extends Command
         $progress = $this->output->createProgressBar(getCheckCount());
         $progress->start();
 
-        $score = Seo::check($this->argument('url'), $progress);
+        $score = Seo::check($this->argument('url'), $progress, $this->option('javascript'));
 
         $progress->finish();
 
