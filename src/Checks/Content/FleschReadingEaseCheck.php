@@ -3,13 +3,15 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Traits\Actions;
 use Vormkracht10\Seo\Interfaces\Check;
+use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class FleschReadingEaseCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Actions;
 
     public string $title = 'Flesch Reading Ease';
 
@@ -29,33 +31,33 @@ class FleschReadingEaseCheck implements Check
 
     public function check(Response $response, Crawler $crawler): bool
     {
-        if (! $this->validateContent($crawler)) {
+        if (! $this->validateContent($response, $crawler)) {
             return false;
         }
 
         return true;
     }
 
-    public function validateContent(Crawler $crawler): bool
+    public function validateContent(Response $response, Crawler $crawler): bool
     {
-        $sentences = $this->getSentencesFromCrawler($crawler);
+        $phrases = $this->extractPhrases(
+            $this->getTextContent($response, $crawler)
+        );
 
-        dd($sentences);
-        $sentences = $this->separateSentencesByDot($sentences);
+        // Remove all empty values
+        $phrases = array_filter($phrases);
 
         // Average word count per sentence
-        $averageWordCount = $this->getAverageWordCountPerSentence($sentences);
+        $averageWordCount = $this->getAverageWordCountPerSentence($phrases);
 
         // Average syllable count per word
-        $averageSyllableCount = $this->getAverageSyllableCountPerWord($sentences);
+        $averageSyllableCount = $this->getAverageSyllableCountPerWord($phrases);
 
+        // Flesch Reading Ease score
         $fleschReadingEase = $this->fleschReadingEaseScoreFromAverages($averageSyllableCount, $averageWordCount);
-
-        // TODO:
-        // Average word count is too low and the average syllable count is too high. That's why the calculation is not accurate.
-        // Probably because we still get sentences like: cls-11{stroke:#fe8185}
-        // We need to find a better way to get all sentences from a web page.
-        dd($averageSyllableCount, $averageWordCount, $fleschReadingEase);
+        
+        dd($fleschReadingEase);
+        
 
         // return true;
     }
@@ -78,19 +80,27 @@ class FleschReadingEaseCheck implements Check
         return round($totalWordCount / count($sentences), 0, PHP_ROUND_HALF_UP);
     }
 
-    private function getAverageSyllableCountPerWord(array $sentences): int
+    private function getAverageSyllableCountPerWord(array $sentences): float
     {
         $totalSyllableCount = 0;
-
+        $totalWordCount = 0;
+    
         foreach ($sentences as $sentence) {
             $words = explode(' ', $sentence);
-
+    
             foreach ($words as $word) {
-                $totalSyllableCount += $this->averageSyllablesPerWord($word);
+                $totalSyllableCount += $this->countSyllables($word);
+                $totalWordCount++;
             }
         }
-
-        return round($totalSyllableCount / count($sentences), 0, PHP_ROUND_HALF_UP);
+    
+        if ($totalWordCount > 0) {
+            $averageSyllables = $totalSyllableCount / $totalWordCount;
+    
+            return round($averageSyllables, 2, PHP_ROUND_HALF_UP);
+        } else {
+            return 0; // Handle case of empty input
+        }
     }
 
     private function countSyllables($word)
@@ -125,37 +135,6 @@ class FleschReadingEaseCheck implements Check
         } else {
             return 0; // Handle case of empty input
         }
-    }
-
-    private function separateSentencesByDot(array $sentences): array
-    {
-        $newSentences = [];
-
-        foreach ($sentences as $sentence) {
-            $sentence = explode('.', $sentence);
-            $newSentences = array_merge($newSentences, $sentence);
-        }
-
-        // Remove all sentences that are empty
-        $sentences = array_filter($newSentences, function ($sentence) {
-            return ! empty($sentence);
-        });
-
-        return $sentences;
-    }
-
-    private function getSentencesFromCrawler(Crawler $crawler): array
-    {
-        $content = $crawler->filterXPath('//body')->children();
-
-        // Get all elements that contain text
-        $content = $content->filterXPath('//*/text()[normalize-space()]');
-
-        $content = $content->each(function (Crawler $node, $i) {
-            return strip_tags($node->text());
-        });
-
-        return $content;
     }
 
     private function calculateSentencesWithTooManyWords(array $sentences): array
