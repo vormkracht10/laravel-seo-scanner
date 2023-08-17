@@ -29,7 +29,7 @@ class Seo
     ) {
     }
 
-    public function check(string $url, ProgressBar $progress = null, ?bool $useJavascript): SeoScore
+    public function check(string $url, ProgressBar $progress = null, bool $useJavascript = false): SeoScore
     {
         $this->progress = $progress;
         $this->url = $url;
