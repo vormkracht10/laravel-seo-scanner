@@ -44,7 +44,7 @@ class Seo
             return (new SeoScore)($this->successful, $this->failed);
         }
 
-        $this->runChecks(response: $response, javascriptResponse: $javascriptResponse);
+        $this->runChecks(response: $response, javascriptResponse: $javascriptResponse ?? null);
 
         return (new SeoScore)($this->successful, $this->failed);
     }
