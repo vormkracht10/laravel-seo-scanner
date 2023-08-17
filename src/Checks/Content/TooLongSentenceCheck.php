@@ -57,6 +57,10 @@ class TooLongSentenceCheck implements Check
             // Count how many sentences needed to fix to fall below 20%
             $sentencesNeededToFix = count($sentencesWithTooManyWords) - (count($phrases) * 0.2);
 
+            if ($sentencesNeededToFix < 1) {
+                $sentencesNeededToFix = 1;
+            }
+
             $this->failureReason = __('failed.content.too_long_sentence', [
                 'actualValue' => count($this->actualValue),
                 'neededToFix' => round($sentencesNeededToFix, 0, PHP_ROUND_HALF_UP),
