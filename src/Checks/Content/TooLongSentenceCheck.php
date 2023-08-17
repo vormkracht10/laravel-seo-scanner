@@ -3,9 +3,9 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Traits\Actions;
-use Vormkracht10\Seo\Interfaces\Check;
 use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\Actions;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TooLongSentenceCheck implements Check
@@ -32,7 +32,7 @@ class TooLongSentenceCheck implements Check
     public function check(Response $response, Crawler $crawler): bool
     {
         if ($this->validateContent($response, $crawler)) {
-            return true;    
+            return true;
         }
 
         return false;
@@ -46,7 +46,7 @@ class TooLongSentenceCheck implements Check
 
         $sentencesWithTooManyWords = $this->calculateSentencesWithTooManyWords($phrases);
         $this->actualValue = $sentencesWithTooManyWords;
-        
+
         if (count($sentencesWithTooManyWords) === 0) {
             return true;
         }
