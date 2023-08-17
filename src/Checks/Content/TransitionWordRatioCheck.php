@@ -51,7 +51,6 @@ class TransitionWordRatioCheck implements Check
 
         $readability = new Readability($body);
 
-
         $readability->init();
 
         $content = $readability->getContent()->textContent;
