@@ -39,27 +39,11 @@ class AltTagCheck implements Check
     public function validateContent(Crawler $crawler): bool
     {
         $imagesWithoutAlt = $crawler->filterXPath('//img[not(@alt)]')->each(function (Crawler $node, $i) {
-            $src = $node->attr('src');
-
-            $dimensions = $this->getImageDimensions($src, $node);
-
-            if ($dimensions['width'] < 5 || $dimensions['height'] < 5) {
-                return null;
-            }
-
-            return $src;
+            return $this->filterImage($node);
         });
-
+        
         $imagesWithEmptyAlt = $crawler->filterXPath('//img[@alt=""]')->each(function (Crawler $node, $i) {
-            $src = $node->attr('src');
-
-            $dimensions = $this->getImageDimensions($src, $node);
-
-            if ($dimensions['width'] < 5 || $dimensions['height'] < 5) {
-                return null;
-            }
-
-            return $src;
+            return $this->filterImage($node);
         });
 
         // Remove null values from the arrays
@@ -81,7 +65,24 @@ class AltTagCheck implements Check
         return true;
     }
 
-    public function getImageDimensions(string $src, Crawler $node): array
+    private function filterImage($node): ?string
+    {
+        $src = $node->attr('src');
+
+        if (str_contains($src, '.svg')) {
+            return $src;
+        }
+
+        $dimensions = $this->getImageDimensions($src, $node);
+
+        if ($dimensions['width'] < 5 || $dimensions['height'] < 5) {
+            return null;
+        }
+
+        return $src;
+    }
+
+    private function getImageDimensions(string $src, Crawler $node): array
     {
         if (app()->runningUnitTests()) {
             return [
