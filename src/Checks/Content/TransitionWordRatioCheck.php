@@ -3,15 +3,16 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Readability\Readability;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Helpers\TransitionWords;
 use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\Actions;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TransitionWordRatioCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Actions;
 
     public string $title = 'Transition word ratio check';
 
@@ -40,17 +41,7 @@ class TransitionWordRatioCheck implements Check
 
     public function validateContent(Response $response, Crawler $crawler): bool
     {
-        $body = $response->body();
-
-        if ($this->useJavascript) {
-            $body = $crawler->filter('body')->html();
-        }
-
-        $readability = new Readability($body);
-
-        $readability->init();
-
-        $content = $readability->getContent()->textContent;
+        $content = $this->getTextContent($response, $crawler);
 
         if ($content == 'Sorry, Readability was unable to parse this page for content.') {
             $this->failureReason = __('failed.content.length.parse');
@@ -75,15 +66,9 @@ class TransitionWordRatioCheck implements Check
 
     public function calculatePercentageOfTransitionWordsInContent($content, $transitionWords)
     {
-        // Get phrases seperate by new line, dot, exclamation mark or question mark
-        $phrases = preg_split('/\n|\.|\!|\?/', $content);
+        $phrases = $this->extractPhrases($content);
 
-        // Count all phrases where it has more than 5 words
-        $totalPhrases = array_filter($phrases, function ($phrase) {
-            return str_word_count($phrase) > 5;
-        });
-
-        if (count($totalPhrases) === 0) {
+        if (count($phrases) === 0) {
             $this->actualValue = 0;
             $this->failureReason = __('failed.content.transition_words_ratio_check.no_phrases_found');
 
@@ -96,7 +81,7 @@ class TransitionWordRatioCheck implements Check
             $phrasesWithTransitionWord += $this->calculateNumberOfPhrasesWithTransitionWord($content, $transitionWord);
         }
 
-        return round($phrasesWithTransitionWord / count($totalPhrases) * 100, 0, PHP_ROUND_HALF_UP);
+        return round($phrasesWithTransitionWord / count($phrases) * 100, 0, PHP_ROUND_HALF_UP);
     }
 
     public function calculateNumberOfPhrasesWithTransitionWord(string $content, string $transitionWord): int
