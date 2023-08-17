@@ -28,7 +28,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Running the scanner in a local environment](#running-the-scanner-in-a-local-environment)
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
-    -   [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application)
+    -   [Scanning routes in an SPA application](#scanning-routes-in-an-spa-application)
     -   [Scan model urls](#scan-model-urls)
     -   [Saving scans into the database](#saving-scans-into-the-database)
     -   [Listening to events](#listening-to-events)
@@ -57,7 +57,7 @@ composer require vormkracht10/laravel-seo-scanner
 
 If you want to scan pages that are rendered using Javascript, for example Vue or React, you need to install Puppeteer. You can install it using the following command:
 
-> If you want to know how to scan Javascript rendered pages, check out [Scanning a single route in an SPA application](#scanning-a-single-route-in-an-spa-application). Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
+> If you want to know how to scan Javascript rendered pages, check out [Scanning routes in an SPA application](#scanning-routes-in-an-spa-application). Want to know more about Puppeteer? Check out the [Puppeteer documentation](https://pptr.dev/). 
 
 ```bash
 npm install puppeteer
@@ -222,6 +222,18 @@ return [
             'User-Agent' => 'Laravel SEO Scanner/1.0',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Javascript rendering
+    |--------------------------------------------------------------------------
+    |
+    | If your website uses javascript to render the content, you can enable
+    | javascript rendering. This will use a headless browser to render
+    | the content.
+    |
+    */
+    'javascript' => false,
 ];
 ```
 
@@ -315,9 +327,9 @@ php artisan seo:scan-url https://vormkracht10.nl
 
 > Note: The command will only check the SEO score of the url and output the score in the CLI. It will not save the score to the database.
 
-### Scanning a single route in an SPA application
+### Scanning routes in an SPA application
 
-If you have an SPA application, you may want to check the SEO score of a specific route. You can do this by running the following command:
+If you have an SPA application, you can enable javascript rendering. This will use a headless browser to render the content. To enable javascript rendering, set the `javascript` option to `true` in the config file. You can also enable javascript rendering for a single route by adding the `--javascript` option to the command:
 
 ```bash
 php artisan seo:scan-url https://vormkracht10.nl --javascript

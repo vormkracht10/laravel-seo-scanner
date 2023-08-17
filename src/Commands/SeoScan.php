@@ -98,7 +98,7 @@ class SeoScan extends Command
         $routes->each(function ($path, $name) {
             $this->progress->start();
 
-            $seo = Seo::check(url: route($name), progress: $this->progress);
+            $seo = Seo::check(url: route($name), progress: $this->progress, useJavascript: config('seo.javascript'));
 
             $this->failed += count($seo->getFailedChecks());
             $this->success += count($seo->getSuccessfulChecks());
