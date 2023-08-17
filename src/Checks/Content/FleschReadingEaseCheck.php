@@ -3,9 +3,9 @@
 namespace Vormkracht10\Seo\Checks\Content;
 
 use Illuminate\Http\Client\Response;
-use Vormkracht10\Seo\Traits\Actions;
-use Vormkracht10\Seo\Interfaces\Check;
 use Symfony\Component\DomCrawler\Crawler;
+use Vormkracht10\Seo\Interfaces\Check;
+use Vormkracht10\Seo\Traits\Actions;
 use Vormkracht10\Seo\Traits\PerformCheck;
 
 class FleschReadingEaseCheck implements Check
@@ -55,9 +55,8 @@ class FleschReadingEaseCheck implements Check
 
         // Flesch Reading Ease score
         $fleschReadingEase = $this->fleschReadingEaseScoreFromAverages($averageSyllableCount, $averageWordCount);
-        
+
         dd($fleschReadingEase);
-        
 
         // return true;
     }
@@ -84,19 +83,19 @@ class FleschReadingEaseCheck implements Check
     {
         $totalSyllableCount = 0;
         $totalWordCount = 0;
-    
+
         foreach ($sentences as $sentence) {
             $words = explode(' ', $sentence);
-    
+
             foreach ($words as $word) {
                 $totalSyllableCount += $this->countSyllables($word);
                 $totalWordCount++;
             }
         }
-    
+
         if ($totalWordCount > 0) {
             $averageSyllables = $totalSyllableCount / $totalWordCount;
-    
+
             return round($averageSyllables, 2, PHP_ROUND_HALF_UP);
         } else {
             return 0; // Handle case of empty input
