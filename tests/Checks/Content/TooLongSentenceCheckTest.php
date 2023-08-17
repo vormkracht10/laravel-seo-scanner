@@ -9,6 +9,7 @@ it('can perform the too long sentence check on page with too long sentence', fun
     $crawler = new Crawler();
 
     $body = 'One two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty twenty-one.';
+    $body .= $body; // Needed because we need a ratio of 20% or more.
 
     Http::fake([
         'vormkracht10.nl' => Http::response(
