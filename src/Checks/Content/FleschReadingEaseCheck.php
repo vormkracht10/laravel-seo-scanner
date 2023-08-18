@@ -69,7 +69,7 @@ class FleschReadingEaseCheck implements Check
             $this->failureReason = __('failed.content.flesch_reading_ease', [
                 'actualValue' => $this->actualValue,
             ]);
-            
+
             return false;
         }
 
