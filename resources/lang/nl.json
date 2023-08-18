@@ -30,6 +30,7 @@
     "failed.content.alt_tag": "The page contains images without or empty alt tags. These images were found: :actualValue.",
     "failed.content.broken_images": "The page contains broken images. These images were found: :actualValue.",
     "failed.content.broken_links": "The page contains broken links. These links were found: :actualValue.",
+    "failed.content.flesch_reading_ease": "De leesbaarheid van de pagina is :actualValue. Het zou minstens 60 moeten zijn.",
     "failed.content.length": "The content is :actualValue characters long. It should be at least :expectedValue characters long.",
     "failed.content.length.parse": "We konden de inhoud van deze pagina niet analyseren, probeer het opnieuw.",
     "failed.content.mixed_content": "The page contains links to insecure addresses, while it should not. These links were found :actualValue.",
