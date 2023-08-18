@@ -56,7 +56,7 @@ class FleschReadingEaseCheck implements Check
         // Flesch Reading Ease score
         $fleschReadingEase = $this->fleschReadingEaseScoreFromAverages($averageSyllableCount, $averageWordCount);
 
-        $this->actualValue = $fleschReadingEase;
+        $this->actualValue = round($fleschReadingEase, 2, PHP_ROUND_HALF_UP);
 
         // 90-100	very easy to read, easily understood by an average 11-year-old student
         // 80-90	easy to read
@@ -67,7 +67,7 @@ class FleschReadingEaseCheck implements Check
         // 0-30	very difficult to read, best understood by university graduates
         if ($fleschReadingEase < 60) {
             $this->failureReason = __('failed.content.flesch_reading_ease', [
-                'actualValue' => $fleschReadingEase,
+                'actualValue' => $this->actualValue,
             ]);
             
             return false;
