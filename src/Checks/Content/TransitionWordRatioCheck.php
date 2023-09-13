@@ -11,8 +11,8 @@ use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TransitionWordRatioCheck implements Check
 {
-    use PerformCheck,
-        Actions;
+    use Actions,
+        PerformCheck;
 
     public string $title = 'Transition word ratio check';
 

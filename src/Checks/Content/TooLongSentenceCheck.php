@@ -10,8 +10,8 @@ use Vormkracht10\Seo\Traits\PerformCheck;
 
 class TooLongSentenceCheck implements Check
 {
-    use PerformCheck,
-        Actions;
+    use Actions,
+        PerformCheck;
 
     public string $title = 'Too long sentence check';
 
