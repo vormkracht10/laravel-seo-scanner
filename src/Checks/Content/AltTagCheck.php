@@ -72,6 +72,8 @@ class AltTagCheck implements Check
             return $src;
         }
 
+        $src = addBaseIfRelativeUrl($src, $this->url);
+
         $dimensions = $this->getImageDimensions($src, $node);
 
         if ($dimensions['width'] < 5 || $dimensions['height'] < 5) {
