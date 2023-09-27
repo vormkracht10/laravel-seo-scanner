@@ -68,7 +68,7 @@ class BrokenLinkCheck implements Check
                 ];
             })
             ->all();
-            
+
         $this->actualValue = $content;
 
         if (count($content) > 0) {

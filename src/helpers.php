@@ -10,7 +10,7 @@ if (! function_exists('isBrokenLink')) {
     {
         $statusCode = (string) getRemoteStatus($url);
 
-        if (!empty(config('seo.broken_link_check.status_codes'))) {
+        if (! empty(config('seo.broken_link_check.status_codes'))) {
             return in_array($statusCode, config('seo.broken_link_check.status_codes'));
         }
 
