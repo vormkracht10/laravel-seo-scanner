@@ -10,7 +10,11 @@ if (! function_exists('isBrokenLink')) {
     {
         $statusCode = (string) getRemoteStatus($url);
 
-        if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
+        if (!empty(config('seo.broken_link_check.status_codes'))) {
+            return in_array($statusCode, config('seo.broken_link_check.status_codes'));
+        }
+
+        if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode == '0') {
             return true;
         }
 

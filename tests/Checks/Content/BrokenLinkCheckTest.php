@@ -91,3 +91,18 @@ it('cannot bypass DNS layers using a fake IP when DNS resolving', function () {
 
     $this->assertTrue($check->check(Http::get('vormkracht10.nl'), $crawler));
 });
+
+it('can check if link is broken by checking on configured status codes', function () {
+    $check = new BrokenLinkCheck();
+    $crawler = new Crawler();
+
+    config(['seo.broken_link_check.status_codes' => ['403']]);
+
+    Http::fake([
+        'vormkracht10.nl' => Http::response('<html><head></head><body><a href="https://vormkracht10.nl/404">Vormkracht10</a></body></html>', 200),
+    ]);
+
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertTrue($check->check(Http::get('vormkracht10.nl/admin/dashboard'), $crawler));
+});

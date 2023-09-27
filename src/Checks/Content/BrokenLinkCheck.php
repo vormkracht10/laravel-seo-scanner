@@ -60,13 +60,7 @@ class BrokenLinkCheck implements Check
                 return $link;
             })
             ->filter(function ($link) {
-                $statusCode = (string) getRemoteStatus($link);
-
-                if (str_starts_with($statusCode, '4') || str_starts_with($statusCode, '5') || $statusCode === '0') {
-                    return $link;
-                }
-
-                return false;
+                return isBrokenLink($link) ? $link : false;
             })->map(function ($link) {
                 return [
                     'url' => $link,
@@ -74,7 +68,7 @@ class BrokenLinkCheck implements Check
                 ];
             })
             ->all();
-
+            
         $this->actualValue = $content;
 
         if (count($content) > 0) {
