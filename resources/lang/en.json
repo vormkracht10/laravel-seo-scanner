@@ -21,6 +21,7 @@
     "during": "during",
     "even though": "even though",
     "eventually": "eventually",
+    "failed.content.flesch_reading_ease": "The Flesch reading ease score is :actualValue. It should be at least 60.",
     "failed.configuration.nofollow.meta": "The page contains a nofollow meta tag, while it should not.",
     "failed.configuration.nofollow.tag": "The page contains a nofollow tag, while it should not.",
     "failed.configuration.noindex.meta": "The page contains a noindex meta tag, while it should not.",
