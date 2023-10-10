@@ -68,6 +68,10 @@ class AltTagCheck implements Check
     {
         $src = $node->attr('src');
 
+        if (! $src) {
+            return null;
+        }
+
         if (str_contains($src, '.svg')) {
             return $src;
         }
