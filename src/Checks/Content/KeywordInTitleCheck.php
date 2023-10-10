@@ -47,6 +47,8 @@ class KeywordInTitleCheck implements Check
             return false;
         }
 
+        $this->expectedValue = $keywords;
+
         $title = $crawler->filterXPath('//title')->text();
 
         if (! $title) {
