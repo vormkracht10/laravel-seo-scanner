@@ -35,7 +35,7 @@ class SeoScan extends Command
     public function handle(): int
     {
         if (empty(config('seo.models')) && ! config('seo.check_routes')) {
-            $this->error('No models or routes specified in config/seo.php');
+            $this->error(__('No models or routes specified in config/seo.php'));
 
             return self::FAILURE;
         }
@@ -51,7 +51,7 @@ class SeoScan extends Command
 
         $startTime = microtime(true);
 
-        $this->info('Please wait while we scan your web page(s)...');
+        $this->info(__('Please wait while we scan your web page(s)...'));
         $this->line('');
 
         $this->progress = $this->output->createProgressBar(getCheckCount());
@@ -73,7 +73,11 @@ class SeoScan extends Command
 
         $totalPages = $this->modelCount + $this->routeCount;
 
-        $this->info('Command completed with '.$this->failed.' failed and '.$this->success.' successful checks on '.$totalPages.' pages.');
+        $this->info(__('Command completed with :failed failed and :success successful checks on :pages pages.', [
+            'failed' => $this->failed,
+            'success' => $this->success,
+            'pages' => $totalPages,
+        ]));
 
         cache()->driver(config('seo.cache.driver'))->tags('seo')->flush();
 
@@ -189,7 +193,7 @@ class SeoScan extends Command
             $this->progress->finish();
 
             if ($this->failed === 0 && $this->success === 0) {
-                $this->line('<fg=red>✘ Unfortunately, the url that is used is not correct. Please try again with a different url.</>');
+                $this->line('<fg=red>✘ ' . __('Unfortunately, the url that is used is not correct. Please try again with a different url') . '</>');
 
                 return self::FAILURE;
             }
@@ -230,17 +234,19 @@ class SeoScan extends Command
         $this->line('');
         $this->line('');
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
-        $this->line('> '.$url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' passed</> <fg=red>'.($seo->getFailedChecks()->count().' failed</>'));
+        $this->line('> '.$url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' ' . __('passed') .'</> <fg=red>'.($seo->getFailedChecks()->count().' '. __('failed') . '</>'));
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
         $seo->getAllChecks()->each(function ($checks, $type) {
             $checks->each(function ($check) use ($type) {
                 if ($type == 'failed') {
-                    $this->line('<fg=red>✘ '.$check->title.' failed.</>');
+                    $this->line('<fg=red>✘ '.$check->title.' ' . __('failed') . '.</>');
 
                     if (property_exists($check, 'failureReason')) {
-                        $this->line($check->failureReason.' Estimated time to fix: '.$check->timeToFix.' minute(s).');
+                        $this->line($check->failureReason.' ' . __('Estimated time to fix: :time minute(s)', [
+                            'time' => $check->timeToFix,
+                        ]));
 
                         $this->line('');
                     }
