@@ -193,7 +193,7 @@ class SeoScan extends Command
             $this->progress->finish();
 
             if ($this->failed === 0 && $this->success === 0) {
-                $this->line('<fg=red>✘ ' . __('Unfortunately, the url that is used is not correct. Please try again with a different url') . '</>');
+                $this->line('<fg=red>✘ '.__('Unfortunately, the url that is used is not correct. Please try again with a different url').'</>');
 
                 return self::FAILURE;
             }
@@ -234,17 +234,17 @@ class SeoScan extends Command
         $this->line('');
         $this->line('');
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
-        $this->line('> '.$url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' ' . __('passed') .'</> <fg=red>'.($seo->getFailedChecks()->count().' '. __('failed') . '</>'));
+        $this->line('> '.$url.' | <fg=green>'.$seo->getSuccessfulChecks()->count().' '.__('passed').'</> <fg=red>'.($seo->getFailedChecks()->count().' '.__('failed').'</>'));
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
         $seo->getAllChecks()->each(function ($checks, $type) {
             $checks->each(function ($check) use ($type) {
                 if ($type == 'failed') {
-                    $this->line('<fg=red>✘ '.$check->title.' ' . __('failed') . '.</>');
+                    $this->line('<fg=red>✘ '.$check->title.' '.__('failed').'.</>');
 
                     if (property_exists($check, 'failureReason')) {
-                        $this->line($check->failureReason.' ' . __('Estimated time to fix: :time minute(s)', [
+                        $this->line($check->failureReason.' '.__('Estimated time to fix: :time minute(s)', [
                             'time' => $check->timeToFix,
                         ]));
 

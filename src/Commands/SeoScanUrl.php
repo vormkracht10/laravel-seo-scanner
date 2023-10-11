@@ -26,7 +26,7 @@ class SeoScanUrl extends Command
         $this->line('');
         $this->line('');
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
-        $this->line('> '.$this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count().' ' . __('passed') .'</> <fg=red>'.($score->getFailedChecks()->count().' '. __('failed') . '</>'));
+        $this->line('> '.$this->argument('url').' | <fg=green>'.$score->getSuccessfulChecks()->count().' '.__('passed').'</> <fg=red>'.($score->getFailedChecks()->count().' '.__('failed').'</>'));
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
@@ -34,7 +34,7 @@ class SeoScanUrl extends Command
         // visit page threw an exception. In that case, we don't want to
         // show the checks. But show the exception message instead.
         if ($score->getSuccessfulChecks()->isEmpty() && $score->getFailedChecks()->isEmpty()) {
-            $this->line('<fg=red>✘ ' . __('Unfortunately, the url that is used is not correct. Please try again with a different url') . '</>');
+            $this->line('<fg=red>✘ '.__('Unfortunately, the url that is used is not correct. Please try again with a different url').'</>');
 
             return self::FAILURE;
         }
@@ -42,10 +42,10 @@ class SeoScanUrl extends Command
         $score->getAllChecks()->each(function ($checks, $type) {
             $checks->each(function ($check) use ($type) {
                 if ($type == 'failed') {
-                    $this->line('<fg=red>✘ '.$check->title.' ' . __('failed') . '.</>');
+                    $this->line('<fg=red>✘ '.$check->title.' '.__('failed').'.</>');
 
                     if (property_exists($check, 'failureReason')) {
-                        $this->line($check->failureReason.' ' . __('Estimated time to fix: :time minute(s)', [
+                        $this->line($check->failureReason.' '.__('Estimated time to fix: :time minute(s)', [
                             'time' => $check->timeToFix,
                         ]));
 
