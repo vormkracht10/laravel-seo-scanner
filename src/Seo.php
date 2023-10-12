@@ -41,7 +41,7 @@ class Seo
                 $javascriptResponse = $this->visitPageUsingJavascript(url: $url);
             }
         } catch (\Exception $e) {
-            return (new SeoScore)($this->successful, $this->failed);
+            throw new \Exception("Could not visit url `{$url}`: {$e->getMessage()}");
         }
 
         $this->runChecks(response: $response, javascriptResponse: $javascriptResponse ?? null);
