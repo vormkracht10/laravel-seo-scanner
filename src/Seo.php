@@ -41,7 +41,7 @@ class Seo
                 $javascriptResponse = $this->visitPageUsingJavascript(url: $url);
             }
         } catch (\Exception $e) {
-            return (new SeoScore)($this->successful, $this->failed);
+            throw new \Exception("Could not visit url `{$url}`: {$e->getMessage()}");
         }
 
         $this->runChecks(response: $response, javascriptResponse: $javascriptResponse ?? null);
@@ -62,7 +62,10 @@ class Seo
         $headers = (array) config('seo.http.headers', []);
         $options = (array) config('seo.http.options', []);
 
-        $response = $this->http::withOptions($options)
+        $response = $this->http::withOptions([
+            'decode_content' => false,
+            ...$options,
+        ])
             ->withHeaders([
                 'Accept-Encoding' => 'gzip, deflate',
                 ...$headers,
