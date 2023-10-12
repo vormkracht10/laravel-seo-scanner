@@ -65,6 +65,7 @@ class Seo
         $response = $this->http::withOptions($options)
             ->withHeaders([
                 'Accept-Encoding' => 'gzip, deflate',
+                'decode_content' => false,
                 ...$headers,
             ]);
 
