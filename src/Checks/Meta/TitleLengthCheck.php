@@ -41,6 +41,8 @@ class TitleLengthCheck implements Check
         $node = $crawler->filterXPath('//title')->getNode(0);
 
         if (! $node) {
+            $this->failureReason = __('failed.content.no_title');
+
             return false;
         }
 
