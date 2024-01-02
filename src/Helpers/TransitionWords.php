@@ -54,7 +54,7 @@ class TransitionWords
         return self::$transitionWords;
     }
 
-    public static function getTransitionWordsOnly(string $locale = null): array
+    public static function getTransitionWordsOnly(?string $locale = null): array
     {
         $transitionWords = self::$transitionWords;
 

@@ -29,7 +29,7 @@ class Seo
     ) {
     }
 
-    public function check(string $url, ProgressBar $progress = null, bool $useJavascript = false): SeoScore
+    public function check(string $url, ?ProgressBar $progress = null, bool $useJavascript = false): SeoScore
     {
         $this->progress = $progress;
         $this->url = $url;
@@ -80,7 +80,7 @@ class Seo
         return $response;
     }
 
-    private function runChecks(Response $response, string $javascriptResponse = null): void
+    private function runChecks(Response $response, ?string $javascriptResponse = null): void
     {
         $checks = self::orderedCheckClasses();
 

@@ -165,7 +165,7 @@ class SeoScan extends Command
         return $routes;
     }
 
-    private function calculateScoreForModel(string $model, string $scope = null): void
+    private function calculateScoreForModel(string $model, ?string $scope = null): void
     {
         $items = new $model;
 
@@ -198,7 +198,7 @@ class SeoScan extends Command
         });
     }
 
-    private function saveScoreToDatabase(SeoScore $seo, string $url, object $model = null): void
+    private function saveScoreToDatabase(SeoScore $seo, string $url, ?object $model = null): void
     {
         $score = $seo->getScore();
 
