@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class TtfbCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'Time To First Byte (TTFB) is below 600 ms';
+
+    public string $description = 'The Time To First Byte (TTFB) should be below 600 ms because this will improve the page load time.';
 
     public string $priority = 'high';
 

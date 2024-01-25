@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class MixedContentCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'All links redirect to an url using HTTPS';
+
+    public string $description = 'All links on the page should redirect to an url using HTTPS instead of HTTP because this is more secure.';
 
     public string $priority = 'high';
 
