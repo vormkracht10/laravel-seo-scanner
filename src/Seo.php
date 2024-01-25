@@ -63,7 +63,7 @@ class Seo
         $options = (array) config('seo.http.options', []);
 
         $response = $this->http::withOptions([
-            'decode_content' => false,
+            'decode_content' => 'gzip',
             ...$options,
         ])
             ->withHeaders([
