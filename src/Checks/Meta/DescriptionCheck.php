@@ -38,20 +38,33 @@ class DescriptionCheck implements Check
         return true;
     }
 
+    public function getDescriptionContent(Crawler $crawler): ?string
+    {
+        $tags = ['description', 'og:description', 'twitter:description'];
+
+        foreach ($tags as $tag) {
+            $property = $tag === 'og:description' ? 'property' : 'name';
+
+            /** @var \DOMElement $node */
+            $node = $crawler->filterXPath("//meta[@{$property}=\"{$tag}\"]")->getNode(0);
+
+            if ($node instanceof \DOMElement && $node->hasAttribute('content')) {
+                return $node->getAttribute('content');
+            }
+        }
+
+        return null;
+    }
+
     public function validateContent(Crawler $crawler): bool
     {
-        $node = $crawler->filterXPath('//meta[@name="description"]')->getNode(0);
+        $content = $this->getDescriptionContent($crawler);
 
-        if (! $node) {
-            return false;
-        }
+        return ! empty($content);
+    }
 
-        $content = $crawler->filterXPath('//meta[@name="description"]')->attr('content');
-
-        if (! $content) {
-            return false;
-        }
-
-        return true;
+    public function isDescriptionSet(Crawler $crawler): bool
+    {
+        return $this->getDescriptionContent($crawler) !== null;
     }
 }
