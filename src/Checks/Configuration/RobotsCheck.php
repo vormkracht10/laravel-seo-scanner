@@ -16,7 +16,7 @@ class RobotsCheck implements Check
 
     public string $title = 'Robots.txt allows indexing';
 
-    public string $description = 'The robots.txt file should allow indexing of the page.'; 
+    public string $description = 'The robots.txt file should allow indexing of the page.';
 
     public string $priority = 'low';
 

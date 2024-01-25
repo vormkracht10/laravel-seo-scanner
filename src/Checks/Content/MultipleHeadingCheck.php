@@ -15,7 +15,7 @@ class MultipleHeadingCheck implements Check
 
     public string $title = 'The page has an H1 tag and if it is used only once per page';
 
-    public string $description = "The page should have only one H1 tag because there should be only one main heading on the page. The H1 tag should be used to describe the main topic of the page. The H1 tag is also used by search engines to determine the topic of the page.";
+    public string $description = 'The page should have only one H1 tag because there should be only one main heading on the page. The H1 tag should be used to describe the main topic of the page. The H1 tag is also used by search engines to determine the topic of the page.';
 
     public string $priority = 'low';
 
