@@ -47,7 +47,7 @@ class DescriptionCheck implements Check
 
             /** @var \DOMElement $node */
             $node = $crawler->filterXPath("//meta[@{$property}=\"{$tag}\"]")->getNode(0);
-    
+
             if ($node instanceof \DOMElement && $node->hasAttribute('content')) {
                 return $node->getAttribute('content');
             }
