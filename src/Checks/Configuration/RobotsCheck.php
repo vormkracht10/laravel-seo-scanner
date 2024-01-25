@@ -7,12 +7,16 @@ use Symfony\Component\DomCrawler\Crawler;
 use vipnytt\RobotsTxtParser\UriClient;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class RobotsCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'Robots.txt allows indexing';
+
+    public string $description = 'The robots.txt file should allow indexing of the page.';
 
     public string $priority = 'low';
 

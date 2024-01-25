@@ -8,6 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * @property string $title
+ * @property string $description
  * @property string $priority
  * @property int $timeToFix
  * @property int $scoreWeight
@@ -27,4 +28,6 @@ interface Check
     public function __invoke(array $data, Closure $next);
 
     public function setResult(array $data, bool $result): array;
+
+    public function getTranslatedDescription(): string;
 }

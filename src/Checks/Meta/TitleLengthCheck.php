@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class TitleLengthCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'The page title is not longer than 60 characters';
+
+    public string $description = 'The title of the page should not be longer than 60 characters because this is the maximum length that is shown in the search results.';
 
     public string $priority = 'medium';
 

@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class LangCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'The lang attribute is set on the html tag';
+
+    public string $description = 'The lang attribute should be set because this is used by search engines to determine the language of the page.';
 
     public string $priority = 'medium';
 

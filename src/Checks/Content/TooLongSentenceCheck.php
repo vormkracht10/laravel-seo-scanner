@@ -7,13 +7,17 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\Actions;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class TooLongSentenceCheck implements Check
 {
     use Actions,
-        PerformCheck;
+        PerformCheck,
+        Translatable;
 
     public string $title = 'Too long sentence check';
+
+    public string $description = 'The content should not contain sentences with more than 20 words.';
 
     public string $priority = 'medium';
 

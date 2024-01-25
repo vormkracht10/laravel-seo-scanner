@@ -7,12 +7,16 @@ use Readability\Readability;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class ContentLengthCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'Length of the content is at least 2100 characters';
+
+    public string $description = 'The length of the content should be at least 2100 characters.';
 
     public string $priority = 'low';
 

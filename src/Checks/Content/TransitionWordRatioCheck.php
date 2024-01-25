@@ -8,13 +8,17 @@ use Vormkracht10\Seo\Helpers\TransitionWords;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\Actions;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class TransitionWordRatioCheck implements Check
 {
     use Actions,
-        PerformCheck;
+        PerformCheck,
+        Translatable;
 
     public string $title = 'Transition word ratio check';
+
+    public string $description = 'The content should contain at least 30% transition words.';
 
     public string $priority = 'medium';
 

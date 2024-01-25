@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class MultipleHeadingCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'The page has an H1 tag and if it is used only once per page';
+
+    public string $description = 'The page should have only one H1 tag because there should be only one main heading on the page. The H1 tag should be used to describe the main topic of the page. The H1 tag is also used by search engines to determine the topic of the page.';
 
     public string $priority = 'low';
 

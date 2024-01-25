@@ -7,12 +7,16 @@ use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class KeywordInFirstParagraphCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'The page has the focus keyword in the first paragraph';
+
+    public string $description = 'The focus keyword should be in the first paragraph of the content because this is the most important part of the content.';
 
     public string $priority = 'medium';
 

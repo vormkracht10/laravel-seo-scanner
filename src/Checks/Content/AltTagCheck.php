@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class AltTagCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'Every image has an alt tag';
+
+    public string $description = 'Every image on the page should have an alt tag to describe the image.';
 
     public string $priority = 'low';
 

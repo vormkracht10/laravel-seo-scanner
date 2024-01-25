@@ -7,12 +7,16 @@ use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class KeywordInTitleCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'The page has the focus keyword in the title';
+
+    public string $description = 'The focus keyword should be in the title of the page because the visitor will see this in the search results.';
 
     public string $priority = 'medium';
 

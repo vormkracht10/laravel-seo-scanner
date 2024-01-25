@@ -7,12 +7,16 @@ use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class CompressionCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'HTML is GZIP compressed';
+
+    public string $description = 'The HTML of the page should be GZIP compressed to reduce the size of the response.';
 
     public string $priority = 'high';
 

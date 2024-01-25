@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class ResponseCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'The page response returns a 200 status code';
+
+    public string $description = 'The page response should return a 200 status code because this means the page is available.';
 
     public string $priority = 'high';
 

@@ -6,12 +6,16 @@ use Illuminate\Http\Client\Response;
 use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Interfaces\Check;
 use Vormkracht10\Seo\Traits\PerformCheck;
+use Vormkracht10\Seo\Traits\Translatable;
 
 class JavascriptSizeCheck implements Check
 {
-    use PerformCheck;
+    use PerformCheck,
+        Translatable;
 
     public string $title = 'Javascript files are not bigger than 1 MB';
+
+    public string $description = 'Javascript files are not bigger than 1 MB because this will slow down the page load time.';
 
     public string $priority = 'medium';
 
