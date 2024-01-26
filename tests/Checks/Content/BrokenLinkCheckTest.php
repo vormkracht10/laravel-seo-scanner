@@ -106,3 +106,18 @@ it('can check if link is broken by checking on configured status codes', functio
 
     $this->assertTrue($check->check(Http::get('vormkracht10.nl/admin/dashboard'), $crawler));
 });
+
+it('can exclude certain paths from the broken link check', function () {
+    $check = new BrokenLinkCheck();
+    $crawler = new Crawler();
+
+    config(['seo.broken_link_check.exclude_paths' => ['https://vormkracht10.nl/excluded']]);
+
+    Http::fake([
+        'vormkracht10.nl' => Http::response('<html><head></head><body><a href="https://vormkracht10.nl/excluded">Excluded Link</a></body></html>', 200),
+    ]);
+
+    $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
+
+    $this->assertTrue($check->check(Http::get('vormkracht10.nl'), $crawler));
+});

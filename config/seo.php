@@ -188,5 +188,11 @@ return [
     'broken_link_check' => [
         // Add status codes that should be considered as broken links. Empty array means all status codes starting with a 4, 5 or 0.
         'status_codes' => [],
+
+        // If you wish to skip running some checks on some paths, list the paths
+        // in the array below. You can use wildcards.
+        'exclude_paths' => [
+            // 
+        ],
     ],
 ];
