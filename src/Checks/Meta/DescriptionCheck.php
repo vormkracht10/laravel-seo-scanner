@@ -44,17 +44,11 @@ class DescriptionCheck implements Check
 
     public function getDescriptionContent(Crawler $crawler): ?string
     {
-        $tags = ['description', 'og:description', 'twitter:description'];
+        /** @var \DOMElement $node */
+        $node = $crawler->filterXPath('//meta[@name="description"]')->getNode(0);
 
-        foreach ($tags as $tag) {
-            $property = $tag === 'og:description' ? 'property' : 'name';
-
-            /** @var \DOMElement $node */
-            $node = $crawler->filterXPath("//meta[@{$property}=\"{$tag}\"]")->getNode(0);
-
-            if ($node instanceof \DOMElement && $node->hasAttribute('content')) {
-                return $node->getAttribute('content');
-            }
+        if ($node instanceof \DOMElement && $node->hasAttribute('content')) {
+            return $node->getAttribute('content');
         }
 
         return null;
