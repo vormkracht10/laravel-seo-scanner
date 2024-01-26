@@ -192,7 +192,7 @@ return [
         // If you wish to skip running some checks on some paths, list the paths
         // in the array below. You can use wildcards.
         'exclude_paths' => [
-            // 
+            //
         ],
     ],
 ];

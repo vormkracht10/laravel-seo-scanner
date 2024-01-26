@@ -82,37 +82,37 @@ class BrokenLinkCheck implements Check
         return true;
     }
 
-
     private function isValidLink($link): bool
     {
-        return !preg_match('/^mailto:/msi', $link) &&
-               !preg_match('/^tel:/msi', $link) &&
+        return ! preg_match('/^mailto:/msi', $link) &&
+               ! preg_match('/^tel:/msi', $link) &&
                filter_var($link, FILTER_VALIDATE_URL) !== false;
     }
-    
+
     private function isExcludedLink($link): bool
     {
         $excludedPaths = config('seo.broken_link_check.exclude_paths');
         if (empty($excludedPaths)) {
             return false;
         }
-    
+
         foreach ($excludedPaths as $path) {
             if ($this->linkMatchesPath($link, $path)) {
                 return true;
             }
         }
-    
+
         return false;
     }
-    
+
     private function linkMatchesPath($link, $path): bool
     {
         if (str_contains($path, '*')) {
             $path = str_replace('/*', '', $path);
+
             return str_starts_with($link, $path);
         }
-    
+
         return str_contains($link, $path);
     }
 }
