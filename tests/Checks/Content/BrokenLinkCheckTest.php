@@ -111,7 +111,7 @@ it('can exclude certain paths from the broken link check', function () {
     $check = new BrokenLinkCheck();
     $crawler = new Crawler();
 
-    config(['seo.broken_link_check.exclude_paths' => ['https://vormkracht10.nl/excluded']]);
+    config(['seo.broken_link_check.exclude_links' => ['https://vormkracht10.nl/excluded']]);
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body><a href="https://vormkracht10.nl/excluded">Excluded Link</a></body></html>', 200),

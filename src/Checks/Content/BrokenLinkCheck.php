@@ -91,7 +91,7 @@ class BrokenLinkCheck implements Check
 
     private function isExcludedLink($link): bool
     {
-        $excludedPaths = config('seo.broken_link_check.exclude_paths');
+        $excludedPaths = config('seo.broken_link_check.exclude_links');
         if (empty($excludedPaths)) {
             return false;
         }
