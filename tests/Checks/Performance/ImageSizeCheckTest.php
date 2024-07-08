@@ -22,7 +22,7 @@ it('can perform the image size check on small images', function () {
     $crawler = new Crawler();
 
     Http::fake([
-        'vormkracht10.nl' => Http::response('<html><head></head><body><img srct="https://source.unsplash.com/random/100x100"></body></html>', 200),
+        'vormkracht10.nl' => Http::response('<html><head></head><body><img srct="https://picsum.photos/100x100"></body></html>', 200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
@@ -37,7 +37,7 @@ it('can perform the image size check on large images', function () {
     $crawler = new Crawler();
 
     Http::fake([
-        'vormkracht10.nl' => Http::response('<html><head></head><body><img src="https://source.unsplash.com/random/7000x7000"></body></html>', 200),
+        'vormkracht10.nl' => Http::response('<html><head></head><body><img src="https://picsum.photos/7000x7000"></body></html>', 200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
