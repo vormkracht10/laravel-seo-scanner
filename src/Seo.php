@@ -26,8 +26,7 @@ class Seo
         protected Http $http,
         protected Collection $successful,
         protected Collection $failed,
-    ) {
-    }
+    ) {}
 
     public function check(string $url, ?ProgressBar $progress = null, bool $useJavascript = false): SeoScore
     {
