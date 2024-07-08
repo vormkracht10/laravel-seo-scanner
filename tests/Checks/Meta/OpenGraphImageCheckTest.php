@@ -31,11 +31,12 @@ it('can perform open graph image check on a page without an open graph image', f
 });
 
 it('can perform open graph image check on a page with a working open graph image', function () {
+    $this->withoutExceptionHandling();
     $check = new OpenGraphImageCheck();
     $crawler = new Crawler();
 
     Http::fake([
-        'vormkracht10.nl' => Http::response('<html><head><meta property="og:image" content="https://source.unsplash.com/random"></head><body></body></html>', 200),
+        'vormkracht10.nl' => Http::response('<html><head><meta property="og:image" content="https://picsum.photos/200/300"></head><body></body></html>', 200),
     ]);
 
     $crawler->addHtmlContent(Http::get('vormkracht10.nl')->body());
