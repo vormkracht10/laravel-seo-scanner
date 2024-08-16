@@ -5,8 +5,8 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Checks\Meta\TitleLengthCheck;
 
 it('can perform the title length check on a page with a too long title', function () {
-    $check = new TitleLengthCheck();
-    $crawler = new Crawler();
+    $check = new TitleLengthCheck;
+    $crawler = new Crawler;
 
     $title = str_repeat('a', 61);
 
@@ -20,8 +20,8 @@ it('can perform the title length check on a page with a too long title', functio
 });
 
 it('can perform the title length check on a page with a short title', function () {
-    $check = new TitleLengthCheck();
-    $crawler = new Crawler();
+    $check = new TitleLengthCheck;
+    $crawler = new Crawler;
 
     $title = str_repeat('a', 60);
 
@@ -35,8 +35,8 @@ it('can perform the title length check on a page with a short title', function (
 });
 
 it('can perform the title length check on a page without a title', function () {
-    $check = new TitleLengthCheck();
-    $crawler = new Crawler();
+    $check = new TitleLengthCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body></body></html>', 200),

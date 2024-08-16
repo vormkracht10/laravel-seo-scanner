@@ -5,8 +5,8 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Checks\Meta\DescriptionCheck;
 
 it('can perform the description check on a page with multiple description tags', function () {
-    $check = new DescriptionCheck();
-    $crawler = new Crawler();
+    $check = new DescriptionCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><meta name="description" content="Vormkracht10 is a web development agency based in Amsterdam."><meta property="og:description" content="Vormkracht10 is a web development agency based in Amsterdam."><meta name="twitter:description" content="Vormkracht10 is a web development agency based in Amsterdam."></head><body></body></html>', 200),
@@ -18,8 +18,8 @@ it('can perform the description check on a page with multiple description tags',
 });
 
 it('can perform the description check on a page without any description tags', function () {
-    $check = new DescriptionCheck();
-    $crawler = new Crawler();
+    $check = new DescriptionCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body></body></html>', 200),

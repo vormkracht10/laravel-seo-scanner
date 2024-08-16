@@ -5,8 +5,8 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Checks\Content\MultipleHeadingCheck;
 
 it('can perform the multiple heading check test on no headings', function () {
-    $check = new MultipleHeadingCheck();
-    $crawler = new Crawler();
+    $check = new MultipleHeadingCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body></body></html>', 200),
@@ -18,8 +18,8 @@ it('can perform the multiple heading check test on no headings', function () {
 });
 
 it('can perform the multiple heading check test on one heading', function () {
-    $check = new MultipleHeadingCheck();
-    $crawler = new Crawler();
+    $check = new MultipleHeadingCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body><h1>Heading</h1></body></html>', 200),
@@ -31,8 +31,8 @@ it('can perform the multiple heading check test on one heading', function () {
 });
 
 it('can perform the multiple heading check test on multiple headings', function () {
-    $check = new MultipleHeadingCheck();
-    $crawler = new Crawler();
+    $check = new MultipleHeadingCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body><h1>Heading</h1><h1>Heading</h1></body></html>', 200),

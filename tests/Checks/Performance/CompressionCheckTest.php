@@ -5,7 +5,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Checks\Performance\CompressionCheck;
 
 it('can perform a compression check on a compressed response', function () {
-    $check = new CompressionCheck();
+    $check = new CompressionCheck;
 
     $contentEncodings = ['gzip', 'deflate', 'br', 'compress'];
 
@@ -16,16 +16,16 @@ it('can perform a compression check on a compressed response', function () {
             ]),
         ]);
 
-        $this->assertTrue($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+        $this->assertTrue($check->check(Http::get('vormkracht10.nl'), new Crawler));
     }
 });
 
 it('can perform a compression check on a non-compressed response', function () {
-    $check = new CompressionCheck();
+    $check = new CompressionCheck;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body></body></html>', 200),
     ]);
 
-    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler()));
+    $this->assertFalse($check->check(Http::get('vormkracht10.nl'), new Crawler));
 });
