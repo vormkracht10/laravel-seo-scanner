@@ -100,7 +100,7 @@ class SeoScan extends Command
         $startTime = time();
 
         if ($throttleEnabled) {
-            $this->line('<fg=yellow>Throttling enabled. Maximum requests per minute: ' . $maxRequests . '</>');
+            $this->line('<fg=yellow>Throttling enabled. Maximum requests per minute: '.$maxRequests.'</>');
             sleep(5);
         }
 
