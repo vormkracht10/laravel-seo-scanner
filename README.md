@@ -29,6 +29,7 @@ Easily configure which routes to scan, exclude or include specific checks or eve
     -   [Scanning routes](#scanning-routes)
     -   [Scanning a single route](#scanning-a-single-route)
     -   [Scanning routes in an SPA application](#scanning-routes-in-an-spa-application)
+    -   [Throttling](#throttling)
     -   [Scan model urls](#scan-model-urls)
     -   [Saving scans into the database](#saving-scans-into-the-database)
     -   [Listening to events](#listening-to-events)
@@ -185,6 +186,17 @@ php artisan seo:scan-url https://vormkracht10.nl --javascript
 ```
 
 > Note: This command will use Puppeteer to render the page. Make sure that you have Puppeteer installed on your system. You can install Puppeteer by running the following command: `npm install puppeteer`. **At this moment it's only available when scanning single routes.**
+
+### Throttling
+
+If you want to throttle the requests, you can set the `throttle` option to `true` in the config file. You can also set the amount of requests per minute by setting the `requests_per_minute` option in the config file.
+
+```php
+'throttle' => [
+    'enabled' => false,
+    'requests_per_minute' => 10,
+],
+```
 
 ### Scan model urls
 

@@ -94,24 +94,50 @@ class SeoScan extends Command
     private function calculateScoreForRoutes(): void
     {
         $routes = self::getRoutes();
+        $throttleEnabled = config('seo.throttle.enabled');
+        $maxRequests = config('seo.throttle.requests_per_minute') ?? 'N/A';
+        $requestCount = 0;
+        $startTime = time();
 
-        $routes->each(function ($path, $name) {
+        if ($throttleEnabled) {
+            $this->line('<fg=yellow>Throttling enabled. Maximum requests per minute: ' . $maxRequests . '</>');
+            sleep(5);
+        }
+
+        $routes->each(function ($path, $name) use ($throttleEnabled, $maxRequests, &$requestCount, &$startTime) {
             $this->progress->start();
 
-            $seo = Seo::check(url: route($name), progress: $this->progress, useJavascript: config('seo.javascript'));
+            if ($throttleEnabled) {
 
-            $this->failed += count($seo->getFailedChecks());
-            $this->success += count($seo->getSuccessfulChecks());
-            $this->routeCount++;
-
-            if (config('seo.database.save')) {
-                $this->saveScoreToDatabase(seo: $seo, url: route($name));
+                if ($requestCount >= $maxRequests) {
+                    $elapsedTime = time() - $startTime;
+                    if ($elapsedTime < 60) {
+                        sleep(60 - $elapsedTime);
+                    }
+                    $requestCount = 0;
+                    $startTime = time();
+                }
+                $requestCount++;
             }
 
+            $this->performSeoCheck($name);
             $this->progress->finish();
-
-            $this->logResultToConsole($seo, route($name));
         });
+    }
+
+    private function performSeoCheck($name): void
+    {
+        $seo = Seo::check(url: route($name), progress: $this->progress, useJavascript: config('seo.javascript'));
+
+        $this->failed += count($seo->getFailedChecks());
+        $this->success += count($seo->getSuccessfulChecks());
+        $this->routeCount++;
+
+        if (config('seo.database.save')) {
+            $this->saveScoreToDatabase(seo: $seo, url: route($name));
+        }
+
+        $this->logResultToConsole($seo, route($name));
     }
 
     private static function getRoutes(): Collection
