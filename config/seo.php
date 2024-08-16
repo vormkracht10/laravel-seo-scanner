@@ -90,6 +90,11 @@ return [
         'vapor-ui/*',
     ],
 
+    'throttle' => [
+        'enabled' => false,
+        'requests_per_minute' => null,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Domains (DNS resolving)

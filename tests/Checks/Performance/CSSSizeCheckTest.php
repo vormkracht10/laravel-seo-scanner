@@ -11,8 +11,8 @@ use Vormkracht10\Seo\Checks\Performance\CssSizeCheck;
  * we don't have access to the stylesheet in the test.
  */
 it('can perform the CSS size check on a page with a CSS file larger than 15 KB', function () {
-    $check = new CssSizeCheck();
-    $crawler = new Crawler();
+    $check = new CssSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><link rel="stylesheet" href="https://vormkracht10.nl/style.css"></head><body></body></html>', 200),
@@ -28,8 +28,8 @@ it('can perform the CSS size check on a page with a CSS file larger than 15 KB',
 });
 
 it('can perform the CSS size check on a page with a CSS file smaller than 15 KB', function () {
-    $check = new CssSizeCheck();
-    $crawler = new Crawler();
+    $check = new CssSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><link rel="stylesheet" href="https://vormkracht10.nl/style.css"></head><body></body></html>', 200),
@@ -45,8 +45,8 @@ it('can perform the CSS size check on a page with a CSS file smaller than 15 KB'
 });
 
 it('can perform the CSS size check on a page with no CSS files', function () {
-    $check = new CssSizeCheck();
-    $crawler = new Crawler();
+    $check = new CssSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body></body></html>', 200),

@@ -5,8 +5,8 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Checks\Performance\HtmlSizeCheck;
 
 it('can perform the HTML size check on HTML that is smaller than 100 KB', function () {
-    $check = new HtmlSizeCheck();
-    $crawler = new Crawler();
+    $check = new HtmlSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body>abcdefghij</body></html>', 200),
@@ -16,8 +16,8 @@ it('can perform the HTML size check on HTML that is smaller than 100 KB', functi
 });
 
 it('can perform the HTML size check on HTML that is larger than 100 KB', function () {
-    $check = new HtmlSizeCheck();
-    $crawler = new Crawler();
+    $check = new HtmlSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body>'.str_repeat('abcdefghij', 10000).'</body></html>', 200),

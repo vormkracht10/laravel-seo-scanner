@@ -11,8 +11,8 @@ use Vormkracht10\Seo\Checks\Performance\JavascriptSizeCheck;
  * we don't have access to the javascript file in the test.
  */
 it('can perform the Javascript size check on a page with a Javascript file larger than 1 MB', function () {
-    $check = new JavascriptSizeCheck();
-    $crawler = new Crawler();
+    $check = new JavascriptSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><script src="https://vormkracht10.nl/script.js"></script></head><body></body></html>', 200),
@@ -28,8 +28,8 @@ it('can perform the Javascript size check on a page with a Javascript file large
 });
 
 it('can perform the Javascript size check on a page with a Javascript file smaller than 1 MB', function () {
-    $check = new JavascriptSizeCheck();
-    $crawler = new Crawler();
+    $check = new JavascriptSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head><script src="https://vormkracht10.nl/script.js"></script></head><body></body></html>', 200),
@@ -45,8 +45,8 @@ it('can perform the Javascript size check on a page with a Javascript file small
 });
 
 it('can perform the Javascript size check on a page without Javascript files', function () {
-    $check = new JavascriptSizeCheck();
-    $crawler = new Crawler();
+    $check = new JavascriptSizeCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response('<html><head></head><body></body></html>', 200),

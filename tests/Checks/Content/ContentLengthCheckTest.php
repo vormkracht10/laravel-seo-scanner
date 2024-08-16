@@ -5,8 +5,8 @@ use Symfony\Component\DomCrawler\Crawler;
 use Vormkracht10\Seo\Checks\Content\ContentLengthCheck;
 
 it('can perform the content length check on content with a length of 2100 characters', function () {
-    $check = new ContentLengthCheck();
-    $crawler = new Crawler();
+    $check = new ContentLengthCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response(
@@ -26,8 +26,8 @@ it('can perform the content length check on content with a length of 2100 charac
 });
 
 it('can perform the content length check on content with less characters', function () {
-    $check = new ContentLengthCheck();
-    $crawler = new Crawler();
+    $check = new ContentLengthCheck;
+    $crawler = new Crawler;
 
     Http::fake([
         'vormkracht10.nl' => Http::response(
