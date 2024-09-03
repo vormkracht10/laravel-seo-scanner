@@ -71,14 +71,12 @@ if (! function_exists('getRemoteFileSize')) {
             }
 
             if (! isset($contentLength)) {
-                $context = stream_context_create([
-                    'ssl' => [
-                        'verify_peer' => false,
-                        'verify_peer_name' => false
-                    ],
-                ]);
+                $options = (array) config('seo.http.options', []);
+                $context = isset($options['verify']) && !$options['verify']
+                    ? $context = ['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]
+                    : [];
 
-                $contentLength = strlen(file_get_contents($url, false, $context));
+                $contentLength = strlen(file_get_contents($url, false, stream_context_create($context)));
             }
 
             return $contentLength;
