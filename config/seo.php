@@ -10,7 +10,7 @@ return [
     | The following array lists the default options for the application.
     |
     */
-    // en, nl, fr, pt-br or null (which will use the app locale)
+    // en, nl, fr, pt_BR or null (which will use the app locale)
     'language' => null,
 
     /*
