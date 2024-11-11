@@ -65,10 +65,10 @@ class ImageSizeCheck implements Check
                 return true;
             }
 
-            $image = file_get_contents($url);
+            $imageSize = getRemoteFileSize($url);
 
-            if (strlen($image) > 1000000) {
-                $size = bytesToHumanReadable(strlen($image));
+            if ($imageSize > 1000000) {
+                $size = bytesToHumanReadable($imageSize);
 
                 $links[] = $url.' (size: '.$size.')';
 
