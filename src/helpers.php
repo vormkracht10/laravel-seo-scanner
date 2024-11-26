@@ -72,7 +72,7 @@ if (! function_exists('getRemoteFileSize')) {
 
             if (! isset($contentLength)) {
                 $options = (array) config('seo.http.options', []);
-                $context = isset($options['verify']) && !$options['verify']
+                $context = isset($options['verify']) && ! $options['verify']
                     ? $context = ['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]
                     : [];
 
