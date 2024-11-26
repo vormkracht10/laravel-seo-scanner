@@ -100,7 +100,14 @@ class AltTagCheck implements Check
             ];
         }
 
-        $dimensions = getimagesize($src);
+        $dimensions = @getimagesize($src);
+
+        if ($dimensions === false) {
+            return [
+                'width' => 0,
+                'height' => 0,
+            ];
+        }
 
         return [
             'width' => $dimensions[0],
