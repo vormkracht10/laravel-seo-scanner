@@ -1,6 +1,6 @@
 {
     "name": "vormkracht10/laravel-seo-scanner",
-    "description": "Laravel package to check if you used important SEO tags in your website. ",
+    "description": "The Laravel tool to boost the SEO score of your web pages.",
     "keywords": [
         "vormkracht10",
         "laravel",
