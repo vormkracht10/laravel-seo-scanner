@@ -9,7 +9,7 @@
 
 ## Nice to meet you, we're [Vormkracht10](https://vormkracht10.nl)
 
-Hi! We are a web development agency from Nijmegen in the Netherlands and we use Laravel for everything: advanced websites with a lot of bells and whitles and big web applications.
+Hi! We are a web development agency from Nijmegen in the Netherlands and we use Laravel for everything: advanced websites with a lot of bells and whitles and large web applications.
 
 ## The Laravel tool to boost the SEO score of your web pages
 
