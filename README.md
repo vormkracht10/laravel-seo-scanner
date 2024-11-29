@@ -7,6 +7,10 @@
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/vormkracht10/laravel-seo-scanner)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/vormkracht10/laravel-seo-scanner.svg?style=flat-square)](https://packagist.org/packages/vormkracht10/laravel-seo-scanner)
 
+## Nice to meet you, we're [Vormkracht10](https://vormkracht10.nl)
+
+Hi! We are a web development agency from Nijmegen in the Netherlands and we use Laravel for everything: advanced websites with a lot of bells and whitles and big web applications.
+
 ## The Laravel tool to boost the SEO score of your web pages
 
 ![Screenshot 2023-01-05 at 15 02 31](https://user-images.githubusercontent.com/10845460/210797960-d65e260e-d543-4aec-aca8-1d9cca3aee96.png)
