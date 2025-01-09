@@ -5,9 +5,9 @@ namespace Vormkracht10\Seo\Commands;
 use Illuminate\Console\Command;
 use Vormkracht10\Seo\Facades\Seo;
 
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\progress;
 use function Laravel\Prompts\text;
-use function Laravel\Prompts\confirm;
 
 class SeoScanUrl extends Command
 {
@@ -21,7 +21,7 @@ class SeoScanUrl extends Command
             label: 'Pleaes enter the url',
             validate: function (string $value) {
                 try {
-                    if (!\Illuminate\Support\Facades\Http::get($value)->successful()) {
+                    if (! \Illuminate\Support\Facades\Http::get($value)->successful()) {
                         return 'Please enter a valid url.';
                     }
 
@@ -51,7 +51,7 @@ class SeoScanUrl extends Command
         $this->line('');
         $this->line('');
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
-        $this->line('> ' . $url . ' | <fg=green>' . $score->getSuccessfulChecks()->count() . ' passed</> <fg=red>' . ($score->getFailedChecks()->count() . ' failed</>'));
+        $this->line('> '.$url.' | <fg=green>'.$score->getSuccessfulChecks()->count().' passed</> <fg=red>'.($score->getFailedChecks()->count().' failed</>'));
         $this->line('-----------------------------------------------------------------------------------------------------------------------------------');
         $this->line('');
 
