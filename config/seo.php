@@ -102,6 +102,22 @@ return [
         'vapor-ui/*',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Domain crawling (seo:scan-domain / Seo::scanDomain())
+    |--------------------------------------------------------------------------
+    |
+    | When scanning an external domain, page URLs are discovered through the
+    | domain's XML sitemap(s) when available, and otherwise by crawling
+    | same-host links starting at the homepage. The options below bound that
+    | discovery. The max_depth option only applies to the crawl fallback.
+    |
+    */
+    'crawl' => [
+        'max_pages' => 50,
+        'max_depth' => 2,
+    ],
+
     'throttle' => [
         'enabled' => false,
         'requests_per_minute' => null,
@@ -154,7 +170,7 @@ return [
     |
     */
     'database' => [
-        'connection' => 'mysql',
+        'connection' => env('DB_CONNECTION', 'mysql'),
         'save' => true,
         'prune' => [
             'older_than_days' => 30,

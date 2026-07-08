@@ -6,10 +6,14 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
+ * @property string|null $url
+ * @property string|null $model_type
+ * @property int|string|null $model_id
  * @property int $pages
  * @property int $total_checks
  * @property array $failed_checks
@@ -27,6 +31,8 @@ class SeoScan extends Model
 
     protected $casts = [
         'failed_checks' => 'array',
+        'started_at' => 'datetime',
+        'finished_at' => 'datetime',
     ];
 
     public function __construct(array $attributes = [])
@@ -43,6 +49,14 @@ class SeoScan extends Model
     public function scores(): HasMany
     {
         return $this->hasMany(SeoScore::class);
+    }
+
+    /**
+     * The application model this scan was run for (e.g. a Domain or Site).
+     */
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     public function prunable(): Builder

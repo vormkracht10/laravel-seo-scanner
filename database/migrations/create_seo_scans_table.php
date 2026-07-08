@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('seo_scans', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('url')->nullable();
+
+            // String-based morph columns so subject models with integer,
+            // uuid or ulid keys are all supported.
+            $table->string('model_type')->nullable();
+            $table->string('model_id')->nullable();
+            $table->index(['model_type', 'model_id']);
             $table->unsignedInteger('pages')->nullable();
             $table->unsignedInteger('total_checks')->nullable();
             $table->json('failed_checks')->nullable();

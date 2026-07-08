@@ -3,6 +3,7 @@
 namespace Backstage\Seo;
 
 use Backstage\Seo\Commands\SeoScan;
+use Backstage\Seo\Commands\SeoScanDomain;
 use Backstage\Seo\Commands\SeoScanUrl;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\RateLimiter;
@@ -33,9 +34,15 @@ class SeoServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasTranslations()
-            ->hasMigrations(['create_seo_scans_table', 'create_seo_score_table'])
+            ->hasMigrations([
+                'create_seo_scans_table',
+                'create_seo_score_table',
+                'add_url_and_model_to_seo_scans_table',
+                'change_model_id_to_string_on_seo_scores_table',
+            ])
             ->hasCommands([
                 SeoScan::class,
+                SeoScanDomain::class,
                 SeoScanUrl::class,
             ]);
 
