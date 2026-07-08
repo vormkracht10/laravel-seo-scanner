@@ -80,8 +80,10 @@ class ScanChunk implements ShouldQueue
             return;
         }
 
+        $subject = $scan->model;
+
         foreach ($this->urls as $url) {
-            $this->scanSafely($runner, $scan, $url);
+            $this->scanSafely($runner, $scan, $url, $subject);
         }
 
         if ($this->model && ! empty($this->ids)) {

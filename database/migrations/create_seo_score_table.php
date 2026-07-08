@@ -17,7 +17,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('seo_scan_id');
             $table->string('url');
-            $table->nullableMorphs('model', 'model');
+            // String-based morph columns so subject models with integer,
+            // uuid or ulid keys are all supported.
+            $table->string('model_type')->nullable();
+            $table->string('model_id')->nullable();
+            $table->index(['model_type', 'model_id'], 'model');
             $table->integer('score');
             $table->json('checks');
             $table->timestamps();

@@ -2,7 +2,10 @@
 
 namespace Backstage\Seo;
 
+use Backstage\Seo\Models\SeoScan as SeoScanModel;
+use Backstage\Seo\Services\DomainScanner;
 use Backstage\Seo\Support\JavascriptRenderer;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\Response;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
@@ -46,6 +49,20 @@ class Seo
         $this->runChecks(response: $response, javascriptResponse: $javascriptResponse ?? null);
 
         return (new SeoScore)($this->successful, $this->failed);
+    }
+
+    /**
+     * Scan every discoverable page of an external domain, optionally
+     * relating the scan and its scores to an application model.
+     */
+    public function scanDomain(
+        string $domain,
+        ?Model $subject = null,
+        bool $queue = false,
+        ?int $maxPages = null,
+        ?bool $useJavascript = null,
+    ): SeoScanModel {
+        return app(DomainScanner::class)->scan($domain, $subject, $queue, $maxPages, $useJavascript);
     }
 
     private function visitPageUsingJavascript(string $url, Response $rawResponse): string
